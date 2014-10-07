@@ -1,11 +1,12 @@
 package com.flextrade.jfixture;
 
-import lombok.RequiredArgsConstructor;
-
-@RequiredArgsConstructor
 class SpecimenBuilderContext implements SpecimenContext {
 
     private final SpecimenBuilder builder;
+
+    public SpecimenBuilderContext(SpecimenBuilder builder) {
+        this.builder = builder;
+    }
 
     @Override
     public Object resolve(Object request) {

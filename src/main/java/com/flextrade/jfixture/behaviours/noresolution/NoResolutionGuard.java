@@ -3,16 +3,19 @@ package com.flextrade.jfixture.behaviours.noresolution;
 import com.flextrade.jfixture.NoSpecimen;
 import com.flextrade.jfixture.SpecimenBuilder;
 import com.flextrade.jfixture.SpecimenContext;
-import lombok.RequiredArgsConstructor;
 
 import java.util.Stack;
 
-@RequiredArgsConstructor
 class NoResolutionGuard implements SpecimenBuilder {
 
     private final SpecimenBuilder builder;
     private final NoResolutionHandler noResolutionHandler;
     private final Stack<Object> monitoredRequests = new Stack<Object>();
+
+    public NoResolutionGuard(SpecimenBuilder builder, NoResolutionHandler noResolutionHandler) {
+        this.builder = builder;
+        this.noResolutionHandler = noResolutionHandler;
+    }
 
     @Override
     public Object create(Object request, SpecimenContext context) {

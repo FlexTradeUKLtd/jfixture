@@ -1,15 +1,17 @@
 package com.flextrade.jfixture;
 
-import lombok.RequiredArgsConstructor;
-
 import java.util.Collection;
 import java.util.Map;
 
-@RequiredArgsConstructor
 public class FixtureCollections {
 
     private final SpecimenCreator specimenCreator;
     private final MultipleCount multipleCount;
+
+    public FixtureCollections(SpecimenCreator specimenCreator, MultipleCount multipleCount) {
+        this.specimenCreator = specimenCreator;
+        this.multipleCount = multipleCount;
+    }
 
     public <T> void addManyTo(Collection<T> collection, Class<T> clazz) {
         this.addManyTo(collection, clazz, this.multipleCount.getCount());

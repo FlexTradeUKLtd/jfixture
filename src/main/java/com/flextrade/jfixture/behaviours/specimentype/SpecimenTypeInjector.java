@@ -3,14 +3,16 @@ package com.flextrade.jfixture.behaviours.specimentype;
 import com.flextrade.jfixture.SpecimenBuilder;
 import com.flextrade.jfixture.SpecimenContext;
 import com.flextrade.jfixture.utility.SpecimenType;
-import lombok.RequiredArgsConstructor;
 
 import java.lang.reflect.Type;
 
-@RequiredArgsConstructor
 public class SpecimenTypeInjector implements SpecimenBuilder {
 
     private final SpecimenBuilder builder;
+
+    public SpecimenTypeInjector(SpecimenBuilder builder) {
+        this.builder = builder;
+    }
 
     @Override
     public Object create(final Object request, SpecimenContext context) {

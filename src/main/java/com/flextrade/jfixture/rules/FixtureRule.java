@@ -1,18 +1,16 @@
 package com.flextrade.jfixture.rules;
 
-import com.flextrade.jfixture.JFixture;
 import com.flextrade.jfixture.FixtureAnnotations;
+import com.flextrade.jfixture.JFixture;
 import com.flextrade.jfixture.behaviours.tracing.MemberOnlyResponseStrategy;
 import com.flextrade.jfixture.behaviours.tracing.TracingBehaviour;
 import com.flextrade.jfixture.exceptions.ObjectCreationException;
-import lombok.Getter;
 import org.junit.rules.MethodRule;
 import org.junit.runners.model.FrameworkMethod;
 import org.junit.runners.model.Statement;
 
 public class FixtureRule implements MethodRule {
 
-    @Getter
     private final JFixture fixture;
 
     private FixtureRule() {
@@ -59,5 +57,9 @@ public class FixtureRule implements MethodRule {
                 System.err.println(sb.toString());
             }
         };
+    }
+
+    public JFixture getFixture() {
+        return this.fixture;
     }
 }

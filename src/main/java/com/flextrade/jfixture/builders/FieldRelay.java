@@ -6,16 +6,18 @@ import com.flextrade.jfixture.SpecimenContext;
 import com.flextrade.jfixture.requests.SeededRequest;
 import com.flextrade.jfixture.requests.enrichers.RequestEnricher;
 import com.flextrade.jfixture.utility.SpecimenType;
-import lombok.RequiredArgsConstructor;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
 import java.lang.reflect.Type;
 
-@RequiredArgsConstructor
 class FieldRelay implements SpecimenBuilder {
 
     private final RequestEnricher requestEnricher;
+
+    public FieldRelay(RequestEnricher requestEnricher) {
+        this.requestEnricher = requestEnricher;
+    }
 
     @Override
     public Object create(Object request, SpecimenContext context) {

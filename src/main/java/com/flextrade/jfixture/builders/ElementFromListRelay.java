@@ -6,12 +6,14 @@ import com.flextrade.jfixture.SpecimenContext;
 import com.flextrade.jfixture.exceptions.ObjectCreationException;
 import com.flextrade.jfixture.requests.ElementFromListRequest;
 import com.flextrade.jfixture.utility.ElementFromListStrategy;
-import lombok.RequiredArgsConstructor;
 
-@RequiredArgsConstructor
 class ElementFromListRelay implements SpecimenBuilder {
 
     private final ElementFromListStrategy strategy;
+
+    public ElementFromListRelay(ElementFromListStrategy strategy) {
+        this.strategy = strategy;
+    }
 
     @Override
     public Object create(Object request, SpecimenContext context) {

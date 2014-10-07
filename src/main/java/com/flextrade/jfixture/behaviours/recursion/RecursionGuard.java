@@ -2,16 +2,19 @@ package com.flextrade.jfixture.behaviours.recursion;
 
 import com.flextrade.jfixture.SpecimenBuilder;
 import com.flextrade.jfixture.SpecimenContext;
-import lombok.RequiredArgsConstructor;
 
 import java.util.Stack;
 
-@RequiredArgsConstructor
 class RecursionGuard implements SpecimenBuilder {
 
     private final Stack<Object> monitoredRequests = new Stack<Object>();
     private final SpecimenBuilder builder;
     private final RecursionHandler recursionHandler;
+
+    public RecursionGuard(SpecimenBuilder builder, RecursionHandler recursionHandler) {
+        this.builder = builder;
+        this.recursionHandler = recursionHandler;
+    }
 
     @Override
     public Object create(Object request, SpecimenContext context) {

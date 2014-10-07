@@ -8,16 +8,19 @@ import com.flextrade.jfixture.exceptions.ObjectCreationException;
 import com.flextrade.jfixture.requests.FactoryMethodRequest;
 import com.flextrade.jfixture.specifications.Specification;
 import com.flextrade.jfixture.utility.SpecimenType;
-import lombok.RequiredArgsConstructor;
 
 import java.lang.reflect.Method;
 import java.util.List;
 
-@RequiredArgsConstructor
 class ClassToFactoryMethodRelay implements SpecimenBuilder {
 
     private final FactoryMethodQuery factoryMethodQuery;
     private final Specification specification;
+
+    public ClassToFactoryMethodRelay(FactoryMethodQuery factoryMethodQuery, Specification specification) {
+        this.factoryMethodQuery = factoryMethodQuery;
+        this.specification = specification;
+    }
 
     @Override
     public Object create(Object request, SpecimenContext context) {

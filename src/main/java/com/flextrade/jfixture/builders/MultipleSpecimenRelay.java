@@ -5,14 +5,16 @@ import com.flextrade.jfixture.NoSpecimen;
 import com.flextrade.jfixture.SpecimenBuilder;
 import com.flextrade.jfixture.SpecimenContext;
 import com.flextrade.jfixture.requests.MultipleRequest;
-import lombok.RequiredArgsConstructor;
 
 import java.util.ArrayList;
 
-@RequiredArgsConstructor
 class MultipleSpecimenRelay implements SpecimenBuilder {
 
     private final MultipleCount multipleCount;
+
+    public MultipleSpecimenRelay(MultipleCount multipleCount) {
+        this.multipleCount = multipleCount;
+    }
 
     @Override
     public Object create(Object request, SpecimenContext context) {

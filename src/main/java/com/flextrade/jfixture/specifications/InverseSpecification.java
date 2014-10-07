@@ -1,11 +1,12 @@
 package com.flextrade.jfixture.specifications;
 
-import lombok.RequiredArgsConstructor;
-
-@RequiredArgsConstructor
 public class InverseSpecification implements Specification {
 
     private final Specification inner;
+
+    public InverseSpecification(Specification inner) {
+        this.inner = inner;
+    }
 
     @Override
     public boolean isSatisfiedBy(Object request) {

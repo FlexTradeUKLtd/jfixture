@@ -5,12 +5,10 @@ import com.flextrade.jfixture.SpecimenBuilder;
 import com.flextrade.jfixture.SpecimenContext;
 import com.flextrade.jfixture.utility.Clock;
 import com.flextrade.jfixture.utility.TimeProvider;
-import lombok.RequiredArgsConstructor;
 
 import java.util.Date;
 import java.util.Random;
 
-@RequiredArgsConstructor
 class DateGenerator implements SpecimenBuilder {
 
     private final Random random = new Random();
@@ -18,6 +16,10 @@ class DateGenerator implements SpecimenBuilder {
 
     public DateGenerator() {
         this(new Clock());
+    }
+
+    public DateGenerator(TimeProvider timeProvider) {
+        this.timeProvider = timeProvider;
     }
 
     @Override

@@ -5,16 +5,18 @@ import com.flextrade.jfixture.SpecimenBuilder;
 import com.flextrade.jfixture.SpecimenContext;
 import com.flextrade.jfixture.requests.ElementFromListRequest;
 import com.flextrade.jfixture.requests.RangeRequest;
-import lombok.RequiredArgsConstructor;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-@RequiredArgsConstructor
 public class CreateExtensionsImpl implements CreateExtensions {
 
     private final BuilderContainer builderContainer;
+
+    public CreateExtensionsImpl(BuilderContainer builderContainer) {
+        this.builderContainer = builderContainer;
+    }
 
     @Override
     public <T extends Comparable<T>> T inRange(Class<T> clazz, T min, T max) {

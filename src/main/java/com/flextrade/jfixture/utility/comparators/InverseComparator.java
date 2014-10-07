@@ -1,13 +1,14 @@
 package com.flextrade.jfixture.utility.comparators;
 
-import lombok.RequiredArgsConstructor;
-
 import java.util.Comparator;
 
-@RequiredArgsConstructor
 public class InverseComparator<T> implements Comparator<T> {
 
     private final Comparator<T> original;
+
+    public InverseComparator(Comparator<T> original) {
+        this.original = original;
+    }
 
     @Override
     public int compare(T o1, T o2) {

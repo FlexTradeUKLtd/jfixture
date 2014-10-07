@@ -9,15 +9,18 @@ import com.flextrade.jfixture.customisation.fluent.AutoPropertyBehaviour;
 import com.flextrade.jfixture.customisation.fluent.NoResolutionBehaviour;
 import com.flextrade.jfixture.customisation.fluent.RecursionBehaviour;
 import com.flextrade.jfixture.utility.Interceptor;
-import lombok.RequiredArgsConstructor;
 
 import java.lang.reflect.Type;
 
-@RequiredArgsConstructor
 class DefaultFluentCustomisation implements FluentCustomisation {
 
     private final CustomisationContainer customisationContainer;
     private final MultipleCount multipleCount;
+
+    public DefaultFluentCustomisation(CustomisationContainer customisationContainer, MultipleCount multipleCount) {
+        this.customisationContainer = customisationContainer;
+        this.multipleCount = multipleCount;
+    }
 
     public FluentCustomisation repeatCount(int count) {
         this.multipleCount.setCount(count);

@@ -1,15 +1,17 @@
 package com.flextrade.jfixture;
 
-import lombok.RequiredArgsConstructor;
-
 import java.util.ArrayList;
 
-@RequiredArgsConstructor
 class FixtureBehaviours implements BehavioursContainer {
 
     private final FinalBuilderContainer finalBuilderContainer;
     private final SpecimenBuilder rootBuilder;
     private final ArrayList<FixtureBehaviour> allBehaviours = new ArrayList<FixtureBehaviour>();
+
+    public FixtureBehaviours(FinalBuilderContainer finalBuilderContainer, SpecimenBuilder rootBuilder) {
+        this.finalBuilderContainer = finalBuilderContainer;
+        this.rootBuilder = rootBuilder;
+    }
 
     public void add(FixtureBehaviour behaviour) {
         this.allBehaviours.add(behaviour);

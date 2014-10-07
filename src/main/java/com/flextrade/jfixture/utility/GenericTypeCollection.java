@@ -1,10 +1,8 @@
 package com.flextrade.jfixture.utility;
 
-import lombok.EqualsAndHashCode;
-
+import java.util.Arrays;
 import java.util.HashMap;
 
-@EqualsAndHashCode
 public class GenericTypeCollection {
 
     private final HashMap<String, SpecimenType> nameTypeMap = new HashMap<String, SpecimenType>();
@@ -34,5 +32,23 @@ public class GenericTypeCollection {
 
     public int getLength() {
         return length;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        GenericTypeCollection that = (GenericTypeCollection) o;
+
+        return length == that.length && nameTypeMap.equals(that.nameTypeMap) && Arrays.equals(underlying, that.underlying);
+    }
+
+    @Override
+    public int hashCode() {
+        int result = nameTypeMap.hashCode();
+        result = 31 * result + Arrays.hashCode(underlying);
+        result = 31 * result + length;
+        return result;
     }
 }

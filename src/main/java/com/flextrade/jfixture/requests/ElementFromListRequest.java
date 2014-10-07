@@ -1,18 +1,32 @@
 package com.flextrade.jfixture.requests;
 
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-
 import java.util.Collections;
 import java.util.List;
 
-@EqualsAndHashCode
 public class ElementFromListRequest {
 
-    @Getter
     private final List<Object> list;
 
     public ElementFromListRequest(List<Object> list) {
         this.list = Collections.unmodifiableList(list);
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        ElementFromListRequest that = (ElementFromListRequest) o;
+
+        return list.equals(that.list);
+    }
+
+    @Override
+    public int hashCode() {
+        return list.hashCode();
+    }
+
+    public List<Object> getList() {
+        return this.list;
     }
 }

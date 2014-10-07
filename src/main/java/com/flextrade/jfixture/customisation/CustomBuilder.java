@@ -6,11 +6,9 @@ import com.flextrade.jfixture.SpecimenContext;
 import com.flextrade.jfixture.SpecimenSupplier;
 import com.flextrade.jfixture.requests.SeededRequest;
 import com.flextrade.jfixture.utility.SpecimenType;
-import lombok.RequiredArgsConstructor;
 
 import java.lang.reflect.Type;
 
-@RequiredArgsConstructor
 class CustomBuilder<T> implements SpecimenBuilder {
 
     private final SpecimenType specimenType;
@@ -21,6 +19,11 @@ class CustomBuilder<T> implements SpecimenBuilder {
         if (supplier == null) throw new IllegalArgumentException("supplier cannot be null");
 
         this.specimenType = SpecimenType.of(specimenType);
+        this.supplier = supplier;
+    }
+
+    public CustomBuilder(SpecimenType specimenType, SpecimenSupplier<? extends T> supplier) {
+        this.specimenType = specimenType;
         this.supplier = supplier;
     }
 

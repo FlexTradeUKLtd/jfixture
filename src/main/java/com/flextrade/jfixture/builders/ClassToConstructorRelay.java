@@ -8,17 +8,20 @@ import com.flextrade.jfixture.exceptions.ObjectCreationException;
 import com.flextrade.jfixture.requests.GenericConstructorRequest;
 import com.flextrade.jfixture.specifications.Specification;
 import com.flextrade.jfixture.utility.SpecimenType;
-import lombok.RequiredArgsConstructor;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Modifier;
 import java.util.List;
 
-@RequiredArgsConstructor
 public class ClassToConstructorRelay implements SpecimenBuilder {
 
     private final ConstructorQuery constructorQuery;
     private final Specification specification;
+
+    public ClassToConstructorRelay(ConstructorQuery constructorQuery, Specification specification) {
+        this.constructorQuery = constructorQuery;
+        this.specification = specification;
+    }
 
     @Override
     public Object create(final Object request, SpecimenContext context) {
