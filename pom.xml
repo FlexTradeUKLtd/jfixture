@@ -37,7 +37,11 @@
             </plugin>
         </plugins>
     </build>
-
+    <scm>
+        <connection>scm:git:git://github.com/FlexTradeUKLtd/jfixture.git</connection>
+        <developerConnection>scm:git:git@github.com:FlexTradeUKLtd/jfixture.git</developerConnection>
+        <url>http://github.com/FlexTradeUKLtd/jfixture.git</url>
+    </scm>
     <dependencies>
         <dependency>
             <groupId>junit</groupId>
