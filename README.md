@@ -40,3 +40,6 @@ To create a variable inside a test method simply call,
 JFixture fixture = new JFixture();
 Order order = fixture.create(Order.class);
 ```
+
+# Maven
+Coming soon!
