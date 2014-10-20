@@ -1,11 +1,13 @@
 package com.flextrade.jfixture.behaviours.tracing;
 
+import com.flextrade.jfixture.exceptions.ObjectCreationException;
 import org.junit.Before;
 import org.junit.Test;
 
 import java.io.IOException;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 public class TestDebugTracingStrategy {
 
@@ -52,5 +54,20 @@ public class TestDebugTracingStrategy {
         this.strategy.writeCreated(this.appendable, this.request, this.response);
 
         assertEquals("Requested: request\n\tRequested: request\n\tCreated: response\nCreated: response\n", this.appendable.toString());
+    }
+
+    @Test
+    public void writing_errors_includes_the_inner_exceptions() throws IOException {
+        String nullPointerMessage = "null pointer message";
+        String objectCreationMessage = "creation message";
+        NullPointerException nullPointerException = new NullPointerException(nullPointerMessage);
+        Exception exception = new ObjectCreationException(objectCreationMessage, nullPointerException);
+
+        this.strategy.writeError(this.appendable, exception);
+
+        String errorMessage = this.appendable.toString();
+
+        assertTrue(errorMessage.contains(nullPointerMessage));
+        assertTrue(errorMessage.contains(objectCreationMessage));
     }
 }

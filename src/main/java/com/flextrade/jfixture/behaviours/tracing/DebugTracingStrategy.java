@@ -23,7 +23,18 @@ public class DebugTracingStrategy implements TracingStrategy {
     @Override
     public void writeError(Appendable appendable, Exception exception) throws IOException {
         appendable.append(StringUtil.repeat("\t", depth));
-        appendable.append("Exception thrown: ").append(exception.toString());
+        appendable.append("Exception thrown:");
         appendable.append("\n");
+        appendable.append(expandedExceptionMessage(exception, new StringBuilder()));
+        appendable.append("\n");
+    }
+
+    private static String expandedExceptionMessage(Throwable throwable, StringBuilder sb) throws IOException {
+        sb.append(throwable.toString());
+        if(throwable.getCause() == null)
+            return sb.toString();
+
+        sb.append("\n");
+        return expandedExceptionMessage(throwable.getCause(), sb);
     }
 }
