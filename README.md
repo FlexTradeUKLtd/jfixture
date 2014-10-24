@@ -1,7 +1,7 @@
 # JFixture
 JFixture is an open source library based on the popular .NET library, [AutoFixture](https://github.com/AutoFixture/AutoFixture).
 
-![Build Status](https://travis-ci.org/FlexTradeUKLtd/jfixture.svg?branch=master)
+[![Build Status](https://travis-ci.org/FlexTradeUKLtd/jfixture.svg?branch=master)](https://travis-ci.org/FlexTradeUKLtd/jfixture)
 
 # Description
 JFixture is a Java library to assist in the writing of Unit Tests, particularly when following Test Driven Development. It generates types based on the concept of 'constrained non-determinism', which is an implementation of the [Generated Value](http://xunitpatterns.com/Generated%20Value.html) xUnit test pattern.
