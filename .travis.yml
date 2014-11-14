@@ -1,10 +1,12 @@
 language: java
 jdk:
-- openjdk6
-- openjdk7
 - oraclejdk7
-
 branches:
   only:
-      - master
- 
+  - master
+env:
+  global:
+  - secure: cgZQm8oOTN0Dem01KVWSN5tIqoZ+fW5NtfkvpQTwC1F31ZSA0wTKPphkfB9XGCqivwtpELmao0J1oK2OINt/UfxFjsbs20dcML4L574TaNFjO74LR0Gi1pszHPlj/vh6p+kg9eKw9ksaSyDfPwsy288onyOrWJuhRSTL/Rz1PqA=
+  - secure: FDImfGcbUtw+TF7JQAVPo25kiBwVZZq6Qu7XnEi4q5JCNd4L6EeGubh9QsvjJTSqK21bLrSoZ4wRlClFAJam6f7HHNwxuRp89B9d2GQQFsL1TLkPE1I4Iz0efnJEFHdhfIfN3Ns1Kr8dkXzKiD8OuhESPkKyACEL5+Z9pOr2lUY=
+
+script: "mvn deploy --settings ./settings.xml"
