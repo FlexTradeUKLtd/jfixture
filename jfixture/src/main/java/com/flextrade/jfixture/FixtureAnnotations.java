@@ -32,7 +32,7 @@ public final class FixtureAnnotations {
     }
 
     private static boolean isWritable(Field field) {
-        return !Modifier.isFinal(field.getModifiers());
+        return !Modifier.isFinal(field.getModifiers()) && !Modifier.isStatic(field.getModifiers());
     }
 
     private static boolean isAnnotated(Field field) {
