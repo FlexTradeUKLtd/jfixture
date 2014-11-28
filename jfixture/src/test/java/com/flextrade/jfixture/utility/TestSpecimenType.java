@@ -45,8 +45,14 @@ public class TestSpecimenType {
     }
 
     @Test
-    public void non_generic_araay_type_argument_has_no_generic_types() {
+    public void non_generic_array_type_argument_has_no_generic_types() {
         assertEquals(0, new SpecimenType<String[]>(){}.getGenericTypeArguments().getLength());
+    }
+
+    @Test
+    public void primitive_void_raw_type_is_supported() {
+       assertEquals(Void.class, SpecimenType.of(void.class).getRawType());
+       assertEquals(0, SpecimenType.of(void.class).getGenericTypeArguments().getLength());
     }
 
     @Test(expected = UnsupportedOperationException.class)

@@ -18,6 +18,7 @@ public class PrimitiveTypeMap {
         mutableMap.put(char.class, Character.class);
         mutableMap.put(byte.class, Byte.class);
         mutableMap.put(short.class, Short.class);
+        mutableMap.put(void.class, Void.class);
         map = Collections.unmodifiableMap(mutableMap);
     }
 
