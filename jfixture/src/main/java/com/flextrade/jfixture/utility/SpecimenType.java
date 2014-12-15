@@ -6,6 +6,8 @@ import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 import java.lang.reflect.TypeVariable;
 import java.lang.reflect.WildcardType;
+import java.util.ArrayList;
+import java.util.List;
 
 public abstract class SpecimenType<T> implements Type {
 
@@ -31,17 +33,15 @@ public abstract class SpecimenType<T> implements Type {
         this.genericTypeArguments = fields.genericTypeArguments;
     }
 
-    SpecimenType(Type type, GenericTypeCollection genericTypeArguments) {
-        if (type instanceof ParameterizedType) {
-            ParameterizedType pt = (ParameterizedType) type;
-            this.rawType = nonPrimitiveType(pt.getRawType());
-            this.genericTypeArguments = genericTypeArguments;
-            return;
-        }
+    SpecimenType(Type type, SpecimenType contextualType) {
+        SpecimenType st = convertPossibleGenericTypeToSpecimenType(type, contextualType);
+        this.rawType = st.rawType;
+        this.genericTypeArguments = st.genericTypeArguments;
+    }
 
-        SpecimenTypeFields fields = getFields(type);
-        this.rawType = fields.rawType;
-        this.genericTypeArguments = fields.genericTypeArguments;
+    SpecimenType(Class rawType, GenericTypeCollection genericTypeArguments) {
+        this.rawType = rawType;
+        this.genericTypeArguments = genericTypeArguments;
     }
 
     public static SpecimenType<?> of(Type type) {
@@ -50,6 +50,57 @@ public abstract class SpecimenType<T> implements Type {
 
     public static <T> SpecimenType<T> of(Class<T> clazz) {
         return new SpecimenType<T>(clazz){};
+    }
+
+    static SpecimenType<?> withGenericContext(Type type, SpecimenType contextualType) {
+        return new SpecimenType(type, contextualType){};
+    }
+
+    public final Class getRawType() {
+        return this.rawType;
+    }
+
+    public final GenericTypeCollection getGenericTypeArguments() {
+        return this.genericTypeArguments;
+    }
+
+    private static SpecimenType convertPossibleGenericTypeToSpecimenType(Type originalType, SpecimenType contextualType) {
+        if (originalType instanceof ParameterizedType) {
+            ParameterizedType parameterizedType = (ParameterizedType)originalType;
+            List<GenericType> genericTypesForSpecimen = getGenericTypes(parameterizedType, contextualType);
+
+            Class rawType = (Class)parameterizedType.getRawType();
+            GenericTypeCollection genericTypeCollection = new GenericTypeCollection(genericTypesForSpecimen.toArray(new GenericType[genericTypesForSpecimen.size()]));
+            return new SpecimenType(rawType, genericTypeCollection){};
+        }
+
+        if (originalType instanceof TypeVariable) { // e.g. <T>
+            return contextualType.getGenericTypeArguments().getType(originalType.toString());
+        }
+
+        return SpecimenType.of(originalType);
+    }
+
+    private static List<GenericType> getGenericTypes(ParameterizedType parameterizedType, SpecimenType contextualType) {
+        List<SpecimenType> resolvedGenericTypes = resolveGenericArguments(parameterizedType, contextualType);
+
+        List<GenericType> genericTypesForSpecimen = new ArrayList<GenericType>();
+        for(SpecimenType resolvedGenericType : resolvedGenericTypes) {
+            GenericType gt = new GenericType(resolvedGenericType, "");
+            genericTypesForSpecimen.add(gt);
+        }
+        return genericTypesForSpecimen;
+    }
+
+    private static List<SpecimenType> resolveGenericArguments(ParameterizedType parameterizedType, SpecimenType contextualType) {
+        List<SpecimenType> resolvedGenericTypes = new ArrayList<SpecimenType>();
+
+        Type[] genericTypes = parameterizedType.getActualTypeArguments();
+        for(Type genericType : genericTypes) {
+            SpecimenType resolved = convertPossibleGenericTypeToSpecimenType(genericType, contextualType);
+            resolvedGenericTypes.add(resolved);
+        }
+        return resolvedGenericTypes;
     }
 
     private static SpecimenTypeFields getFields(Type type) {
@@ -62,14 +113,6 @@ public abstract class SpecimenType<T> implements Type {
             throw new UnsupportedOperationException("Wildcard types not supported");
 
         throw new UnsupportedOperationException(String.format("Unknown Type : %s", type));
-    }
-
-    public final Class getRawType() {
-        return this.rawType;
-    }
-
-    public final GenericTypeCollection getGenericTypeArguments() {
-        return this.genericTypeArguments;
     }
 
     private static GenericTypeCollection createGenericTypeNameMap(ParameterizedType parameterizedType) {

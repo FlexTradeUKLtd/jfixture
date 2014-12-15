@@ -5,14 +5,12 @@ import com.flextrade.jfixture.SpecimenBuilder;
 import com.flextrade.jfixture.SpecimenContext;
 import com.flextrade.jfixture.requests.MethodRequest;
 import com.flextrade.jfixture.requests.SeededRequest;
-import com.flextrade.jfixture.utility.GenericTypeCollection;
+import com.flextrade.jfixture.utility.ParameterUtils;
 import com.flextrade.jfixture.utility.PropertyUtil;
 import com.flextrade.jfixture.utility.SpecimenType;
 
 import java.lang.reflect.Method;
-import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
-import java.lang.reflect.TypeVariable;
 
 class GenericMethodBuilder implements SpecimenBuilder {
 
@@ -23,28 +21,18 @@ class GenericMethodBuilder implements SpecimenBuilder {
         }
 
         MethodRequest genericTypeRequest = (MethodRequest) request;
-        GenericTypeCollection genericTypes = genericTypeRequest.getContainingType().getGenericTypeArguments();
+        SpecimenType contextualType = genericTypeRequest.getContainingType();
         Method method = genericTypeRequest.getMethod();
 
-        Type parameterType = null;
-        if (method.getGenericParameterTypes().length == 1) {
-            final Type genericType = method.getGenericParameterTypes()[0];
-            if(genericType instanceof Class) {
-                parameterType = genericType;
-            } else if(genericType instanceof ParameterizedType) {
-                parameterType = SpecimenType.of(genericType);
-            }
-            else if (genericType instanceof TypeVariable) {
-                parameterType = genericTypes.getType(genericType.toString());
-            }
-
-        } else {
-            return new NoSpecimen();
-        }
-
+        Type parameterType = getMethodReturnType(method, contextualType);
         String propertyName = PropertyUtil.getMemberNameFromMethod(method);
         SeededRequest seededRequest = new SeededRequest(propertyName, parameterType);
 
         return context.resolve(seededRequest);
+    }
+
+    private Type getMethodReturnType(Method method, SpecimenType contextualType) {
+        Type originalReturnType = method.getGenericParameterTypes()[0]; // Previous checks ensure we will have only one value
+        return ParameterUtils.convertPossibleGenericTypeToSpecimenType(originalReturnType, contextualType);
     }
 }

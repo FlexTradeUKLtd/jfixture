@@ -6,7 +6,6 @@ import com.flextrade.jfixture.SpecimenContext;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Method;
 import java.lang.reflect.Type;
-import java.lang.reflect.TypeVariable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -47,12 +46,7 @@ public class ParameterUtils {
         return safeParameterTypes;
     }
 
-    public static SpecimenType convertPossibleGenericTypeToSpecimenType(Type originalType, final SpecimenType specimenType) {
-        if (!(originalType instanceof TypeVariable)) { // Non-generic type, easy-peasy
-            return new SpecimenType(originalType, specimenType.getGenericTypeArguments()) { };
-        } else {
-            String typeName = ((TypeVariable) originalType).getName(); // Generic type, need to get it of the map
-            return specimenType.getGenericTypeArguments().getType(typeName);
-        }
+    public static SpecimenType convertPossibleGenericTypeToSpecimenType(Type originalType, final SpecimenType contextualType) {
+      return SpecimenType.withGenericContext(originalType, contextualType);
     }
 }

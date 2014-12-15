@@ -5,11 +5,11 @@ import com.flextrade.jfixture.SpecimenBuilder;
 import com.flextrade.jfixture.SpecimenContext;
 import com.flextrade.jfixture.requests.FieldRequest;
 import com.flextrade.jfixture.requests.SeededRequest;
+import com.flextrade.jfixture.utility.ParameterUtils;
 import com.flextrade.jfixture.utility.SpecimenType;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Type;
-import java.lang.reflect.TypeVariable;
 
 class GenericFieldRelay implements SpecimenBuilder {
 
@@ -19,27 +19,18 @@ class GenericFieldRelay implements SpecimenBuilder {
             return new NoSpecimen();
         }
 
-        FieldRequest fieldRequest = (FieldRequest) request;
-        Field field = fieldRequest.getField();
-        SpecimenType containingType = fieldRequest.getContainingType();
+        FieldRequest genericTypeRequest = (FieldRequest) request;
+        SpecimenType contextualType = genericTypeRequest.getContainingType();
+        Field field = genericTypeRequest.getField();
 
-        Type parameterType;
-        if(field.getType() != null && field.getGenericType() instanceof Class) {
-            parameterType = field.getType();
-        } else if(field.getType() != null && field.getGenericType() instanceof TypeVariable) {
-            TypeVariable tv = (TypeVariable)field.getGenericType();
-            String tvName = tv.getName();
-            parameterType = containingType.getGenericTypeArguments().getType(tvName);
-        } else if (containingType.getGenericTypeArguments().getLength() == 1) {
-            // Won't work for multiple generic params
-            parameterType = containingType.getGenericTypeArguments().get(0).getType();
-        } else {
-            return new NoSpecimen();
-        }
-
+        Type parameterType = getMethodReturnType(field, contextualType);
         String fieldName = field.getName();
         SeededRequest seededRequest = new SeededRequest(fieldName, parameterType);
 
         return context.resolve(seededRequest);
+    }
+
+    private Type getMethodReturnType(Field field, SpecimenType contextualType) {
+        return ParameterUtils.convertPossibleGenericTypeToSpecimenType(field.getGenericType(), contextualType);
     }
 }

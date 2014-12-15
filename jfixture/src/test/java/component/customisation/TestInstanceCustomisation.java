@@ -24,12 +24,12 @@ public class TestInstanceCustomisation {
 
     @Test
     public void always_returns_same_instance_of_generic_type_for_each_request_of_that_type() {
-        final TypeWithGenericField<String> type = new TypeWithGenericField<String>();
-        type.value = "string";
+        final TypeWithGenericField<String, Double> type = new TypeWithGenericField<String, Double>();
+        type.valueT = "string";
         JFixture fixture = new JFixture();
-        fixture.customise(new InstanceCustomisation(new SpecimenType<TypeWithGenericField<String>>() {}, type))  ;
+        fixture.customise(new InstanceCustomisation(new SpecimenType<TypeWithGenericField<String, Double>>() {}, type))  ;
 
-        TypeWithGenericField<String> specimen =  fixture.create(new SpecimenType<TypeWithGenericField<String>>(){});
+        TypeWithGenericField<String, Double> specimen =  fixture.create(new SpecimenType<TypeWithGenericField<String, Double>>(){});
         assertSame(type, specimen);
     }
 
