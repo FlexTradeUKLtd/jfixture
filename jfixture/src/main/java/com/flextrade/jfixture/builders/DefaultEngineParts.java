@@ -29,6 +29,8 @@ public class DefaultEngineParts {
         this.add(new SwitchingBooleanGenerator());
         this.add(new CharacterGenerator());
         this.add(new EnumBuilder());
+        this.add(new UrlBuilder());
+        this.add(new UriBuilder());
 
         this.add(new MultipleSpecimenRelay(this.multipleCount));
         this.add(new ArrayRelay());
