@@ -40,4 +40,13 @@ public class RangeRequest {
         result = 31 * result + max.hashCode();
         return result;
     }
+
+    @Override
+    public String toString() {
+        return "RangeRequest{" +
+                "request=" + request +
+                ", min=" + min +
+                ", max=" + max +
+                '}';
+    }
 }

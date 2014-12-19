@@ -29,4 +29,11 @@ public class ElementFromListRequest {
     public List<Object> getList() {
         return this.list;
     }
+
+    @Override
+    public String toString() {
+        return "ElementFromListRequest{" +
+                "list=" + list +
+                '}';
+    }
 }

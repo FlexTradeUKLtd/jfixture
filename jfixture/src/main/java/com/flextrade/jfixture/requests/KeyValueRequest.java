@@ -35,4 +35,12 @@ public class KeyValueRequest {
         result = 31 * result + valueType.hashCode();
         return result;
     }
+
+    @Override
+    public String toString() {
+        return "KeyValueRequest{" +
+                "keyType=" + keyType +
+                ", valueType=" + valueType +
+                '}';
+    }
 }

@@ -37,4 +37,12 @@ public class GenericConstructorRequest {
         result = 31 * result + containingType.hashCode();
         return result;
     }
+
+    @Override
+    public String toString() {
+        return "GenericConstructorRequest{" +
+                "constructor=" + constructor +
+                ", containingType=" + containingType +
+                '}';
+    }
 }

@@ -37,4 +37,12 @@ public class FieldRequest {
         result = 31 * result + containingType.hashCode();
         return result;
     }
+
+    @Override
+    public String toString() {
+        return "FieldRequest{" +
+                "field=" + field +
+                ", containingType=" + containingType +
+                '}';
+    }
 }

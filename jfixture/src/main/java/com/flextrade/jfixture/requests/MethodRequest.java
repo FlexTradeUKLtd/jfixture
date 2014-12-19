@@ -37,4 +37,12 @@ public class MethodRequest {
         result = 31 * result + containingType.hashCode();
         return result;
     }
+
+    @Override
+    public String toString() {
+        return "MethodRequest{" +
+                "method=" + method +
+                ", containingType=" + containingType +
+                '}';
+    }
 }

@@ -25,4 +25,11 @@ public class MultipleRequest {
     public int hashCode() {
         return innerRequest.hashCode();
     }
+
+    @Override
+    public String toString() {
+        return "MultipleRequest{" +
+                "innerRequest=" + innerRequest +
+                '}';
+    }
 }

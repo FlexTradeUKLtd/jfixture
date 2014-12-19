@@ -33,4 +33,12 @@ public class SeededRequest {
         result = 31 * result + request.hashCode();
         return result;
     }
+
+    @Override
+    public String toString() {
+        return "SeededRequest{" +
+                "seed=" + seed +
+                ", request=" + request +
+                '}';
+    }
 }

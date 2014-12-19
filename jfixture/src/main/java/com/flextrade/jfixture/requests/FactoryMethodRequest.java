@@ -37,4 +37,12 @@ public class FactoryMethodRequest {
         result = 31 * result + containingType.hashCode();
         return result;
     }
+
+    @Override
+    public String toString() {
+        return "FactoryMethodRequest{" +
+                "method=" + method +
+                ", containingType=" + containingType +
+                '}';
+    }
 }
