@@ -87,8 +87,8 @@ public class JFixture implements SpecimenCreator, SpecimenBuilderPipeline, Behav
 
     private void applyDefaultCustomisations() {
         this.behaviours().add(new SpecimenTypeInjectorBehaviour());
+        this.customise(new AutoPropertyCustomisation());
         this.customise(new ThrowingRecursionCustomisation());
         this.customise(new ThrowOnNoResolutionCustomisation());
-        this.customise(new AutoPropertyCustomisation());
     }
 }

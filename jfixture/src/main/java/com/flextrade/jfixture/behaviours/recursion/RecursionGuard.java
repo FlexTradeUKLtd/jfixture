@@ -2,7 +2,10 @@ package com.flextrade.jfixture.behaviours.recursion;
 
 import com.flextrade.jfixture.SpecimenBuilder;
 import com.flextrade.jfixture.SpecimenContext;
+import com.flextrade.jfixture.requests.SeededRequest;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Stack;
 
 class RecursionGuard implements SpecimenBuilder {
@@ -28,6 +31,7 @@ class RecursionGuard implements SpecimenBuilder {
         this.monitoredRequests.push(request);
         Object specimen = this.builder.create(request, context);
         this.monitoredRequests.pop();
+
         return specimen;
     }
 
@@ -40,6 +44,12 @@ class RecursionGuard implements SpecimenBuilder {
     }
 
     private Object handleRecursiveRequest(Object request) {
-        return this.recursionHandler.handleRecursiveRequest(request, this.monitoredRequests);
+        List<Object> filtered = new ArrayList<Object>();
+        for (Object mr : this.monitoredRequests) {
+            if (!(mr instanceof SeededRequest)) // Not interested in these, it adds too much noise
+                filtered.add(mr);
+        }
+
+        return this.recursionHandler.handleRecursiveRequest(request, filtered);
     }
 }

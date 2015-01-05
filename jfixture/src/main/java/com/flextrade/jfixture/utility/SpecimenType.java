@@ -11,7 +11,6 @@ import java.util.List;
 
 public abstract class SpecimenType<T> implements Type {
 
-    private static final String typeNamePrefix = "SpecimenType.";
     private final Class rawType;
     private final GenericTypeCollection genericTypeArguments;
 
@@ -185,11 +184,10 @@ public abstract class SpecimenType<T> implements Type {
     @Override
     public final String toString() {
         if(this.genericTypeArguments.getLength() == 0) {
-            return typeNamePrefix + justClassName(this.rawType);
+            return justClassName(this.rawType);
         }
 
         StringBuilder sb = new StringBuilder();
-        sb.append(typeNamePrefix);
         sb.append(justClassName(this.rawType));
         sb.append("<");
         for(int i = 0; i < this.genericTypeArguments.getLength(); i++) {
@@ -206,7 +204,7 @@ public abstract class SpecimenType<T> implements Type {
         if(!(type instanceof Class)) throw new RuntimeException("This shouldn't happen");
 
         Class clazz =(Class)type;
-        return clazz.getSimpleName();
+        return clazz.getName();
     }
 
     private static class SpecimenTypeFields {

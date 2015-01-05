@@ -40,9 +40,6 @@ public class FieldRequest {
 
     @Override
     public String toString() {
-        return "FieldRequest{" +
-                "field=" + field +
-                ", containingType=" + containingType +
-                '}';
+        return field.getType().getName() + " " + field.getName();
     }
 }
