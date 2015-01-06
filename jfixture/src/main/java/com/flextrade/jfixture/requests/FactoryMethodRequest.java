@@ -40,9 +40,21 @@ public class FactoryMethodRequest {
 
     @Override
     public String toString() {
-        return "FactoryMethodRequest{" +
-                "method=" + method +
-                ", containingType=" + containingType +
-                '}';
+        return containingType + " " + formattedName();
+    }
+
+    private String formattedName() {
+        StringBuilder sb = new StringBuilder();
+
+        sb.append(method.getName()).append("(");
+        Class[] params = method.getParameterTypes();
+        for (int i = 0; i < params.length; i++) {
+            sb.append(params[i].getName());
+            if (i < (params.length - 1))
+                sb.append(",");
+        }
+        sb.append(")");
+
+        return sb.toString();
     }
 }
