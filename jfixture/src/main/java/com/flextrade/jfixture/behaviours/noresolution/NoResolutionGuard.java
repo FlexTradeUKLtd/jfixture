@@ -3,7 +3,10 @@ package com.flextrade.jfixture.behaviours.noresolution;
 import com.flextrade.jfixture.NoSpecimen;
 import com.flextrade.jfixture.SpecimenBuilder;
 import com.flextrade.jfixture.SpecimenContext;
+import com.flextrade.jfixture.requests.SeededRequest;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Stack;
 
 class NoResolutionGuard implements SpecimenBuilder {
@@ -23,9 +26,9 @@ class NoResolutionGuard implements SpecimenBuilder {
         this.monitoredRequests.push(request);
         Object specimen = this.builder.create(request, context);
         if (specimen instanceof NoSpecimen) {
-            this.monitoredRequests.pop();
-            return this.noResolutionHandler.handleNoResolution(request, this.monitoredRequests);
+            return handleNoResolutionForRequest(request);
         }
+        this.monitoredRequests.pop();
 
         return specimen;
     }
@@ -36,5 +39,15 @@ class NoResolutionGuard implements SpecimenBuilder {
 
     public NoResolutionHandler handler() {
         return this.noResolutionHandler;
+    }
+
+    private Object handleNoResolutionForRequest(Object request) {
+        List<Object> filtered = new ArrayList<Object>();
+        for (Object mr : this.monitoredRequests) {
+            if (!(mr instanceof SeededRequest)) // Not interested in these, it adds too much noise
+                filtered.add(mr);
+        }
+
+        return this.noResolutionHandler.handleNoResolution(request, filtered);
     }
 }

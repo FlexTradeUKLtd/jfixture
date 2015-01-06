@@ -40,9 +40,6 @@ public class MethodRequest {
 
     @Override
     public String toString() {
-        return "MethodRequest{" +
-                "method=" + method +
-                ", containingType=" + containingType +
-                '}';
+        return containingType.toString() + " " + method.getName();
     }
 }
