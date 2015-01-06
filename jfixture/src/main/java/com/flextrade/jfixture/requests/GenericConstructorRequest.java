@@ -40,9 +40,6 @@ public class GenericConstructorRequest {
 
     @Override
     public String toString() {
-        return "GenericConstructorRequest{" +
-                "constructor=" + constructor +
-                ", containingType=" + containingType +
-                '}';
+        return constructor.toString();
     }
 }
