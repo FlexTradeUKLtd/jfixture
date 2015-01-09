@@ -38,9 +38,6 @@ public class KeyValueRequest {
 
     @Override
     public String toString() {
-        return "KeyValueRequest{" +
-                "keyType=" + keyType +
-                ", valueType=" + valueType +
-                '}';
+        return keyType + ", " + valueType;
     }
 }
