@@ -1,10 +1,6 @@
 package com.flextrade.jfixture.rules;
 
-import com.flextrade.jfixture.FixtureAnnotations;
 import com.flextrade.jfixture.JFixture;
-import com.flextrade.jfixture.behaviours.tracing.MemberOnlyResponseStrategy;
-import com.flextrade.jfixture.behaviours.tracing.TracingBehaviour;
-import com.flextrade.jfixture.exceptions.ObjectCreationException;
 import com.flextrade.jfixture.runners.JUnitJFixtureStatement;
 import org.junit.rules.MethodRule;
 import org.junit.runners.model.FrameworkMethod;

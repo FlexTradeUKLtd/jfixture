@@ -1,6 +1,5 @@
 package com.flextrade.jfixture;
 
-import com.flextrade.jfixture.MultipleCount;
 import org.junit.Before;
 import org.junit.Test;
 

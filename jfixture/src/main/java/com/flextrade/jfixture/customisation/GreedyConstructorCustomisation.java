@@ -1,10 +1,10 @@
 package com.flextrade.jfixture.customisation;
 
-import com.flextrade.jfixture.JFixture;
-import com.flextrade.jfixture.builders.ClassToConstructorRelay;
 import com.flextrade.jfixture.ConstructorQuery;
 import com.flextrade.jfixture.DefaultConstructorQuery;
+import com.flextrade.jfixture.JFixture;
 import com.flextrade.jfixture.SpecimenBuilder;
+import com.flextrade.jfixture.builders.ClassToConstructorRelay;
 import com.flextrade.jfixture.specifications.SpecificTypeSpecification;
 import com.flextrade.jfixture.utility.SpecimenType;
 import com.flextrade.jfixture.utility.comparators.ConstructorParameterCountComparator;

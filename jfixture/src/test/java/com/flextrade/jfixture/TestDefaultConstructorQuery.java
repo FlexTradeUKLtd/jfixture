@@ -1,6 +1,5 @@
 package com.flextrade.jfixture;
 
-import com.flextrade.jfixture.DefaultConstructorQuery;
 import com.flextrade.jfixture.utility.comparators.ConstructorParameterCountComparator;
 import com.flextrade.jfixture.utility.comparators.InverseComparator;
 import org.junit.Before;

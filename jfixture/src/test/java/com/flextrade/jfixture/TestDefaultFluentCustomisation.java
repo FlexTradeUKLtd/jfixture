@@ -1,9 +1,5 @@
 package com.flextrade.jfixture;
 
-import com.flextrade.jfixture.CustomisationContainer;
-import com.flextrade.jfixture.DefaultFluentCustomisation;
-import com.flextrade.jfixture.MultipleCount;
-import com.flextrade.jfixture.SpecimenSupplier;
 import com.flextrade.jfixture.customisation.Customisation;
 import com.flextrade.jfixture.customisation.InstanceCustomisation;
 import com.flextrade.jfixture.customisation.InstanceFactoryCustomisation;

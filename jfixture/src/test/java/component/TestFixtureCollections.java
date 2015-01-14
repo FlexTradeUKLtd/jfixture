@@ -1,7 +1,7 @@
 package component;
 
-import com.flextrade.jfixture.JFixture;
 import com.flextrade.jfixture.FixtureCollections;
+import com.flextrade.jfixture.JFixture;
 import com.flextrade.jfixture.MultipleCount;
 import org.junit.Before;
 import org.junit.Test;

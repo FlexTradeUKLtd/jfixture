@@ -1,7 +1,5 @@
 package com.flextrade.jfixture;
 
-import com.flextrade.jfixture.SpecimenBuilder;
-import com.flextrade.jfixture.SpecimenBuilderContext;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;

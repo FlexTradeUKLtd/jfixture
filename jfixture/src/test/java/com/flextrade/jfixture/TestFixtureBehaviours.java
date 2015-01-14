@@ -1,9 +1,5 @@
 package com.flextrade.jfixture;
 
-import com.flextrade.jfixture.FinalBuilderContainer;
-import com.flextrade.jfixture.FixtureBehaviour;
-import com.flextrade.jfixture.FixtureBehaviours;
-import com.flextrade.jfixture.SpecimenBuilder;
 import com.flextrade.jfixture.builders.CompositeBuilder;
 import org.junit.Before;
 import org.junit.Test;

@@ -2,7 +2,6 @@ package com.flextrade.jfixture.behaviours.recursion;
 
 import com.flextrade.jfixture.SpecimenBuilder;
 import com.flextrade.jfixture.SpecimenContext;
-import com.flextrade.jfixture.requests.SeededRequest;
 import com.flextrade.jfixture.utility.RequestFilter;
 
 import java.util.ArrayList;

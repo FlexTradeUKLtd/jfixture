@@ -1,6 +1,5 @@
 package com.flextrade.jfixture;
 
-import com.flextrade.jfixture.NoSpecimen;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;

@@ -1,8 +1,8 @@
 package component;
 
+import com.flextrade.jfixture.FixtureAnnotations;
 import com.flextrade.jfixture.JFixture;
 import com.flextrade.jfixture.annotations.Fixture;
-import com.flextrade.jfixture.FixtureAnnotations;
 import org.junit.Test;
 import testtypes.TypeWithFields;
 import testtypes.TypeWithProperties;

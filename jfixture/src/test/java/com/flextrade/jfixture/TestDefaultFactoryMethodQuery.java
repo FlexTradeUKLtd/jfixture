@@ -1,6 +1,5 @@
 package com.flextrade.jfixture;
 
-import com.flextrade.jfixture.DefaultFactoryMethodQuery;
 import com.flextrade.jfixture.utility.SpecimenType;
 import com.flextrade.jfixture.utility.comparators.InverseComparator;
 import com.flextrade.jfixture.utility.comparators.MethodParameterCountComparator;
