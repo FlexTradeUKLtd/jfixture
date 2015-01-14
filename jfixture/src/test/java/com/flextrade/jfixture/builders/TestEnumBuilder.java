@@ -6,7 +6,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertSame;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 public class TestEnumBuilder {
@@ -32,30 +32,39 @@ public class TestEnumBuilder {
 
     @Test
     public void enum_specimen_type_request_returns_instance_of_that_enum() {
-        Object result = this.enumBuilder.create(SpecimenType.of(TestEnum.class), null);
+        Object result = createEnum();
         assertTrue(result instanceof TestEnum);
     }
 
     @Test
-    public void subsequent_requests_return_next_enum_along() {
-        Object firstResult = this.enumBuilder.create(SpecimenType.of(TestEnum.class), null);
-        Object secondResult = this.enumBuilder.create(SpecimenType.of(TestEnum.class), null);
+    public void multiple_requests_within_limit_of_enum_definitions_return_unique_values() {
+        Object first = createEnum();
+        Object second = createEnum();
+        Object third = createEnum();
 
-        assertEquals(TestEnum.ValueA, firstResult);
-        assertEquals(TestEnum.ValueB, secondResult);
+        assertFalse(first.equals(second));
+        assertFalse(first.equals(third));
+        assertFalse(second.equals(third));
     }
 
     @Test
-    public void result_loops_around_if_last_enum_generated() {
-        Object firstResult = this.enumBuilder.create(SpecimenType.of(TestEnum.class), null);
-        this.enumBuilder.create(SpecimenType.of(TestEnum.class), null);
-        Object loopedResult = this.enumBuilder.create(SpecimenType.of(TestEnum.class), null);
+    public void multiple_requests_outside_limit_of_enum_definitions_return_values_in_same_order() {
+        Object first = createEnum();
+        Object second = createEnum();
+        Object third = createEnum();
 
-        assertSame(firstResult, loopedResult);
+        assertTrue(first.equals(createEnum()));
+        assertTrue(second.equals(createEnum()));
+        assertTrue(third.equals(createEnum()));
+    }
+
+    private Object createEnum() {
+        return this.enumBuilder.create(SpecimenType.of(TestEnum.class), null);
     }
 
     private enum TestEnum {
         ValueA,
-        ValueB
+        ValueB,
+        ValueC
     }
 }

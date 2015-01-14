@@ -3,14 +3,18 @@ package com.flextrade.jfixture.builders;
 import com.flextrade.jfixture.NoSpecimen;
 import com.flextrade.jfixture.SpecimenBuilder;
 import com.flextrade.jfixture.SpecimenContext;
+import com.flextrade.jfixture.utility.CircularList;
 import com.flextrade.jfixture.utility.SpecimenType;
 
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 class EnumBuilder implements SpecimenBuilder {
 
-    private final Map<Class, Integer> enumCountMap = new HashMap<Class, Integer>();
+    private final Map<Class, CircularList<Enum>> enumListMap = new HashMap<Class, CircularList<Enum>>();
 
     @Override
     public Object create(Object request, SpecimenContext context) {
@@ -24,24 +28,25 @@ class EnumBuilder implements SpecimenBuilder {
             return new NoSpecimen();
         }
 
-        ensureCountMapContainsEntry(requestClass);
+        ensureListMapContainsList(requestClass);
 
         return getNextEnumValue(requestClass);
     }
 
     private Enum getNextEnumValue(Class requestClass) {
-        Integer enumIndex = enumCountMap.get(requestClass);
-        Enum[] enumConstants = (Enum[]) requestClass.getEnumConstants();
-        Enum enumResult = enumConstants[enumIndex];
-
-        enumIndex = enumIndex == enumConstants.length - 1 ? 0 : enumIndex + 1;
-        enumCountMap.put(requestClass, enumIndex);
-        return enumResult;
+        return enumListMap.get(requestClass).next();
     }
 
-    private void ensureCountMapContainsEntry(Class requestClass) {
-        if (!enumCountMap.containsKey(requestClass)) {
-            enumCountMap.put(requestClass, 0);
+    private void ensureListMapContainsList(Class requestClass) {
+        if (!enumListMap.containsKey(requestClass)) {
+            enumListMap.put(requestClass, new CircularList<Enum>(allEnumValues(requestClass)));
         }
+    }
+
+    private List<Enum> allEnumValues(Class<?> enumClass) {
+        Enum[] enumConstants = (Enum[]) enumClass.getEnumConstants();
+        List<Enum> allValues = Arrays.asList(enumConstants);
+        Collections.shuffle(allValues);
+        return allValues;
     }
 }
