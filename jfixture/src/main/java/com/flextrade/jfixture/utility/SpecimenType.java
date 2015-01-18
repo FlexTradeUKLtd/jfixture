@@ -85,7 +85,8 @@ public abstract class SpecimenType<T> implements Type {
 
         List<GenericType> genericTypesForSpecimen = new ArrayList<GenericType>();
         for(SpecimenType resolvedGenericType : resolvedGenericTypes) {
-            GenericType gt = new GenericType(resolvedGenericType, "");
+            String typeName = contextualType.genericTypeArguments.getNameFromType(resolvedGenericType);
+            GenericType gt = new GenericType(resolvedGenericType, typeName);
             genericTypesForSpecimen.add(gt);
         }
         return genericTypesForSpecimen;

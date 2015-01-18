@@ -26,6 +26,15 @@ public class GenericTypeCollection {
         return nameTypeMap.get(name);
     }
 
+    public String getNameFromType(SpecimenType type) {
+        for(GenericType gt : underlying) {
+            if(gt.getType().equals(type))
+                return gt.getName();
+        }
+
+        return "";
+    }
+
     public static GenericTypeCollection empty() {
         return new GenericTypeCollection(new GenericType[0]);
     }
