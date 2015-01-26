@@ -44,4 +44,10 @@ Order order = fixture.create(Order.class);
 ```
 
 # Maven
-Coming soon!
+```xml
+<dependency>
+	<groupId>com.flextrade.jfixture</groupId>
+	<artifactId>jfixture</artifactId>
+	<version>2.1.0</version>
+</dependency>
+```
