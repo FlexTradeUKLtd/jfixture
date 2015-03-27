@@ -78,7 +78,6 @@ public class JFixture implements SpecimenCreator, SpecimenBuilderPipeline, Behav
         return (T) this.create((Object) clazz);
     }
 
-    @SuppressWarnings("unchecked")
     Object create(Object object) {
         Object result = this.finalBuilderContainer.getBuilder().create(object, this.finalBuilderContainer.getContext());
         if (result instanceof NoSpecimen) return null;
@@ -86,9 +85,9 @@ public class JFixture implements SpecimenCreator, SpecimenBuilderPipeline, Behav
     }
 
     private void applyDefaultCustomisations() {
-        this.behaviours().add(new SpecimenTypeInjectorBehaviour());
         this.customise(new AutoPropertyCustomisation());
         this.customise(new ThrowingRecursionCustomisation());
         this.customise(new ThrowOnNoResolutionCustomisation());
+        this.behaviours().add(new SpecimenTypeInjectorBehaviour());
     }
 }

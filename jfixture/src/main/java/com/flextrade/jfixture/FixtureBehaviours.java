@@ -40,7 +40,8 @@ class FixtureBehaviours implements BehavioursContainer {
     }
 
     private void resetFinalBuilder() {
-        CompositeBehaviour compositeBehaviour = new CompositeBehaviour(this.allBehaviours);
+        ArrayList<FixtureBehaviour> behavioursCopy = new ArrayList<FixtureBehaviour>(this.allBehaviours);
+        CompositeBehaviour compositeBehaviour = new CompositeBehaviour(behavioursCopy);
         this.finalBuilderContainer.setFinalBuilder(compositeBehaviour.transform(this.rootBuilder));
     }
 }

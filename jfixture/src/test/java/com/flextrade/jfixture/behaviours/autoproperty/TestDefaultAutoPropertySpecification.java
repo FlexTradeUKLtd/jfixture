@@ -1,5 +1,6 @@
 package com.flextrade.jfixture.behaviours.autoproperty;
 
+import com.flextrade.jfixture.utility.SpecimenType;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -27,13 +28,18 @@ public class TestDefaultAutoPropertySpecification {
 
     @Test
     public void is_not_satisfied_by_date_class() {
-        assertFalse(this.defaultSpecification.isSatisfiedBy(Date.class));
+        assertFalse(this.defaultSpecification.isSatisfiedBy(SpecimenType.of(Date.class)));
+    }
+
+    @Test
+    public void is_not_satisfied_by_calendar_class() {
+        assertFalse(this.defaultSpecification.isSatisfiedBy(SpecimenType.of(Date.class)));
     }
 
     @Test
     public void is_satisfied_by_class_requests() {
-        assertTrue(this.defaultSpecification.isSatisfiedBy(String.class));
-        assertTrue(this.defaultSpecification.isSatisfiedBy(Integer.class));
-        assertTrue(this.defaultSpecification.isSatisfiedBy(List.class));
+        assertTrue(this.defaultSpecification.isSatisfiedBy(SpecimenType.of(String.class)));
+        assertTrue(this.defaultSpecification.isSatisfiedBy(SpecimenType.of(Integer.class)));
+        assertTrue(this.defaultSpecification.isSatisfiedBy(SpecimenType.of(List.class)));
     }
 }
