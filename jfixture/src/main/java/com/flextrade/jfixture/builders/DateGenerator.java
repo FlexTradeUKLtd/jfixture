@@ -4,14 +4,14 @@ import com.flextrade.jfixture.NoSpecimen;
 import com.flextrade.jfixture.SpecimenBuilder;
 import com.flextrade.jfixture.SpecimenContext;
 import com.flextrade.jfixture.utility.Clock;
+import com.flextrade.jfixture.utility.FixtureMath;
 import com.flextrade.jfixture.utility.TimeProvider;
 
+import java.util.Calendar;
 import java.util.Date;
-import java.util.Random;
 
 class DateGenerator implements SpecimenBuilder {
 
-    private final Random random = new Random();
     private final TimeProvider timeProvider;
 
     public DateGenerator() {
@@ -29,9 +29,25 @@ class DateGenerator implements SpecimenBuilder {
             return new NoSpecimen();
         }
 
-        long millisecondSinceEpoch = this.timeProvider.getCurrentTimeInMilliseconds();
-        long randomMillisecondsUpToNow = (long) (random.nextDouble() * millisecondSinceEpoch);
+        Date nowDate = new Date(this.timeProvider.getCurrentTimeInMilliseconds());
+        long min = getTwoYearsAgoMs(nowDate);
+        long max = getTwoYearsAheadMs(nowDate);
 
-        return new Date(randomMillisecondsUpToNow);
+        long date = FixtureMath.randLong(min, max);
+        return new Date(date);
+    }
+
+    private long getTwoYearsAheadMs(Date now) {
+        Calendar twoYearsAhead = Calendar.getInstance();
+        twoYearsAhead.setTime(now);
+        twoYearsAhead.add(Calendar.YEAR, 2);
+        return twoYearsAhead.getTimeInMillis();
+    }
+
+    private long getTwoYearsAgoMs(Date now) {
+        Calendar twoYearsAgo = Calendar.getInstance();
+        twoYearsAgo.setTime(now);
+        twoYearsAgo.add(Calendar.YEAR, -2);
+        return twoYearsAgo.getTimeInMillis();
     }
 }

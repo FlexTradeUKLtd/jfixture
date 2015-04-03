@@ -2,6 +2,7 @@ package com.flextrade.jfixture.builders;
 
 import com.flextrade.jfixture.NoSpecimen;
 import com.flextrade.jfixture.utility.TimeProvider;
+import org.hamcrest.number.OrderingComparison;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;
@@ -11,7 +12,10 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import static org.hamcrest.Matchers.greaterThanOrEqualTo;
+import static org.hamcrest.Matchers.lessThanOrEqualTo;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertThat;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.when;
 
@@ -41,21 +45,21 @@ public class TestDateGenerator {
     }
 
     @Test
-    public void generates_dates_between_epoch_and_now() throws ParseException {
-        SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy/hh:mm:ss");
-        Date nowDate = formatter.parse("01/01/2000/00:00:00");
-        Date epochDate = formatter.parse("01/01/1970/00:00:00");
+    public void generates_dates_at_current_date_within_plus_or_minus_two_years() throws ParseException {
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy/MM/dd hh:mm:ss");
+        Date nowDate = formatter.parse("2000/01/01 00:00:00");
+        Date plusTwoYears = formatter.parse("2002/01/01 00:00:00");
+        Date minusTwoYears = formatter.parse("1998/01/01 00:00:00");
 
-        long nowInMilliseconds = nowDate.getTime();
-        long epochInMilliseconds = epochDate.getTime();
-
-        when(mockTimeProvider.getCurrentTimeInMilliseconds()).thenReturn(nowInMilliseconds);
+        when(mockTimeProvider.getCurrentTimeInMilliseconds()).thenReturn(nowDate.getTime());
 
         int runCount = 1000;
         for (int i = 0; i < runCount; i++) {
             Object result = this.dateGenerator.create(Date.class, null);
-            long timeInMilliseconds = ((Date) result).getTime();
-            assertTrue(timeInMilliseconds >= epochInMilliseconds && timeInMilliseconds <= nowInMilliseconds);
+            Date date = (Date)result;
+
+            assertThat(date, greaterThanOrEqualTo(minusTwoYears));
+            assertThat(date, lessThanOrEqualTo(plusTwoYears));
         }
     }
 }
