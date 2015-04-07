@@ -7,7 +7,6 @@ import org.hamcrest.Matchers;
 import org.joda.time.DateTimeFieldType;
 import org.joda.time.Duration;
 import org.joda.time.MutablePeriod;
-import org.joda.time.Period;
 import org.joda.time.ReadWritableDateTime;
 import org.joda.time.ReadWritableInstant;
 import org.joda.time.ReadWritableInterval;
@@ -19,7 +18,6 @@ import org.joda.time.ReadableInterval;
 import org.joda.time.ReadablePartial;
 import org.joda.time.ReadablePeriod;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 
 import java.text.DateFormat;
@@ -112,23 +110,24 @@ public class TestAllInterfaceDataTypesAreSupported {
         assertThat(interval.getEnd().toDate(), is(secondDate));
     }
 
-    @Test @Ignore("Failing on the CI build - possibly JVM version issue")
+    @Test
     public void creates_instance_of_ReadablePeriod() throws ParseException {
         ReadablePeriod period = fixture.create(ReadablePeriod.class);
         assertThat(period, notNullValue());
-        assertThat(period, Matchers.<ReadablePeriod>is(new MutablePeriod(8760, 0, 0, 0)));
+        assertThat(period, Matchers.<ReadablePeriod>is(new MutablePeriod(1,0,0,0,0,0,0,0))); // 1Yr
     }
 
-    @Test @Ignore("Failing on the CI build - possibly JVM version issue")
+    @Test
     public void creates_instance_of_ReadWritablePeriod() throws ParseException {
         ReadWritablePeriod period = fixture.create(ReadWritablePeriod.class);
         assertThat(period, notNullValue());
-        assertThat(period, Matchers.<ReadablePeriod>is(Period.hours(8760)));
+        assertThat(period, Matchers.<ReadablePeriod>is(new MutablePeriod(1,0,0,0,0,0,0,0))); // 1Yr
     }
 
     private void customiseToReturnFixedDates() throws ParseException {
         date = formatter.parse("2001/01/01 12:34:56");
         secondDate = formatter.parse("2002/01/01 12:34:56");
+
         fixture.customise().lazyInstance(Date.class, new SpecimenSupplier<Date>() {
             boolean isFirstCall = true;
 

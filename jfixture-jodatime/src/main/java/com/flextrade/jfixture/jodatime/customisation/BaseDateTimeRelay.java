@@ -4,6 +4,7 @@ import com.flextrade.jfixture.NoSpecimen;
 import com.flextrade.jfixture.SpecimenBuilder;
 import com.flextrade.jfixture.SpecimenContext;
 import com.flextrade.jfixture.utility.SpecimenType;
+import org.joda.time.DateTimeZone;
 import org.joda.time.base.BaseDateTime;
 
 import java.util.Date;
@@ -24,7 +25,9 @@ public class BaseDateTimeRelay implements SpecimenBuilder {
         try {
             Date date = (Date) context.resolve(Date.class);
             long instant = date.getTime();
-            return type.getRawType().getDeclaredConstructor(long.class).newInstance(instant);
+
+            DateTimeZone timeZone = (DateTimeZone)context.resolve(DateTimeZone.class);
+            return type.getRawType().getDeclaredConstructor(long.class, DateTimeZone.class).newInstance(instant, timeZone);
         } catch (Exception e) {
             e.printStackTrace();
             return new NoSpecimen();
