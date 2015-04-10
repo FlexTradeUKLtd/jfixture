@@ -4,8 +4,8 @@ import com.flextrade.jfixture.JFixture;
 import com.flextrade.jfixture.behaviours.autoproperty.AutoPropertyBehaviour;
 import com.flextrade.jfixture.specifications.InverseSpecification;
 import com.flextrade.jfixture.specifications.NeverSpecification;
-import com.flextrade.jfixture.specifications.SpecificTypeSpecification;
 import com.flextrade.jfixture.specifications.Specification;
+import com.flextrade.jfixture.specifications.TypeInHierarchySpecification;
 
 import java.lang.reflect.Type;
 
@@ -18,7 +18,7 @@ public class OmitAutoPropertyCustomisation implements Customisation {
     }
 
     public OmitAutoPropertyCustomisation(Type type) {
-        this.specification = new InverseSpecification(new SpecificTypeSpecification(type));
+        this.specification = new InverseSpecification(new TypeInHierarchySpecification(type));
     }
 
     @Override

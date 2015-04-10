@@ -5,6 +5,8 @@ import com.flextrade.jfixture.customisation.OmitAutoPropertyCustomisation;
 import org.junit.Test;
 import testtypes.TypeWithFields;
 import testtypes.TypeWithProperties;
+import testtypes.inheritance.SubType;
+import testtypes.inheritance.SuperType;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
@@ -51,5 +53,16 @@ public class TestOmitAutoPropertyCustomisation {
         TypeWithProperties type = fixture.create(TypeWithProperties.class);
         assertNotNull(type.getSymbol());
         assertTrue(type.getSize() > 0);
+    }
+
+    @Test
+    public void when_sub_typing_a_request_fields_are_not_set_on_sub_type() {
+        JFixture fixture = new JFixture();
+        fixture.customise().useSubType(SuperType.class, SubType.class);
+        fixture.customise(new OmitAutoPropertyCustomisation(SubType.class));
+
+        SuperType type = fixture.create(SuperType.class);
+        assertNull(type.superString);
+        assertNull(((SubType) type).subString);
     }
 }
