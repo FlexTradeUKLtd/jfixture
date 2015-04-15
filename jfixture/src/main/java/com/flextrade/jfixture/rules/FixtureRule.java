@@ -14,7 +14,7 @@ public class FixtureRule implements MethodRule {
         this(new JFixture());
     }
 
-    private FixtureRule(JFixture fixture) {
+    protected FixtureRule(JFixture fixture) {
         this.fixture = fixture;
     }
 
@@ -33,5 +33,9 @@ public class FixtureRule implements MethodRule {
 
     public JFixture getFixture() {
         return this.fixture;
+    }
+
+    public FixtureRuleCustomisation customise() {
+        return new FixtureRuleCustomisation(fixture);
     }
 }
