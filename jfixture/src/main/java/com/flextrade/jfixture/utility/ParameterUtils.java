@@ -35,7 +35,7 @@ public class ParameterUtils {
         return parameters;
     }
 
-    private static Type[] getParameterTypes(Type[] originalGenericParameterTypes, SpecimenType specimenType) {
+    public static Type[] getParameterTypes(Type[] originalGenericParameterTypes, SpecimenType specimenType) {
         Type[] safeParameterTypes = new Type[originalGenericParameterTypes.length];
 
         for (int i = 0; i < originalGenericParameterTypes.length; i++) {
