@@ -1,11 +1,16 @@
 package com.flextrade.jfixture.requests;
 
-public class RangeRequest {
-    private final Object request;
-    private final Object min;
-    private final Object max;
+import com.flextrade.jfixture.exceptions.InvalidRequestException;
 
-    public RangeRequest(Object request, Object min, Object max) {
+public class RangeRequest<T extends Comparable<T>> {
+    private final Object request;
+    private final T min;
+    private final T max;
+
+    public RangeRequest(Object request, T min, T max) {
+       if(min.compareTo(max) >= 0)
+           throw new InvalidRequestException("Minimum value in range must be less than maximum");
+
         this.request = request;
         this.min = min;
         this.max = max;
@@ -15,11 +20,11 @@ public class RangeRequest {
         return this.request;
     }
 
-    public Object getMin() {
+    public T getMin() {
         return this.min;
     }
 
-    public Object getMax() {
+    public T getMax() {
         return this.max;
     }
 

@@ -6,7 +6,9 @@ import com.flextrade.jfixture.SpecimenContext;
 import com.flextrade.jfixture.requests.RangeRequest;
 import com.flextrade.jfixture.utility.SpecimenType;
 
-class NumericRangeRelay implements SpecimenBuilder {
+import java.util.Date;
+
+class DateRangeRelay implements SpecimenBuilder {
     @Override
     public Object create(Object request, SpecimenContext context) {
         if (!(request instanceof RangeRequest)) {
@@ -23,7 +25,8 @@ class NumericRangeRelay implements SpecimenBuilder {
 
     private Object create(RangeRequest request, SpecimenContext context) {
         NumberInRangeGenerator numberInRangeGenerator = getNumberInRangeGenerator(request);
-        return numberInRangeGenerator.create(request.getRequest(), context);
+        Long value = (Long)numberInRangeGenerator.create(Long.class, context);
+        return new Date(value);
     }
 
     private boolean requestIsAMatch(RangeRequest request) {
@@ -31,15 +34,32 @@ class NumericRangeRelay implements SpecimenBuilder {
         if (!isType) return false;
 
         SpecimenType type = (SpecimenType) request.getRequest();
-        return Number.class.isAssignableFrom(type.getRawType()) &&
-               request.getMin() instanceof Number &&
-               request.getMax() instanceof Number;
+        return type.getRawType().equals(Date.class) &&
+                (request.getMin() instanceof Date || request.getMin() instanceof Long) &&
+                (request.getMax() instanceof Date || request.getMax() instanceof Long);
     }
 
     private NumberInRangeGenerator getNumberInRangeGenerator(RangeRequest request) {
-        Long min = ((Number) request.getMin()).longValue();
-        Long max = ((Number) request.getMax()).longValue();
-
+        Long min = getMinLong(request);
+        Long max = getMaxLong(request);
         return new NumberInRangeGenerator(min, max);
+    }
+
+    private Long getMaxLong(RangeRequest request) {
+        Long max;
+        if(request.getMax() instanceof Long)
+            max = (Long)request.getMax();
+        else
+            max = ((Date)request.getMax()).getTime();
+        return max;
+    }
+
+    private Long getMinLong(RangeRequest request) {
+        Long min;
+        if(request.getMin() instanceof Long)
+            min = (Long)request.getMin();
+        else
+            min = ((Date)request.getMin()).getTime();
+        return min;
     }
 }

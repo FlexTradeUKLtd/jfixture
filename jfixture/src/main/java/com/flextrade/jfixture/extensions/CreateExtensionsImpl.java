@@ -5,6 +5,7 @@ import com.flextrade.jfixture.SpecimenBuilder;
 import com.flextrade.jfixture.SpecimenContext;
 import com.flextrade.jfixture.requests.ElementFromListRequest;
 import com.flextrade.jfixture.requests.RangeRequest;
+import com.flextrade.jfixture.utility.SpecimenType;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -19,8 +20,8 @@ public class CreateExtensionsImpl implements CreateExtensions {
     }
 
     @Override
-    public <T extends Comparable<T>> T inRange(Class<T> clazz, T min, T max) {
-        Object result = this.create(new RangeRequest(clazz, min, max));
+    public <T, U extends Comparable<U>> T inRange(Class<T> clazz, U min, U max) {
+        Object result = this.create(new RangeRequest<U>(SpecimenType.of(clazz), min, max));
 
         return (T) result;
     }

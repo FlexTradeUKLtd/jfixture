@@ -6,7 +6,9 @@ import com.flextrade.jfixture.SpecimenContext;
 import com.flextrade.jfixture.requests.RangeRequest;
 import com.flextrade.jfixture.utility.SpecimenType;
 
-class NumericRangeRelay implements SpecimenBuilder {
+import java.util.Calendar;
+
+class CalendarRangeRelay implements SpecimenBuilder {
     @Override
     public Object create(Object request, SpecimenContext context) {
         if (!(request instanceof RangeRequest)) {
@@ -23,7 +25,10 @@ class NumericRangeRelay implements SpecimenBuilder {
 
     private Object create(RangeRequest request, SpecimenContext context) {
         NumberInRangeGenerator numberInRangeGenerator = getNumberInRangeGenerator(request);
-        return numberInRangeGenerator.create(request.getRequest(), context);
+        Long value = (Long)numberInRangeGenerator.create(Long.class, context);
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTimeInMillis(value);
+        return calendar;
     }
 
     private boolean requestIsAMatch(RangeRequest request) {
@@ -31,14 +36,14 @@ class NumericRangeRelay implements SpecimenBuilder {
         if (!isType) return false;
 
         SpecimenType type = (SpecimenType) request.getRequest();
-        return Number.class.isAssignableFrom(type.getRawType()) &&
-               request.getMin() instanceof Number &&
-               request.getMax() instanceof Number;
+        return type.getRawType().equals(Calendar.class) &&
+               request.getMin() instanceof Calendar &&
+               request.getMax() instanceof Calendar;
     }
 
     private NumberInRangeGenerator getNumberInRangeGenerator(RangeRequest request) {
-        Long min = ((Number) request.getMin()).longValue();
-        Long max = ((Number) request.getMax()).longValue();
+        Long min = ((Calendar) request.getMin()).getTimeInMillis();
+        Long max = ((Calendar) request.getMax()).getTimeInMillis();
 
         return new NumberInRangeGenerator(min, max);
     }

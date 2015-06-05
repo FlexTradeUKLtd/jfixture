@@ -58,6 +58,8 @@ public class DefaultEngineParts {
                 new DefaultFactoryMethodQuery(new MethodParameterCountComparator()),
                 new TypeRequestSpecification()));
 
+        this.add(new CalendarRangeRelay());
+        this.add(new DateRangeRelay());
         this.add(new NumericRangeRelay());
         this.add(new ElementFromListRelay(
                 new RandomElementStrategy()));

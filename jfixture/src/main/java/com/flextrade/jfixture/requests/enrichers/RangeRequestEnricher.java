@@ -13,6 +13,6 @@ public class RangeRequestEnricher implements RequestEnricher {
         }
 
         Range rangeAnnotation = (Range)annotation;
-        return new RangeRequest(request, rangeAnnotation.min(), rangeAnnotation.max());
+        return new RangeRequest<Long>(request, rangeAnnotation.min(), rangeAnnotation.max());
     }
 }
