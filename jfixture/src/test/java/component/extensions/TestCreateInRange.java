@@ -2,7 +2,6 @@ package component.extensions;
 
 import com.flextrade.jfixture.JFixture;
 import com.flextrade.jfixture.exceptions.InvalidRequestException;
-import com.flextrade.jfixture.exceptions.ObjectCreationException;
 import org.junit.Test;
 
 import java.text.ParseException;

@@ -4,7 +4,6 @@ import com.flextrade.jfixture.utility.SpecimenType;
 import org.junit.Before;
 import org.junit.Test;
 
-import com.flextrade.jfixture.mockito.customisation.MockitoAutoPropertySpecification;
 import com.flextrade.jfixture.mockito.testtypes.MockitoClass;
 
 import java.util.List;

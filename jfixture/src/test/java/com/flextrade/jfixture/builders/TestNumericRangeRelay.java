@@ -3,7 +3,6 @@ package com.flextrade.jfixture.builders;
 import com.flextrade.jfixture.NoSpecimen;
 import com.flextrade.jfixture.SpecimenContext;
 import com.flextrade.jfixture.exceptions.InvalidRequestException;
-import com.flextrade.jfixture.exceptions.ObjectCreationException;
 import com.flextrade.jfixture.requests.RangeRequest;
 import com.flextrade.jfixture.utility.SpecimenType;
 import org.junit.Before;
