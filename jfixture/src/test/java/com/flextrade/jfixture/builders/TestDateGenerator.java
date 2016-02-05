@@ -2,7 +2,6 @@ package com.flextrade.jfixture.builders;
 
 import com.flextrade.jfixture.NoSpecimen;
 import com.flextrade.jfixture.utility.TimeProvider;
-import org.hamcrest.number.OrderingComparison;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;
