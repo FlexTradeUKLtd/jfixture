@@ -6,6 +6,7 @@ import org.junit.Test;
 import testtypes.TypeWithBooleanConvention;
 import testtypes.TypeWithCircularReference;
 import testtypes.TypeWithFields;
+import testtypes.TypeWithFieldWithThrowingConstructor;
 import testtypes.TypeWithProperties;
 import testtypes.constructors.TypeWithConstructor;
 
@@ -55,5 +56,16 @@ public class TestFixture {
     public void applies_throwing_recursion_behaviour_by_default() {
         JFixture fixture = new JFixture();
         fixture.create(TypeWithCircularReference.class);
+    }
+    
+    @Test
+    public void array_of_type_containing_object_with_throwing_constructor_sets_fields_with_working_constructor() {
+        JFixture fixture = new JFixture();
+        TypeWithFieldWithThrowingConstructor[] types = fixture.create(TypeWithFieldWithThrowingConstructor[].class);
+
+        assertNotNull(types);
+        assertTrue(types.length > 0);
+        assertNotNull(types[0]);
+        assertNotNull(types[0].fieldWithThrowingConstructor);
     }
 }
