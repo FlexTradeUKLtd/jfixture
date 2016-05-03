@@ -29,10 +29,12 @@ class RecursionGuard implements SpecimenBuilder {
         }
 
         this.monitoredRequests.push(request);
-        Object specimen = this.builder.create(request, context);
-        this.monitoredRequests.pop();
-
-        return specimen;
+        try {
+            return this.builder.create(request, context);
+        }
+        finally {
+            this.monitoredRequests.pop();
+        }
     }
 
     public SpecimenBuilder builder() {
