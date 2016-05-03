@@ -16,7 +16,13 @@ public class DebugTracingStrategy implements TracingStrategy {
 
     public void writeCreated(Appendable appendable, Object request, Object specimen) throws IOException {
         appendable.append(StringUtil.repeat("\t", --depth));
-        appendable.append("Created: ").append(specimen.toString());
+
+        if(specimen == null) {
+            appendable.append("Created: ").append("null instance");
+        } else {
+            appendable.append("Created: ").append(specimen.toString());
+        }
+
         appendable.append("\n");
     }
 
