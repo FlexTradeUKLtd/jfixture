@@ -26,19 +26,19 @@ public abstract class SpecimenType<T> implements Type {
         this.genericTypeArguments = fields.genericTypeArguments;
     }
 
-    SpecimenType(Type type) {
+    private SpecimenType(Type type) {
         SpecimenTypeFields fields = getFields(type);
         this.rawType = fields.rawType;
         this.genericTypeArguments = fields.genericTypeArguments;
     }
 
-    SpecimenType(Type type, SpecimenType contextualType) {
+    private SpecimenType(Type type, SpecimenType contextualType) {
         SpecimenType st = convertPossibleGenericTypeToSpecimenType(type, contextualType);
         this.rawType = st.rawType;
         this.genericTypeArguments = st.genericTypeArguments;
     }
 
-    SpecimenType(Class rawType, GenericTypeCollection genericTypeArguments) {
+    private SpecimenType(Class rawType, GenericTypeCollection genericTypeArguments) {
         this.rawType = rawType;
         this.genericTypeArguments = genericTypeArguments;
     }
@@ -167,6 +167,15 @@ public abstract class SpecimenType<T> implements Type {
         if(!(obj instanceof Type)) return false;
 
         SpecimenType other;
+        if(obj instanceof Class<?>){
+            Class<?> clazz = (Class<?>)obj;
+            // Test object isn't generic so if this isn't generic either and the raw type matches then we're equal
+            return this.genericTypeArguments.getLength() == 0 && clazz.equals(this.getRawType());
+        }
+        if(obj instanceof ParameterizedType && this.genericTypeArguments.getLength() == 0) {
+            // Test object is generic, but this type isn't so no point carrying on
+            return false;
+        }
         if(!(obj instanceof SpecimenType)) {
             other = SpecimenType.of((Type) obj);
         } else {
@@ -209,7 +218,7 @@ public abstract class SpecimenType<T> implements Type {
     }
 
     private static class SpecimenTypeFields {
-        public Class rawType;
-        public GenericTypeCollection genericTypeArguments;
+        Class rawType;
+        GenericTypeCollection genericTypeArguments;
     }
 }
