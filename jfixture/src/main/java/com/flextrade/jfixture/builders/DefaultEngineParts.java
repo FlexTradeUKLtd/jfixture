@@ -1,9 +1,6 @@
 package com.flextrade.jfixture.builders;
 
-import com.flextrade.jfixture.DefaultConstructorQuery;
-import com.flextrade.jfixture.DefaultFactoryMethodQuery;
-import com.flextrade.jfixture.MultipleCount;
-import com.flextrade.jfixture.SpecimenBuilder;
+import com.flextrade.jfixture.*;
 import com.flextrade.jfixture.requests.enrichers.CompositeRequestEnricher;
 import com.flextrade.jfixture.requests.enrichers.FromListRequestEnricher;
 import com.flextrade.jfixture.requests.enrichers.RangeRequestEnricher;
@@ -51,12 +48,18 @@ public class DefaultEngineParts {
                     new FromListRequestEnricher())));
         this.add(new GenericConstructorRelay());
         this.add(new FactoryMethodRelay());
+
         this.add(new ClassToConstructorRelay(
                 new DefaultConstructorQuery(new ConstructorParameterCountComparator()),
                 new AlwaysSpecification()));
+
         this.add(new ClassToFactoryMethodRelay(
                 new DefaultFactoryMethodQuery(new MethodParameterCountComparator()),
                 new TypeRequestSpecification()));
+
+        this.add(new ClassToConstructorRelay(
+                new PackageProtectedConstructorsQuery(new ConstructorParameterCountComparator()),
+                new AlwaysSpecification()));
 
         this.add(new CalendarRangeRelay());
         this.add(new DateRangeRelay());

@@ -21,6 +21,7 @@ class GenericConstructorRelay implements SpecimenBuilder {
 
         GenericConstructorRequest genericConstructorRequest = (GenericConstructorRequest) request;
         Constructor constructor = genericConstructorRequest.getConstructor();
+        constructor.setAccessible(true);
         SpecimenType specimenType = genericConstructorRequest.getContainingType();
 
         List<Object> parameters = ParameterUtils.getConstructorArguments(constructor, specimenType, context);
