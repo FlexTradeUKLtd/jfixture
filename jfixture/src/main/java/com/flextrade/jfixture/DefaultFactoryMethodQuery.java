@@ -5,6 +5,7 @@ import com.flextrade.jfixture.utility.SpecimenType;
 
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -28,7 +29,7 @@ public class DefaultFactoryMethodQuery implements FactoryMethodQuery {
         List<Method> factoryMethods = new ArrayList<Method>();
         Method[] allMethods = type.getRawType().getMethods();
         for (Method method : allMethods) {
-            if (isStatic(method) && returnTypeIsAssignable(method, type))
+            if (isStatic(method) && returnTypeIsAssignable(method, type) && !isCopyConstructorMethod(type, method))
                 factoryMethods.add(method);
         }
 
@@ -37,6 +38,17 @@ public class DefaultFactoryMethodQuery implements FactoryMethodQuery {
         }
 
         return factoryMethods;
+    }
+
+    private boolean isCopyConstructorMethod(SpecimenType type, Method method) {
+        Type[] genericParameterTypes = method.getGenericParameterTypes();
+        if (genericParameterTypes.length == 1) {
+            SpecimenType returnType = ParameterUtils.convertPossibleGenericTypeToSpecimenType(method.getGenericReturnType(), type);
+            SpecimenType typeOfSingletonParameter = ParameterUtils.convertPossibleGenericTypeToSpecimenType(genericParameterTypes[0], type);
+            return typeOfSingletonParameter.getRawType().isAssignableFrom(returnType.getRawType());
+        } else {
+            return false;
+        }
     }
 
     private static boolean returnTypeIsAssignable(Method method, SpecimenType type) {
