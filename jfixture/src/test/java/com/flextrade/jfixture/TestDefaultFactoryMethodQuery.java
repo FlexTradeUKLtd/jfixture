@@ -9,7 +9,6 @@ import testtypes.factorymethods.AbstractTypeWithFactory;
 import testtypes.factorymethods.GenericTypeWithCopyFactoryMethod;
 import testtypes.factorymethods.TypeWithCopyFactoryMethod;
 import testtypes.factorymethods.TypeWithFactoryMethod;
-import testtypes.generic.TypeWithGenericFactoryMethod;
 
 import java.lang.reflect.Method;
 import java.util.List;
