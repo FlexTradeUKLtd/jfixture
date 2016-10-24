@@ -6,6 +6,8 @@ import com.flextrade.jfixture.utility.comparators.MethodParameterCountComparator
 import org.junit.Before;
 import org.junit.Test;
 import testtypes.factorymethods.AbstractTypeWithFactory;
+import testtypes.factorymethods.GenericTypeWithCopyFactoryMethod;
+import testtypes.factorymethods.TypeWithCopyFactoryMethod;
 import testtypes.factorymethods.TypeWithFactoryMethod;
 
 import java.lang.reflect.Method;
@@ -63,6 +65,24 @@ public class TestDefaultFactoryMethodQuery {
         this.query = new DefaultFactoryMethodQuery();
 
         List<Method> factoryMethods = this.query.getFactoryMethodsForType(SpecimenType.of(AbstractTypeWithFactory.class));
+
+        assertEquals(1, factoryMethods.size());
+    }
+
+    @Test
+    public void ignores_factory_methods_where_a_singleton_parameter_is_assignable_from_return_type() {
+        this.query = new DefaultFactoryMethodQuery();
+
+        List<Method> factoryMethods = this.query.getFactoryMethodsForType(SpecimenType.of(TypeWithCopyFactoryMethod.class));
+
+        assertEquals(1, factoryMethods.size());
+    }
+
+    @Test
+    public void ignores_factory_methods_where_a_singleton_generic_parameter_is_assignable_from_return_type() {
+        this.query = new DefaultFactoryMethodQuery();
+
+        List<Method> factoryMethods = this.query.getFactoryMethodsForType(new SpecimenType<GenericTypeWithCopyFactoryMethod<String>>() {});
 
         assertEquals(1, factoryMethods.size());
     }

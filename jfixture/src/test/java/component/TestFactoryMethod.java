@@ -5,6 +5,8 @@ import com.flextrade.jfixture.utility.SpecimenType;
 import org.junit.Test;
 import testtypes.factorymethods.AbstractTypeWithFactory;
 import testtypes.factorymethods.ConcreteType;
+import testtypes.factorymethods.GenericTypeWithCopyFactoryMethod;
+import testtypes.factorymethods.TypeWithCopyFactoryMethod;
 import testtypes.generic.TypeWithGenericFactoryMethod;
 
 import static junit.framework.TestCase.assertNotNull;
@@ -20,6 +22,7 @@ public class TestFactoryMethod {
 
         assertTrue(type instanceof ConcreteType);
     }
+    
     @Test
     public void factory_method_invoked_for_generic_types() {
         JFixture fixture = new JFixture();
@@ -28,5 +31,23 @@ public class TestFactoryMethod {
 
         assertNotNull(type);
         assertNotNull(type.getValue());
+    }
+
+    @Test 
+    public void factory_copy_methods_are_not_called() {
+        JFixture fixture = new JFixture();
+
+        TypeWithCopyFactoryMethod type = fixture.create(TypeWithCopyFactoryMethod.class);
+        
+        assertNotNull(type);
+    }
+
+    @Test
+    public void factory_copy_methods_are_not_called_on_generic_classes() {
+        JFixture fixture = new JFixture();
+
+        GenericTypeWithCopyFactoryMethod<String> type = fixture.create(new SpecimenType<GenericTypeWithCopyFactoryMethod<String>>() {});
+
+        assertNotNull(type);
     }
 }
