@@ -20,7 +20,7 @@ public interface FluentCustomisation {
 
     <T> FluentCustomisation lazyInstance(Class<T> clazz, SpecimenSupplier<? extends T> supplier);
 
-    <T> FluentCustomisation propertyOf(Class<T> clazz, String name, Object value);
+    FluentCustomisation propertyOf(Class<?> clazz, String name, Object value);
 
     <T, U extends T> FluentCustomisation useSubType(Class<T> baseClass, Class<U> subClass);
 

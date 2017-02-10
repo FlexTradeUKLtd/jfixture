@@ -51,7 +51,7 @@ public class FixtureRuleCustomisation extends FixtureRule implements FluentCusto
     }
 
     @Override
-    public <T> FluentCustomisation propertyOf(Class<T> clazz, String name, Object value) {
+    public FluentCustomisation propertyOf(Class<?> clazz, String name, Object value) {
         customisation.propertyOf(clazz, name, value);
         return this;
     }

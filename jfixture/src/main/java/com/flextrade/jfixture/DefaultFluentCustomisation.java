@@ -44,7 +44,7 @@ class DefaultFluentCustomisation implements FluentCustomisation {
     }
 
     @Override
-    public <T> FluentCustomisation propertyOf(Class<T> clazz, String name, Object value) {
+    public FluentCustomisation propertyOf(Class<?> clazz, String name, Object value) {
         this.customisationContainer.customise(new OverridePropertyCustomisation(clazz, name, value));
         return this;
     }
