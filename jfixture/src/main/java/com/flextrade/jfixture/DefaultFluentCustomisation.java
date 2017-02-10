@@ -1,10 +1,6 @@
 package com.flextrade.jfixture;
 
-import com.flextrade.jfixture.customisation.Customisation;
-import com.flextrade.jfixture.customisation.InstanceCustomisation;
-import com.flextrade.jfixture.customisation.InstanceFactoryCustomisation;
-import com.flextrade.jfixture.customisation.InterceptingCustomisation;
-import com.flextrade.jfixture.customisation.SubTypeCustomisation;
+import com.flextrade.jfixture.customisation.*;
 import com.flextrade.jfixture.customisation.fluent.AutoPropertyBehaviour;
 import com.flextrade.jfixture.customisation.fluent.NoResolutionBehaviour;
 import com.flextrade.jfixture.customisation.fluent.RecursionBehaviour;
@@ -44,6 +40,12 @@ class DefaultFluentCustomisation implements FluentCustomisation {
 
     public <T> FluentCustomisation lazyInstance(Class<T> clazz, SpecimenSupplier<? extends T> supplier) {
         this.customisationContainer.customise(new InstanceFactoryCustomisation<T>(clazz, supplier));
+        return this;
+    }
+
+    @Override
+    public <T> FluentCustomisation propertyOf(Class<T> clazz, String name, Object value) {
+        this.customisationContainer.customise(new OverridePropertyCustomisation(clazz, name, value));
         return this;
     }
 

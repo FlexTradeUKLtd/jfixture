@@ -51,6 +51,12 @@ public class FixtureRuleCustomisation extends FixtureRule implements FluentCusto
     }
 
     @Override
+    public <T> FluentCustomisation propertyOf(Class<T> clazz, String name, Object value) {
+        customisation.propertyOf(clazz, name, value);
+        return this;
+    }
+
+    @Override
     public <T, U extends T> FixtureRuleCustomisation useSubType(Class<T> baseClass, Class<U> subClass) {
         customisation.useSubType(baseClass, subClass);
         return this;
