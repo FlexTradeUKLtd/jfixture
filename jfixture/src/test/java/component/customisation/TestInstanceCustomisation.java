@@ -7,6 +7,8 @@ import org.junit.Test;
 import testtypes.TypeWithProperties;
 import testtypes.generic.TypeWithGenericField;
 
+import java.util.List;
+
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertNull;
 import static junit.framework.Assert.assertSame;
@@ -43,5 +45,31 @@ public class TestInstanceCustomisation {
 
         assertNull(specimen.getSymbol());
         assertEquals(0, specimen.getSize());
+    }
+
+    @Test
+    public void instance_customisation_works_will_null_instances_for_generic_types() {
+        JFixture fixture = new JFixture();
+        fixture.customise(new InstanceCustomisation<List<Contained>>(new SpecimenType<List<Contained>>(){}, null));
+
+        Container container = fixture.create(Container.class);
+
+        assertNull(container.list);
+    }
+
+    static class Container {
+        final List<Contained> list;
+
+        Container(List<Contained> list) {
+            this.list = list;
+        }
+    }
+
+    static class Contained {
+        final String name;
+
+        Contained(String name) {
+            this.name = name;
+        }
     }
 }
