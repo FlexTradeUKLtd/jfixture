@@ -49,8 +49,13 @@ public class GenericTypeCollection {
         if (o == null || getClass() != o.getClass()) return false;
 
         GenericTypeCollection that = (GenericTypeCollection) o;
+        if (underlying.length != that.underlying.length) return false;
 
-        return length == that.length && nameTypeMap.equals(that.nameTypeMap) && Arrays.equals(underlying, that.underlying);
+        for (int i = 0; i < underlying.length; i++) {
+            if (!underlying[i].getType().equals(that.underlying[i].getType())) return false;
+        }
+
+        return true;
     }
 
     @Override
