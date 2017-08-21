@@ -1,17 +1,19 @@
 package component.generics;
 
-import com.flextrade.jfixture.JFixture;
-import com.flextrade.jfixture.utility.SpecimenType;
+import static junit.framework.Assert.assertTrue;
+import static junit.framework.TestCase.assertNotNull;
+
 import junit.framework.TestCase;
+import testtypes.generic.TypeWithGenericMethod;
+
 import org.junit.Before;
 import org.junit.Test;
-import testtypes.generic.TypeWithGenericMethod;
 
 import java.math.BigDecimal;
 import java.util.Map;
 
-import static junit.framework.Assert.assertTrue;
-import static junit.framework.TestCase.assertNotNull;
+import com.flextrade.jfixture.JFixture;
+import com.flextrade.jfixture.utility.SpecimenType;
 
 public class TestGenericMethods {
 

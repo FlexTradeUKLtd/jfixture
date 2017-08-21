@@ -1,13 +1,13 @@
 package com.flextrade.jfixture.customisation;
 
+import java.lang.reflect.Type;
+
 import com.flextrade.jfixture.NoSpecimen;
 import com.flextrade.jfixture.SpecimenBuilder;
 import com.flextrade.jfixture.SpecimenContext;
 import com.flextrade.jfixture.SpecimenSupplier;
 import com.flextrade.jfixture.requests.SeededRequest;
 import com.flextrade.jfixture.utility.SpecimenType;
-
-import java.lang.reflect.Type;
 
 class CustomBuilder<T> implements SpecimenBuilder {
 
@@ -43,7 +43,7 @@ class CustomBuilder<T> implements SpecimenBuilder {
         Type type = (Type)request;
 
         // should be isAssignableFrom ?
-        if (!this.specimenType.equals(type)) {
+        if (!this.specimenType.equals(type) && !this.specimenType.getRawType().equals(type)) {
             return new NoSpecimen();
         }
 

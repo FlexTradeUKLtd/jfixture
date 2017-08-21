@@ -1,5 +1,7 @@
 package com.flextrade.jfixture.utility;
 
+import sun.reflect.generics.reflectiveObjects.TypeVariableImpl;
+
 import java.lang.reflect.Array;
 import java.lang.reflect.GenericArrayType;
 import java.lang.reflect.ParameterizedType;
@@ -8,6 +10,10 @@ import java.lang.reflect.TypeVariable;
 import java.lang.reflect.WildcardType;
 import java.util.ArrayList;
 import java.util.List;
+
+import com.flextrade.jfixture.utility.GenericType.GenericTypeCreator;
+import com.flextrade.jfixture.utility.GenericType.GenericTypeCreatorImpl;
+import com.flextrade.jfixture.utility.GenericType.GenericTypeCreatorWithGenericContextImpl;
 
 public abstract class SpecimenType<T> implements Type {
 
@@ -47,6 +53,10 @@ public abstract class SpecimenType<T> implements Type {
         return new SpecimenType<Object>(type){};
     }
 
+    public static SpecimenType<?> of(Type type, GenericTypeCollection genericTypeArguments) {
+        return new SpecimenType<Object>(type.getClass(), genericTypeArguments){};
+    }
+
     public static <T> SpecimenType<T> of(Class<T> clazz) {
         return new SpecimenType<T>(clazz){};
     }
@@ -74,7 +84,11 @@ public abstract class SpecimenType<T> implements Type {
         }
 
         if (originalType instanceof TypeVariable) { // e.g. <T>
-            return contextualType.getGenericTypeArguments().getType(originalType.toString());
+            SpecimenType type = contextualType.getGenericTypeArguments().getType(originalType.toString());
+            if (type == null) {
+                return SpecimenType.of(TypeVariableImpl.class);
+            }
+            return type;
         }
 
         return SpecimenType.of(originalType);
@@ -82,7 +96,6 @@ public abstract class SpecimenType<T> implements Type {
 
     private static List<GenericType> getGenericTypes(ParameterizedType parameterizedType, SpecimenType contextualType) {
         List<SpecimenType> resolvedGenericTypes = resolveGenericArguments(parameterizedType, contextualType);
-
         List<GenericType> genericTypesForSpecimen = new ArrayList<GenericType>();
         for(SpecimenType resolvedGenericType : resolvedGenericTypes) {
             String typeName = contextualType.genericTypeArguments.getNameFromType(resolvedGenericType);
@@ -105,27 +118,85 @@ public abstract class SpecimenType<T> implements Type {
 
     private static SpecimenTypeFields getFields(Type type) {
         if(type instanceof SpecimenType) return getSpecimenTypeFields((SpecimenType) type);
-        if(type instanceof Class) return getClassTypeFields(type);
+        if(type instanceof Class) {
+            SpecimenTypeFields fieldsFromThisType = getClassTypeFields(type);
+            Type genericSuperclass = ((Class)type).getGenericSuperclass();
+            // Enums self reference themselves in the type declaration, for an enum SomeEnum compiled class declaration becomes:
+            //     public final class SomeEnum extends java.lang.Enum<SomeEnum>
+            // As we handle fixturing Enums separately we can ignore them here
+            if (genericSuperclass != null && !((Class)type).isEnum()) {
+                GenericTypeCollection superTypeGenericArguments = getFields(genericSuperclass).genericTypeArguments;
+                fieldsFromThisType.genericTypeArguments = fieldsFromThisType.genericTypeArguments.combineWith(superTypeGenericArguments);
+            }
+            return fieldsFromThisType;
+        }
         if(type instanceof ParameterizedType) return getParameterizedTypeFields((ParameterizedType) type);
         if(type instanceof GenericArrayType) return getGenericArrayFields((GenericArrayType) type);
-
+        if(type instanceof TypeVariableImpl) {
+            // no type information for this type variable
+            SpecimenTypeFields fields = new SpecimenTypeFields();
+            fields.rawType = type.getClass();
+            fields.genericTypeArguments = GenericTypeCollection.empty();
+            return fields;
+        }
         else if(type instanceof WildcardType)
             throw new UnsupportedOperationException("Wildcard types not supported");
 
-        throw new UnsupportedOperationException(String.format("Unknown Type : %s", type));
+        throw new UnsupportedOperationException(String.format("Unknown Type : %s", type.getClass()));
     }
 
-    private static GenericTypeCollection createGenericTypeNameMap(ParameterizedType parameterizedType) {
+    private static GenericTypeCollection getGenericTypeMappings(ParameterizedType parameterizedType, GenericTypeCreator genericTypeCreator) {
         Class<?> rawType = (Class) parameterizedType.getRawType();
 
         Type[] genericArguments = parameterizedType.getActualTypeArguments();
         TypeVariable[] typeParameters = rawType.getTypeParameters();
-        GenericType[] genericTypes = new GenericType[genericArguments.length];
+        List<GenericType> genericTypes = new ArrayList<GenericType>();
         for (int i = 0; i < genericArguments.length; i++) {
-            genericTypes[i] = new GenericType(SpecimenType.of(genericArguments[i]), typeParameters[i].getName());
+            Type type = genericArguments[i];
+            GenericType genericType = genericTypeCreator.createGenericType(type, typeParameters[i].getName());
+            if (!(genericType.getType().getRawType().equals(TypeVariableImpl.class))) { // ignore type parameters which haven't been substituted e.g. T, S, U etc
+                genericTypes.add(genericType);
+            }
         }
 
-        return new GenericTypeCollection(genericTypes);
+        return new GenericTypeCollection(genericTypes.toArray(new GenericType[genericTypes.size()]));
+    }
+
+    private static GenericTypeCollection getGenericTypeMapForGenericSuperclass(ParameterizedType parameterizedType, GenericTypeCollection genericTypeCollection) {
+        Class<?> rawType = (Class) parameterizedType.getRawType();
+        Type genericSuperclass = rawType.getGenericSuperclass();
+        if (genericSuperclass != null) {
+            if (genericSuperclass instanceof ParameterizedType) {
+                // super class is also a generic type with the type argument possibly being passed through from it's sub class
+                SpecimenType context = SpecimenType.of(rawType, genericTypeCollection);
+                return genericTypeCollection.combineWith(createGenericTypeNameMap((ParameterizedType)genericSuperclass, context));
+            }
+            else if (genericSuperclass instanceof Class) {
+                // super class is a class, so no type arguments are passed down but we need to get the type mappings
+                // that the class might have (as that class may be inheriting from a generic type itself)
+                return genericTypeCollection.combineWith(getFields(genericSuperclass).genericTypeArguments);
+            }
+            // return the current generic type map
+        }
+        return genericTypeCollection;
+    }
+
+    private static GenericTypeCollection createGenericTypeNameMap(ParameterizedType parameterizedType, SpecimenType contextType) {
+        GenericTypeCollection genericTypeCollection = getGenericTypeMappings(
+            parameterizedType,
+            new GenericTypeCreatorWithGenericContextImpl(contextType)
+        );
+
+        return getGenericTypeMapForGenericSuperclass(parameterizedType, genericTypeCollection);
+    }
+
+    private static GenericTypeCollection createGenericTypeNameMap(ParameterizedType parameterizedType) {
+        GenericTypeCollection genericTypeCollection = getGenericTypeMappings(
+            parameterizedType,
+            new GenericTypeCreatorImpl()
+        );
+
+        return getGenericTypeMapForGenericSuperclass(parameterizedType, genericTypeCollection);
     }
 
     private static SpecimenTypeFields getGenericArrayFields(GenericArrayType type) {
