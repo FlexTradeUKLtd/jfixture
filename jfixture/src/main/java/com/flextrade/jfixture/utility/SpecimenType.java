@@ -53,7 +53,7 @@ public abstract class SpecimenType<T> implements Type {
         return new SpecimenType<Object>(type){};
     }
 
-    public static SpecimenType<?> of(Type type, GenericTypeCollection genericTypeArguments) {
+    private static SpecimenType<?> of(Type type, GenericTypeCollection genericTypeArguments) {
         return new SpecimenType<Object>(type.getClass(), genericTypeArguments){};
     }
 
@@ -118,21 +118,10 @@ public abstract class SpecimenType<T> implements Type {
 
     private static SpecimenTypeFields getFields(Type type) {
         if(type instanceof SpecimenType) return getSpecimenTypeFields((SpecimenType) type);
-        if(type instanceof Class) {
-            SpecimenTypeFields fieldsFromThisType = getClassTypeFields(type);
-            Type genericSuperclass = ((Class)type).getGenericSuperclass();
-            // Enums self reference themselves in the type declaration, for an enum SomeEnum compiled class declaration becomes:
-            //     public final class SomeEnum extends java.lang.Enum<SomeEnum>
-            // As we handle fixturing Enums separately we can ignore them here
-            if (genericSuperclass != null && !((Class)type).isEnum()) {
-                GenericTypeCollection superTypeGenericArguments = getFields(genericSuperclass).genericTypeArguments;
-                fieldsFromThisType.genericTypeArguments = fieldsFromThisType.genericTypeArguments.combineWith(superTypeGenericArguments);
-            }
-            return fieldsFromThisType;
-        }
+        if(type instanceof Class) return getFieldsForClassType((Class)type);
         if(type instanceof ParameterizedType) return getParameterizedTypeFields((ParameterizedType) type);
         if(type instanceof GenericArrayType) return getGenericArrayFields((GenericArrayType) type);
-        if(type instanceof TypeVariableImpl) {
+        if(type instanceof TypeVariable) {
             // no type information for this type variable
             SpecimenTypeFields fields = new SpecimenTypeFields();
             fields.rawType = type.getClass();
@@ -143,6 +132,19 @@ public abstract class SpecimenType<T> implements Type {
             throw new UnsupportedOperationException("Wildcard types not supported");
 
         throw new UnsupportedOperationException(String.format("Unknown Type : %s", type.getClass()));
+    }
+
+    private static SpecimenTypeFields getFieldsForClassType(Class classType) {
+        SpecimenTypeFields fieldsFromThisType = getClassTypeFields(classType);
+        Type genericSuperclass = classType.getGenericSuperclass();
+        // Enums self reference themselves in the type declaration, for an enum SomeEnum compiled class declaration becomes:
+        //     public final class SomeEnum extends java.lang.Enum<SomeEnum>
+        // As we handle fixturing Enums separately we can ignore them here
+        if (genericSuperclass != null && !classType.isEnum()) {
+            GenericTypeCollection superTypeGenericArguments = getFields(genericSuperclass).genericTypeArguments;
+            fieldsFromThisType.genericTypeArguments = fieldsFromThisType.genericTypeArguments.combineWith(superTypeGenericArguments);
+        }
+        return fieldsFromThisType;
     }
 
     private static GenericTypeCollection getGenericTypeMappings(ParameterizedType parameterizedType, GenericTypeCreator genericTypeCreator) {

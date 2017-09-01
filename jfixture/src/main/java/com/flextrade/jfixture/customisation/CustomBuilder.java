@@ -43,7 +43,7 @@ class CustomBuilder<T> implements SpecimenBuilder {
         Type type = (Type)request;
 
         // should be isAssignableFrom ?
-        if (!this.specimenType.equals(type) && !this.specimenType.getRawType().equals(type)) {
+        if (!this.specimenType.equals(type)) {
             return new NoSpecimen();
         }
 

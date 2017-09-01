@@ -58,11 +58,11 @@ public class GenericTypeCollection {
      * @return a new GenericTypeCollection representing a union of {@code this} and {@code other}
      */
     public GenericTypeCollection combineWith(GenericTypeCollection other) {
-        int firstLen = this.underlying.length;
-        int secondLen = other.underlying.length;
-        GenericType[] combined = new GenericType[this.underlying.length + other.underlying.length];
-        System.arraycopy(this.underlying, 0, combined, 0, firstLen);
-        System.arraycopy(other.underlying, 0, combined, firstLen, secondLen);
+        int firstLength = this.underlying.length;
+        int secondLength = other.underlying.length;
+        GenericType[] combined = new GenericType[firstLength + secondLength];
+        System.arraycopy(this.underlying, 0, combined, 0, firstLength);
+        System.arraycopy(other.underlying, 0, combined, firstLength, secondLength);
         return new GenericTypeCollection(combined);
     }
 
