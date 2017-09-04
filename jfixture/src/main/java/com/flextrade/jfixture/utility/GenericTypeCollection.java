@@ -43,6 +43,29 @@ public class GenericTypeCollection {
         return length;
     }
 
+    /**
+     *  Combines the generic type mappings of this GenericTypeCollection with the generic type mappings of the {@code other} GenericTypeCollection.
+     *  <p>
+     *  <b>Use case:</b> when a non generic Class {@code Foo} extends a generic type {@code Bar<T>}, example:
+     *  <p>
+     *  <code>Class Foo extends Bar&lt;String&gt;</code>
+     *  <p>
+     *  The generic type mappings for Foo (none in this example) can then be combined with the generic type mappings for {@code Bar<String>}
+     *  <p>
+     *  If {@code other} contains an existing mapping in {@code this} then that mapping will be replaced (i.e. the mapping from {@code other} will be used).
+     *
+     * @param other the other GenericTypeCollection to combine with
+     * @return a new GenericTypeCollection representing a union of {@code this} and {@code other}
+     */
+    public GenericTypeCollection combineWith(GenericTypeCollection other) {
+        int firstLength = this.underlying.length;
+        int secondLength = other.underlying.length;
+        GenericType[] combined = new GenericType[firstLength + secondLength];
+        System.arraycopy(this.underlying, 0, combined, 0, firstLength);
+        System.arraycopy(other.underlying, 0, combined, firstLength, secondLength);
+        return new GenericTypeCollection(combined);
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -64,5 +87,10 @@ public class GenericTypeCollection {
         result = 31 * result + Arrays.hashCode(underlying);
         result = 31 * result + length;
         return result;
+    }
+
+    @Override
+    public String toString() {
+        return nameTypeMap.toString();
     }
 }

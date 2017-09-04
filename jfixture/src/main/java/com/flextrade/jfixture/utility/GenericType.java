@@ -1,5 +1,7 @@
 package com.flextrade.jfixture.utility;
 
+import java.lang.reflect.Type;
+
 public class GenericType {
 
     private final SpecimenType type;
@@ -34,4 +36,30 @@ public class GenericType {
         result = 31 * result + name.hashCode();
         return result;
     }
+
+
+    public interface GenericTypeCreator {
+        GenericType createGenericType(Type type, String name);
+    }
+
+    public static class GenericTypeCreatorImpl implements GenericTypeCreator {
+        @Override
+        public GenericType createGenericType(Type type, String name) {
+            return new GenericType(SpecimenType.of(type), name);
+        }
+    }
+
+    public static class GenericTypeCreatorWithGenericContextImpl implements GenericTypeCreator {
+        private final SpecimenType contextType;
+
+        public GenericTypeCreatorWithGenericContextImpl(SpecimenType contextType) {
+            this.contextType = contextType;
+        }
+
+        @Override
+        public GenericType createGenericType(Type type, String name) {
+            return new GenericType(SpecimenType.withGenericContext(type, contextType), name);
+        }
+    }
+
 }
