@@ -1,7 +1,5 @@
 package com.flextrade.jfixture.utility;
 
-import sun.reflect.generics.reflectiveObjects.TypeVariableImpl;
-
 import java.lang.reflect.Array;
 import java.lang.reflect.GenericArrayType;
 import java.lang.reflect.ParameterizedType;
@@ -86,7 +84,7 @@ public abstract class SpecimenType<T> implements Type {
         if (originalType instanceof TypeVariable) { // e.g. <T>
             SpecimenType type = contextualType.getGenericTypeArguments().getType(originalType.toString());
             if (type == null) {
-                return SpecimenType.of(TypeVariableImpl.class);
+                return SpecimenType.of(TypeVariable.class);
             }
             return type;
         }
@@ -156,7 +154,7 @@ public abstract class SpecimenType<T> implements Type {
         for (int i = 0; i < genericArguments.length; i++) {
             Type type = genericArguments[i];
             GenericType genericType = genericTypeCreator.createGenericType(type, typeParameters[i].getName());
-            if (!(genericType.getType().getRawType().equals(TypeVariableImpl.class))) { // ignore type parameters which haven't been substituted e.g. T, S, U etc
+            if (!(TypeVariable.class.isAssignableFrom(genericType.getType().getRawType()))) { // ignore type parameters which haven't been substituted e.g. T, S, U etc
                 genericTypes.add(genericType);
             }
         }
