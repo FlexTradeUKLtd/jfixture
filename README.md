@@ -48,6 +48,6 @@ Order order = fixture.create(Order.class);
 <dependency>
 	<groupId>com.flextrade.jfixture</groupId>
 	<artifactId>jfixture</artifactId>
-	<version>2.7.1</version>
+	<version>2.7.2</version>
 </dependency>
 ```
