@@ -51,3 +51,7 @@ Order order = fixture.create(Order.class);
 	<version>2.7.2</version>
 </dependency>
 ```
+
+# Scala
+
+The [jfixture-scala](https://github.com/FlexTradeUKLtd/jfixture-scala) project has some basic support for Scala types & syntax.
