@@ -51,3 +51,23 @@ Order order = fixture.create(Order.class);
 	<version>2.7.2</version>
 </dependency>
 ```
+
+# Upgrading
+
+## From v1
+
+Running the following should be enough to upgrade most projects from v1 to v2:
+
+```bash
+find . -regextype sed -regex ".*/*.java" -type f -print0 | xargs -I {} -0 sh -c \
+ "sed -i 's/flextrade.jfixture/com.flextrade.jfixture/g' {}; \
+  sed -i 's/core.Fixture/JFixture/g' {}; \
+  sed -i 's/annotations.AutoFixture/annotations.Fixture/g' {}; \
+  sed -i 's/rules.FixtureCreator/rules.FixtureRule/g' {}; \
+  sed -i 's/@AutoFixture/@Fixture/g' {}; \
+  sed -i 's/new Fixture()/new JFixture()/g' {}; \
+  sed -i 's/new FixtureCreator()/FixtureRule.initFixtures()/g' {}; \
+  sed -i 's/ Fixture / JFixture /g' {}; \
+  sed -i 's/FixtureCreator/FixtureRule/g' {}; \
+ "
+```
