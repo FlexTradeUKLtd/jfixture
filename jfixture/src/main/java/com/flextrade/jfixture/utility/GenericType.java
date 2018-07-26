@@ -1,6 +1,7 @@
 package com.flextrade.jfixture.utility;
 
 import java.lang.reflect.Type;
+import java.util.List;
 
 public class GenericType {
 
@@ -39,13 +40,13 @@ public class GenericType {
 
 
     public interface GenericTypeCreator {
-        GenericType createGenericType(Type type, String name);
+        GenericType createGenericType(Type type, String name, List<Type> recursiveGenericsGuard);
     }
 
     public static class GenericTypeCreatorImpl implements GenericTypeCreator {
         @Override
-        public GenericType createGenericType(Type type, String name) {
-            return new GenericType(SpecimenType.of(type), name);
+        public GenericType createGenericType(Type type, String name, List<Type> recursiveGenericsGuard) {
+            return new GenericType(SpecimenType.of(type, recursiveGenericsGuard), name);
         }
     }
 
@@ -57,7 +58,7 @@ public class GenericType {
         }
 
         @Override
-        public GenericType createGenericType(Type type, String name) {
+        public GenericType createGenericType(Type type, String name, List<Type> recursiveGenericsGuard) {
             return new GenericType(SpecimenType.withGenericContext(type, contextType), name);
         }
     }
