@@ -75,4 +75,3 @@ find . -regextype sed -regex ".*/*.java" -type f -print0 | xargs -I {} -0 sh -c 
 # Scala
 
 The [jfixture-scala](https://github.com/FlexTradeUKLtd/jfixture-scala) project has some basic support for Scala types & syntax.
-=======
