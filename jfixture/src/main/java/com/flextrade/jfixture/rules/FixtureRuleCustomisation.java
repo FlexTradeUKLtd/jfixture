@@ -10,6 +10,7 @@ import com.flextrade.jfixture.customisation.fluent.AutoPropertyBehaviour;
 import com.flextrade.jfixture.customisation.fluent.NoResolutionBehaviour;
 import com.flextrade.jfixture.customisation.fluent.RecursionBehaviour;
 import com.flextrade.jfixture.utility.Interceptor;
+import com.flextrade.jfixture.utility.ReturningInterceptor;
 
 public class FixtureRuleCustomisation extends FixtureRule implements FluentCustomisation {
 
@@ -70,6 +71,12 @@ public class FixtureRuleCustomisation extends FixtureRule implements FluentCusto
 
     @Override
     public <T> FixtureRuleCustomisation intercept(Class<T> clazz, Interceptor<T> interceptor) {
+        customisation.intercept(clazz, interceptor);
+        return this;
+    }
+
+    @Override
+    public <T> FluentCustomisation intercept(Class<T> clazz, ReturningInterceptor<T> interceptor) {
         customisation.intercept(clazz, interceptor);
         return this;
     }

@@ -5,6 +5,7 @@ import com.flextrade.jfixture.customisation.fluent.AutoPropertyBehaviour;
 import com.flextrade.jfixture.customisation.fluent.NoResolutionBehaviour;
 import com.flextrade.jfixture.customisation.fluent.RecursionBehaviour;
 import com.flextrade.jfixture.utility.Interceptor;
+import com.flextrade.jfixture.utility.ReturningInterceptor;
 
 import java.lang.reflect.Type;
 
@@ -27,6 +28,8 @@ public interface FluentCustomisation {
     FluentCustomisation add(Customisation customisation);
 
     <T> FluentCustomisation intercept(Class<T> clazz, Interceptor<T> interceptor);
+
+    <T> FluentCustomisation intercept(Class<T> classToIntercept, ReturningInterceptor<T> interceptor);
 
     RecursionBehaviour circularDependencyBehaviour();
 
