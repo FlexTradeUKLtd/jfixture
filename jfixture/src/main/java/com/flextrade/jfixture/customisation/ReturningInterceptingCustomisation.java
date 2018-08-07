@@ -1,7 +1,7 @@
 package com.flextrade.jfixture.customisation;
 
 import com.flextrade.jfixture.JFixture;
-import com.flextrade.jfixture.behaviours.intercept.ReturningInterceptBehaviour;
+import com.flextrade.jfixture.behaviours.intercept.ReturningInterceptingBehaviour;
 import com.flextrade.jfixture.utility.ReturningInterceptor;
 
 public class ReturningInterceptingCustomisation<T> implements Customisation {
@@ -16,6 +16,6 @@ public class ReturningInterceptingCustomisation<T> implements Customisation {
 
     @Override
     public void customise(JFixture fixture) {
-        fixture.behaviours().add(new ReturningInterceptBehaviour<T>(classToIntercept, interceptor));
+        fixture.behaviours().add(new ReturningInterceptingBehaviour<T>(classToIntercept, interceptor));
     }
 }

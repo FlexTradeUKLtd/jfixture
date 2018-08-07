@@ -67,7 +67,7 @@ class DefaultFluentCustomisation implements FluentCustomisation {
     }
 
     @Override
-    public <T> FluentCustomisation intercept(Class<T> classToIntercept, ReturningInterceptor<T> interceptor) {
+    public <T> FluentCustomisation interceptAndReturn(Class<T> classToIntercept, ReturningInterceptor<T> interceptor) {
         this.customisationContainer.customise(new ReturningInterceptingCustomisation<T>(classToIntercept, interceptor));
         return this;
     }

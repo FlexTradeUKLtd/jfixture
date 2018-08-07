@@ -29,7 +29,7 @@ public interface FluentCustomisation {
 
     <T> FluentCustomisation intercept(Class<T> clazz, Interceptor<T> interceptor);
 
-    <T> FluentCustomisation intercept(Class<T> classToIntercept, ReturningInterceptor<T> interceptor);
+    <T> FluentCustomisation interceptAndReturn(Class<T> classToIntercept, ReturningInterceptor<T> interceptor);
 
     RecursionBehaviour circularDependencyBehaviour();
 

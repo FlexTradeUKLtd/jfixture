@@ -76,8 +76,8 @@ public class FixtureRuleCustomisation extends FixtureRule implements FluentCusto
     }
 
     @Override
-    public <T> FluentCustomisation intercept(Class<T> clazz, ReturningInterceptor<T> interceptor) {
-        customisation.intercept(clazz, interceptor);
+    public <T> FluentCustomisation interceptAndReturn(Class<T> clazz, ReturningInterceptor<T> interceptor) {
+        customisation.interceptAndReturn(clazz, interceptor);
         return this;
     }
 
