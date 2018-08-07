@@ -17,21 +17,28 @@ public abstract class SpecimenType<T> implements Type {
 
     private final Class rawType;
     private final GenericTypeCollection genericTypeArguments;
+    private final List<Type> recursiveGenericsGuard;
 
     protected SpecimenType() {
         Type genericSuperclass = this.getClass().getGenericSuperclass();
         if(!(genericSuperclass instanceof ParameterizedType)) {
             throw new IllegalArgumentException("No generic type argument provided");
         }
-        
+
+        recursiveGenericsGuard = new ArrayList<Type>();
         ParameterizedType pt = (ParameterizedType)genericSuperclass;
-        SpecimenTypeFields fields = getFields(pt.getActualTypeArguments()[0]);
+        SpecimenTypeFields fields = getFields(pt.getActualTypeArguments()[0], recursiveGenericsGuard);
         this.rawType = fields.rawType;
         this.genericTypeArguments = fields.genericTypeArguments;
     }
 
     private SpecimenType(Type type) {
-        SpecimenTypeFields fields = getFields(type);
+        this(type, new ArrayList<Type>());
+    }
+
+    private SpecimenType(Type type, List<Type> recursiveGenericsGuard) {
+        this.recursiveGenericsGuard = recursiveGenericsGuard;
+        SpecimenTypeFields fields = getFields(type, recursiveGenericsGuard);
         this.rawType = fields.rawType;
         this.genericTypeArguments = fields.genericTypeArguments;
     }
@@ -40,15 +47,23 @@ public abstract class SpecimenType<T> implements Type {
         SpecimenType st = convertPossibleGenericTypeToSpecimenType(type, contextualType);
         this.rawType = st.rawType;
         this.genericTypeArguments = st.genericTypeArguments;
+
+        recursiveGenericsGuard = new ArrayList<Type>();
     }
 
     private SpecimenType(Class rawType, GenericTypeCollection genericTypeArguments) {
         this.rawType = rawType;
         this.genericTypeArguments = genericTypeArguments;
+
+        recursiveGenericsGuard = new ArrayList<Type>();
     }
 
     public static SpecimenType<?> of(Type type) {
         return new SpecimenType<Object>(type){};
+    }
+
+    public static SpecimenType<?> of(Type type, List<Type> recursiveGenericsGuard) {
+        return new SpecimenType<Object>(type, recursiveGenericsGuard){};
     }
 
     private static SpecimenType<?> of(Type type, GenericTypeCollection genericTypeArguments) {
@@ -114,10 +129,10 @@ public abstract class SpecimenType<T> implements Type {
         return resolvedGenericTypes;
     }
 
-    private static SpecimenTypeFields getFields(Type type) {
+    private static SpecimenTypeFields getFields(Type type, List<Type> recursiveGenericsGuard) {
         if(type instanceof SpecimenType) return getSpecimenTypeFields((SpecimenType) type);
-        if(type instanceof Class) return getFieldsForClassType((Class)type);
-        if(type instanceof ParameterizedType) return getParameterizedTypeFields((ParameterizedType) type);
+        if(type instanceof Class) return getFieldsForClassType((Class)type, recursiveGenericsGuard);
+        if(type instanceof ParameterizedType) return getParameterizedTypeFields((ParameterizedType) type, recursiveGenericsGuard);
         if(type instanceof GenericArrayType) return getGenericArrayFields((GenericArrayType) type);
         if(type instanceof TypeVariable) {
             // no type information for this type variable
@@ -132,20 +147,20 @@ public abstract class SpecimenType<T> implements Type {
         throw new UnsupportedOperationException(String.format("Unknown Type : %s", type.getClass()));
     }
 
-    private static SpecimenTypeFields getFieldsForClassType(Class classType) {
+    private static SpecimenTypeFields getFieldsForClassType(Class classType, List<Type> recursiveGenericsGuard) {
         SpecimenTypeFields fieldsFromThisType = getClassTypeFields(classType);
         Type genericSuperclass = classType.getGenericSuperclass();
         // Enums self reference themselves in the type declaration, for an enum SomeEnum compiled class declaration becomes:
         //     public final class SomeEnum extends java.lang.Enum<SomeEnum>
         // As we handle fixturing Enums separately we can ignore them here
         if (genericSuperclass != null && !classType.isEnum()) {
-            GenericTypeCollection superTypeGenericArguments = getFields(genericSuperclass).genericTypeArguments;
+            GenericTypeCollection superTypeGenericArguments = getFields(genericSuperclass, recursiveGenericsGuard).genericTypeArguments;
             fieldsFromThisType.genericTypeArguments = fieldsFromThisType.genericTypeArguments.combineWith(superTypeGenericArguments);
         }
         return fieldsFromThisType;
     }
 
-    private static GenericTypeCollection getGenericTypeMappings(ParameterizedType parameterizedType, GenericTypeCreator genericTypeCreator) {
+    private static GenericTypeCollection getGenericTypeMappings(ParameterizedType parameterizedType, GenericTypeCreator genericTypeCreator, List<Type> recursiveGenericsGuard) {
         Class<?> rawType = (Class) parameterizedType.getRawType();
 
         Type[] genericArguments = parameterizedType.getActualTypeArguments();
@@ -153,7 +168,11 @@ public abstract class SpecimenType<T> implements Type {
         List<GenericType> genericTypes = new ArrayList<GenericType>();
         for (int i = 0; i < genericArguments.length; i++) {
             Type type = genericArguments[i];
-            GenericType genericType = genericTypeCreator.createGenericType(type, typeParameters[i].getName());
+            if (recursiveGenericsGuard.contains(type)) {
+                continue;
+            }
+            recursiveGenericsGuard.add(type);
+            GenericType genericType = genericTypeCreator.createGenericType(type, typeParameters[i].getName(), recursiveGenericsGuard);
             if (!(TypeVariable.class.isAssignableFrom(genericType.getType().getRawType()))) { // ignore type parameters which haven't been substituted e.g. T, S, U etc
                 genericTypes.add(genericType);
             }
@@ -162,41 +181,43 @@ public abstract class SpecimenType<T> implements Type {
         return new GenericTypeCollection(genericTypes.toArray(new GenericType[genericTypes.size()]));
     }
 
-    private static GenericTypeCollection getGenericTypeMapForGenericSuperclass(ParameterizedType parameterizedType, GenericTypeCollection genericTypeCollection) {
+    private static GenericTypeCollection getGenericTypeMapForGenericSuperclass(ParameterizedType parameterizedType, GenericTypeCollection genericTypeCollection, List<Type> recursiveGenericsGuard) {
         Class<?> rawType = (Class) parameterizedType.getRawType();
         Type genericSuperclass = rawType.getGenericSuperclass();
         if (genericSuperclass != null) {
             if (genericSuperclass instanceof ParameterizedType) {
                 // super class is also a generic type with the type argument possibly being passed through from it's sub class
                 SpecimenType context = SpecimenType.of(rawType, genericTypeCollection);
-                return genericTypeCollection.combineWith(createGenericTypeNameMap((ParameterizedType)genericSuperclass, context));
+                return genericTypeCollection.combineWith(createGenericTypeNameMap((ParameterizedType)genericSuperclass, context, recursiveGenericsGuard));
             }
             else if (genericSuperclass instanceof Class) {
                 // super class is a class, so no type arguments are passed down but we need to get the type mappings
                 // that the class might have (as that class may be inheriting from a generic type itself)
-                return genericTypeCollection.combineWith(getFields(genericSuperclass).genericTypeArguments);
+                return genericTypeCollection.combineWith(getFields(genericSuperclass, recursiveGenericsGuard).genericTypeArguments);
             }
             // return the current generic type map
         }
         return genericTypeCollection;
     }
 
-    private static GenericTypeCollection createGenericTypeNameMap(ParameterizedType parameterizedType, SpecimenType contextType) {
+    private static GenericTypeCollection createGenericTypeNameMap(ParameterizedType parameterizedType, SpecimenType contextType, List<Type> recursiveGenericsGuard) {
         GenericTypeCollection genericTypeCollection = getGenericTypeMappings(
             parameterizedType,
-            new GenericTypeCreatorWithGenericContextImpl(contextType)
+            new GenericTypeCreatorWithGenericContextImpl(contextType),
+            new ArrayList<Type>()
         );
 
-        return getGenericTypeMapForGenericSuperclass(parameterizedType, genericTypeCollection);
+        return getGenericTypeMapForGenericSuperclass(parameterizedType, genericTypeCollection, recursiveGenericsGuard);
     }
 
-    private static GenericTypeCollection createGenericTypeNameMap(ParameterizedType parameterizedType) {
+    private static GenericTypeCollection createGenericTypeNameMap(ParameterizedType parameterizedType, List<Type> recursiveGenericsGuard) {
         GenericTypeCollection genericTypeCollection = getGenericTypeMappings(
             parameterizedType,
-            new GenericTypeCreatorImpl()
+            new GenericTypeCreatorImpl(),
+            recursiveGenericsGuard
         );
 
-        return getGenericTypeMapForGenericSuperclass(parameterizedType, genericTypeCollection);
+        return getGenericTypeMapForGenericSuperclass(parameterizedType, genericTypeCollection, recursiveGenericsGuard);
     }
 
     private static SpecimenTypeFields getGenericArrayFields(GenericArrayType type) {
@@ -207,10 +228,10 @@ public abstract class SpecimenType<T> implements Type {
         return fields;
     }
 
-    private static SpecimenTypeFields getParameterizedTypeFields(ParameterizedType type) {
+    private static SpecimenTypeFields getParameterizedTypeFields(ParameterizedType type, List<Type> recursiveGenericsGuard) {
         SpecimenTypeFields fields = new SpecimenTypeFields();
         fields.rawType = nonPrimitiveType(type.getRawType());
-        fields.genericTypeArguments = createGenericTypeNameMap(type);
+        fields.genericTypeArguments = createGenericTypeNameMap(type, recursiveGenericsGuard);
         return fields;
     }
 
