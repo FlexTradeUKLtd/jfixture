@@ -5,6 +5,7 @@ import com.flextrade.jfixture.customisation.fluent.AutoPropertyBehaviour;
 import com.flextrade.jfixture.customisation.fluent.NoResolutionBehaviour;
 import com.flextrade.jfixture.customisation.fluent.RecursionBehaviour;
 import com.flextrade.jfixture.utility.Interceptor;
+import com.flextrade.jfixture.utility.Transformer;
 
 import java.lang.reflect.Type;
 
@@ -62,6 +63,12 @@ class DefaultFluentCustomisation implements FluentCustomisation {
     @Override
     public <T> FluentCustomisation intercept(Class<T> classToIntercept, Interceptor<T> interceptor) {
         this.customisationContainer.customise(new InterceptingCustomisation<T>(classToIntercept, interceptor));
+        return this;
+    }
+
+    @Override
+    public <T> FluentCustomisation transform(Class<T> classToIntercept, Transformer<T> transformer) {
+        this.customisationContainer.customise(new TranformingCustomisation<T>(classToIntercept, transformer));
         return this;
     }
 

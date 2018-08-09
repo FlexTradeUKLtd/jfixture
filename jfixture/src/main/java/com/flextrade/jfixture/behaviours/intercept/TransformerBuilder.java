@@ -1,21 +1,21 @@
 package com.flextrade.jfixture.behaviours.intercept;
 
-import com.flextrade.jfixture.SpecimenBuilder;
-import com.flextrade.jfixture.SpecimenContext;
-import com.flextrade.jfixture.utility.Interceptor;
-
 import java.lang.reflect.Type;
 
-public class InterceptingBuilder<T> implements SpecimenBuilder {
+import com.flextrade.jfixture.SpecimenBuilder;
+import com.flextrade.jfixture.SpecimenContext;
+import com.flextrade.jfixture.utility.Transformer;
+
+public class TransformerBuilder<T> implements SpecimenBuilder {
 
     private final SpecimenBuilder builder;
     private final Class<T> classToIntercept;
-    private final Interceptor<T> interceptor;
+    private final Transformer<T> transformer;
 
-    public InterceptingBuilder(SpecimenBuilder builder, Class<T> classToIntercept, Interceptor<T> interceptor) {
+    public TransformerBuilder(SpecimenBuilder builder, Class<T> classToIntercept, Transformer<T> transformer) {
         this.builder = builder;
         this.classToIntercept = classToIntercept;
-        this.interceptor = interceptor;
+        this.transformer = transformer;
     }
 
     @Override
@@ -23,7 +23,7 @@ public class InterceptingBuilder<T> implements SpecimenBuilder {
         Object specimen = this.builder.create(request, context);
 
         if (requestIsForAType(request) && specimenIsOfInterceptedType(specimen)) {
-            interceptor.intercept((T) specimen);
+            specimen = transformer.intercept((T) specimen);
         }
 
         return specimen;
