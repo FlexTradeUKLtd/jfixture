@@ -8,16 +8,16 @@ import org.junit.Test;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import com.flextrade.jfixture.JFixture;
-import com.flextrade.jfixture.behaviours.intercept.ReturningInterceptingBehaviour;
-import com.flextrade.jfixture.utility.ReturningInterceptor;
+import com.flextrade.jfixture.behaviours.intercept.TransformingBehaviour;
+import com.flextrade.jfixture.utility.Transformer;
 
-public class TestReturningInterceptingSpecimen {
+public class TestTransformerSpecimen {
 
     @Test
-    public void specimen_can_be_intercepted_and_new_value_is_used() {
+    public void specimen_can_be_transformed() {
         final Order overridingInstance = new Order();
         JFixture fixture = new JFixture();
-        fixture.behaviours().add(new ReturningInterceptingBehaviour<Order>(Order.class, new ReturningInterceptor<Order>() {
+        fixture.behaviours().add(new TransformingBehaviour<Order>(Order.class, new Transformer<Order>() {
             @Override
             public Order intercept(Order instance) {
                 return overridingInstance;
@@ -29,10 +29,10 @@ public class TestReturningInterceptingSpecimen {
     }
 
     @Test
-    public void specimen_can_be_intercepted_fluently_and_new_value_is_used() {
+    public void specimen_can_be_transformed_fluently() {
         final Order overridingInstance = new Order();
         JFixture fixture = new JFixture();
-        fixture.customise().interceptAndReturn(Order.class, new ReturningInterceptor<Order>() {
+        fixture.customise().transform(Order.class, new Transformer<Order>() {
             @Override
             public Order intercept(Order instance) {
                 return overridingInstance;
@@ -44,11 +44,11 @@ public class TestReturningInterceptingSpecimen {
     }
 
     @Test
-    public void specimen_is_only_intercepted_once() {
+    public void specimen_is_only_transformed_once() {
         final Order overridingInstance = new Order();
         final AtomicInteger interceptionCount = new AtomicInteger(0);
         JFixture fixture = new JFixture();
-        fixture.customise().interceptAndReturn(Order.class, new ReturningInterceptor<Order>() {
+        fixture.customise().transform(Order.class, new Transformer<Order>() {
             @Override
             public Order intercept(Order instance) {
                 interceptionCount.incrementAndGet();
@@ -64,10 +64,10 @@ public class TestReturningInterceptingSpecimen {
     public void null_specimen_is_ignored() {
         JFixture fixture = new JFixture();
         fixture.customise().sameInstance(Order.class, null);
-        fixture.customise().interceptAndReturn(Order.class, new ReturningInterceptor<Order>() {
+        fixture.customise().transform(Order.class, new Transformer<Order>() {
             @Override
             public Order intercept(Order instance) {
-                throw new RuntimeException("Specimen was erroneously intercepted");
+                throw new RuntimeException("Specimen was erroneously transformed");
             }
         });
 

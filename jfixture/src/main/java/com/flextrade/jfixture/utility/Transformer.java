@@ -1,5 +1,5 @@
 package com.flextrade.jfixture.utility;
 
-public interface ReturningInterceptor<T> {
+public interface Transformer<T> {
     T intercept(T instance);
 }

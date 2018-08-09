@@ -4,18 +4,18 @@ import java.lang.reflect.Type;
 
 import com.flextrade.jfixture.SpecimenBuilder;
 import com.flextrade.jfixture.SpecimenContext;
-import com.flextrade.jfixture.utility.ReturningInterceptor;
+import com.flextrade.jfixture.utility.Transformer;
 
-public class ReturningInterceptingBuilder<T> implements SpecimenBuilder {
+public class TransformerBuilder<T> implements SpecimenBuilder {
 
     private final SpecimenBuilder builder;
     private final Class<T> classToIntercept;
-    private final ReturningInterceptor<T> interceptor;
+    private final Transformer<T> transformer;
 
-    public ReturningInterceptingBuilder(SpecimenBuilder builder, Class<T> classToIntercept, ReturningInterceptor<T> interceptor) {
+    public TransformerBuilder(SpecimenBuilder builder, Class<T> classToIntercept, Transformer<T> transformer) {
         this.builder = builder;
         this.classToIntercept = classToIntercept;
-        this.interceptor = interceptor;
+        this.transformer = transformer;
     }
 
     @Override
@@ -23,7 +23,7 @@ public class ReturningInterceptingBuilder<T> implements SpecimenBuilder {
         Object specimen = this.builder.create(request, context);
 
         if (requestIsForAType(request) && specimenIsOfInterceptedType(specimen)) {
-            specimen = interceptor.intercept((T) specimen);
+            specimen = transformer.intercept((T) specimen);
         }
 
         return specimen;
