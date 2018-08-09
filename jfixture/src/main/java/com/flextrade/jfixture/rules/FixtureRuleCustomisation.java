@@ -76,8 +76,8 @@ public class FixtureRuleCustomisation extends FixtureRule implements FluentCusto
     }
 
     @Override
-    public <T> FluentCustomisation transform(Class<T> clazz, Transformer<T> interceptor) {
-        customisation.transform(clazz, interceptor);
+    public <T> FluentCustomisation transform(Class<T> clazz, Transformer<T> transformer) {
+        customisation.transform(clazz, transformer);
         return this;
     }
 
