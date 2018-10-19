@@ -25,7 +25,7 @@ JFixture has been designed to produce input for unit tests following the princip
 
 JFixture is an unofficial cousin of the .NET library AutoFixture. It's heavily inspired by the wonderful work produced by the contributors to AutoFixture but with a Java flair. It's not as fully featured as AutoFixture but any .NET developer familiar with the library should feel comfortable using it.
 
-JFixture started off an an internal project developed by FlexTrade UK to fill the gap in Java testing that AutoFixture fills for .NET testing. It's been used internally for a while and a decision was made to open source it for any other Java developers that may find it useful. For this reason there isn't any git commit history prior to open-sourcing because it would be too much work to rewrite history removing any internal references, links, urls etc.
+JFixture started off as an internal project developed by FlexTrade UK to fill the gap in Java testing that AutoFixture fills for .NET testing. It's been used internally for a while and a decision was made to open source it for any other Java developers that may find it useful. For this reason there isn't any git commit history prior to open-sourcing because it would be too much work to rewrite history removing any internal references, links, urls etc.
 
 # Example Usage
 
