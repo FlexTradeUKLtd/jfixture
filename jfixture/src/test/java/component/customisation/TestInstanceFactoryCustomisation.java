@@ -9,8 +9,8 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import testtypes.TypeWithProperties;
 
-import static junit.framework.Assert.assertEquals;
-import static junit.framework.Assert.assertNull;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 

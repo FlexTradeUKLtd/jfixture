@@ -6,8 +6,8 @@ import org.junit.Test;
 import testtypes.constructors.ThreeConstructorType;
 import testtypes.constructors.TwoConstructorType;
 
-import static junit.framework.Assert.assertNotNull;
-import static junit.framework.Assert.assertNull;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
 
 public class TestGreedyConstructorCustomisation {
 

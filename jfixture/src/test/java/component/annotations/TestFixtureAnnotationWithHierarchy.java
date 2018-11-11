@@ -3,7 +3,7 @@ package component.annotations;
 import com.flextrade.jfixture.FixtureAnnotations;
 import org.junit.Test;
 
-import static junit.framework.TestCase.assertNotNull;
+import static org.junit.Assert.assertNotNull;
 
 public class TestFixtureAnnotationWithHierarchy extends BaseTestClassWithFixture {
 

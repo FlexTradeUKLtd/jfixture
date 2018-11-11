@@ -1,7 +1,7 @@
 package component.behaviours;
 
-import static junit.framework.TestCase.assertEquals;
-import static junit.framework.TestCase.assertSame;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertSame;
 
 import org.junit.Test;
 

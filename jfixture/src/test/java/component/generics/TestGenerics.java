@@ -8,7 +8,7 @@ import testtypes.generic.TypeWithGenericParameter;
 import testtypes.generic.TypeWithGenericParameterWithConstructor;
 import testtypes.generic.TypeWithTwoGenericParameters;
 
-import static junit.framework.TestCase.assertNotNull;
+import static org.junit.Assert.assertNotNull;
 
 public class TestGenerics {
 

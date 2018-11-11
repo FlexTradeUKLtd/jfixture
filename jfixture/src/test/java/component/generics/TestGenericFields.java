@@ -9,8 +9,8 @@ import testtypes.generic.TypeWithGenericField;
 import java.math.BigDecimal;
 import java.util.Map;
 
-import static junit.framework.TestCase.assertNotNull;
-import static junit.framework.TestCase.assertTrue;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 
 public class TestGenericFields {
 
