@@ -13,14 +13,19 @@ public class TestMethodParameterCountComparator {
 
     private MethodParameterCountComparator comparator;
     private Method many;
+    private Method manyReverse;
     private Method few;
 
     @Before
     public void initialise() throws NoSuchMethodException {
         this.comparator = new MethodParameterCountComparator();
 
+        // ....create(java.lang.String)
         this.few = TypeWithFactoryMethod.class.getMethod("create", String.class);
+        // ....create(java.lang.String,int)
         this.many = TypeWithFactoryMethod.class.getMethod("create", String.class, int.class);
+        // ....create(int,java.lang.String)
+        this.manyReverse = TypeWithFactoryMethod.class.getMethod("create", int.class, String.class);
     }
 
     @Test
@@ -40,5 +45,22 @@ public class TestMethodParameterCountComparator {
         int result = this.comparator.compare(few, few);
         assertTrue(result == 0);
     }
-}
 
+    @Test
+    public void returns_non_0_if_methods_have_same_number_of_parameters_but_overloaded() {
+        int result = this.comparator.compare(many, manyReverse);
+        assertTrue(result != 0);
+    }
+
+    @Test
+    public void returns_less_than_0_if_methods_have_same_number_of_parameters_but_lexicographically_different() {
+        int result = this.comparator.compare(manyReverse, many);
+        assertTrue(result < 0);
+    }
+
+    @Test
+    public void returns_greater_than_0_if_methods_have_same_number_of_parameters_but_lexicographically_different() {
+        int result = this.comparator.compare(many, manyReverse);
+        assertTrue(result > 0);
+    }
+}

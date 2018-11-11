@@ -5,6 +5,7 @@ import com.flextrade.jfixture.utility.comparators.InverseComparator;
 import org.junit.Before;
 import org.junit.Test;
 import testtypes.constructors.TwoConstructorType;
+import testtypes.constructors.TypeWithAmbiguousConstructors;
 
 import java.lang.reflect.Constructor;
 import java.util.List;
@@ -19,13 +20,13 @@ public class TestDefaultConstructorQuery {
     private Constructor<?> expectedConstructorTwoParameters;
 
     @Before
-    public void initialise() throws Exception {
+    public void initialise() throws NoSuchMethodException {
         expectedConstructorOneParameter = TwoConstructorType.class.getConstructor(String.class);
         expectedConstructorTwoParameters = TwoConstructorType.class.getConstructor(String.class, String.class);
     }
 
     @Test
-    public void returns_all_constructors_for_a_given_class() throws NoSuchMethodException {
+    public void returns_all_constructors_for_a_given_class() {
         this.query = new DefaultConstructorQuery();
 
         List<Constructor<?>> constructors = this.query.getConstructorsForClass(TwoConstructorType.class);
@@ -41,6 +42,7 @@ public class TestDefaultConstructorQuery {
 
         List<Constructor<?>> constructors = this.query.getConstructorsForClass(TwoConstructorType.class);
 
+        assertEquals(2, constructors.size());
         assertEquals(expectedConstructorOneParameter, constructors.get(0));
         assertEquals(expectedConstructorTwoParameters, constructors.get(1));
     }
@@ -51,7 +53,21 @@ public class TestDefaultConstructorQuery {
 
         List<Constructor<?>> constructors = this.query.getConstructorsForClass(TwoConstructorType.class);
 
+        assertEquals(2, constructors.size());
         assertEquals(expectedConstructorTwoParameters, constructors.get(0));
         assertEquals(expectedConstructorOneParameter, constructors.get(1));
+    }
+
+    @Test
+    public void sort_by_signature_when_constructors_ambiguous() throws NoSuchMethodException {
+        this.query = new DefaultConstructorQuery(new ConstructorParameterCountComparator());
+
+        List<Constructor<?>> constructors = this.query.getConstructorsForClass(TypeWithAmbiguousConstructors.class);
+
+        assertEquals(4, constructors.size());
+        assertEquals(TypeWithAmbiguousConstructors.class.getConstructor(String.class, String.class), constructors.get(0));
+        assertEquals(TypeWithAmbiguousConstructors.class.getConstructor(String.class, List.class), constructors.get(1));
+        assertEquals(TypeWithAmbiguousConstructors.class.getConstructor(List.class, String.class), constructors.get(2));
+        assertEquals(TypeWithAmbiguousConstructors.class.getConstructor(List.class, List.class), constructors.get(3));
     }
 }
