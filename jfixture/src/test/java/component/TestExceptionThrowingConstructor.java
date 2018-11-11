@@ -4,7 +4,7 @@ import com.flextrade.jfixture.JFixture;
 import org.junit.Test;
 import testtypes.constructors.TypeWithThrowingConstructor;
 
-import static junit.framework.TestCase.assertNotNull;
+import static org.junit.Assert.assertNotNull;
 
 public class TestExceptionThrowingConstructor {
 

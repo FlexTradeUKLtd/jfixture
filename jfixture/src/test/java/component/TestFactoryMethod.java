@@ -9,7 +9,7 @@ import testtypes.factorymethods.GenericTypeWithCopyFactoryMethod;
 import testtypes.factorymethods.TypeWithCopyFactoryMethod;
 import testtypes.generic.TypeWithGenericFactoryMethod;
 
-import static junit.framework.TestCase.assertNotNull;
+import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
 public class TestFactoryMethod {
@@ -22,7 +22,7 @@ public class TestFactoryMethod {
 
         assertTrue(type instanceof ConcreteType);
     }
-    
+
     @Test
     public void factory_method_invoked_for_generic_types() {
         JFixture fixture = new JFixture();
@@ -33,12 +33,12 @@ public class TestFactoryMethod {
         assertNotNull(type.getValue());
     }
 
-    @Test 
+    @Test
     public void factory_copy_methods_are_not_called() {
         JFixture fixture = new JFixture();
 
         TypeWithCopyFactoryMethod type = fixture.create(TypeWithCopyFactoryMethod.class);
-        
+
         assertNotNull(type);
     }
 
