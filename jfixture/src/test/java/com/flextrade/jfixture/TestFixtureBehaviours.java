@@ -1,6 +1,5 @@
 package com.flextrade.jfixture;
 
-import com.flextrade.jfixture.builders.CompositeBuilder;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;
@@ -14,6 +13,7 @@ import static org.mockito.Mockito.any;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 public class TestFixtureBehaviours {
 
@@ -36,12 +36,14 @@ public class TestFixtureBehaviours {
 
     @Test
     public void adding_behaviour_sets_the_builder_on_the_container() {
+        when(mockBehaviour.transform(mockSpecimenBuilder)).thenReturn(mockSpecimenBuilder);
         this.behaviours.add(this.mockBehaviour);
-        verify(this.mockBuilderContainer).setFinalBuilder(any(CompositeBuilder.class));
+        verify(this.mockBuilderContainer).setFinalBuilder(any(SpecimenBuilder.class));
     }
 
     @Test
     public void removing_behaviour_sets_the_builder_on_the_container() {
+        when(mockBehaviour.transform(mockSpecimenBuilder)).thenReturn(mockSpecimenBuilder);
         this.behaviours.add(this.mockBehaviour);
         this.behaviours.remove(this.mockBehaviour.getClass());
         verify(this.mockBuilderContainer, times(2)).setFinalBuilder(any(SpecimenBuilder.class));
