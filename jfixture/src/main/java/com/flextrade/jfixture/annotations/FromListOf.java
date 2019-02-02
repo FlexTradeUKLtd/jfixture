@@ -8,7 +8,7 @@ import java.lang.annotation.Target;
 @Retention(RetentionPolicy.RUNTIME)
 @Target({ElementType.FIELD})
 public @interface FromListOf {
-    public String[] strings() default {};
+    String[] strings() default {};
 
-    public double[] numbers() default {};
+    double[] numbers() default {};
 }

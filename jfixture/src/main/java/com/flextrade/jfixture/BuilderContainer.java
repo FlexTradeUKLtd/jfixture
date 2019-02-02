@@ -2,7 +2,7 @@ package com.flextrade.jfixture;
 
 public interface BuilderContainer {
 
-    public SpecimenBuilder getBuilder();
+    SpecimenBuilder getBuilder();
 
-    public SpecimenBuilderContext getContext();
+    SpecimenBuilderContext getContext();
 }
