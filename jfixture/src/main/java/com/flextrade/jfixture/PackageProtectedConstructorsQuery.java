@@ -19,7 +19,7 @@ public class PackageProtectedConstructorsQuery implements ConstructorQuery {
 
     @Override
     public List<Constructor<?>> getConstructorsForClass(Class<?> clazz) {
-        List<Constructor<?>> constructors = Arrays.asList(clazz.getDeclaredConstructors());
+        Constructor<?>[] constructors = clazz.getDeclaredConstructors();
         List<Constructor<?>> packageProtectedConstructors = new ArrayList<Constructor<?>>();
         for(Constructor<?> ctor : constructors) {
             if(ctor.getModifiers() == 0) {

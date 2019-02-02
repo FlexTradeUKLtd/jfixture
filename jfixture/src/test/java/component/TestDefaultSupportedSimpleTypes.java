@@ -87,5 +87,5 @@ public class TestDefaultSupportedSimpleTypes {
         assertThat(fixture.create(URI.class), is(notNullValue()));
     }
 
-    private static enum TestEnum { A, B, C }
+    private enum TestEnum { A, B, C }
 }

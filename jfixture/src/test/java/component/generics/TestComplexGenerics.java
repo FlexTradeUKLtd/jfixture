@@ -24,7 +24,7 @@ public class TestComplexGenerics {
         assertTrue(instance != null);
         assertTrue(instance.bar != null);
         assertTrue(instance.bar.list != null);
-        assertTrue(instance.bar.list.size() > 0);;
+        assertTrue(instance.bar.list.size() > 0);
         assertTrue(instance.bar.list.get(0) instanceof String);
     }
 

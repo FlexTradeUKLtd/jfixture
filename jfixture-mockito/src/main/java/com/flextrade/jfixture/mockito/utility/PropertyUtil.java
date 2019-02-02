@@ -8,7 +8,7 @@ public final class PropertyUtil {
         if (!name.startsWith("get")) return false;
 
         Class<?>[] parameterTypes = method.getParameterTypes();
-        if(parameterTypes.length !=0) return false;
+        if (parameterTypes.length != 0) return false;
 
         return hasMatchingSetter(method);
     }
@@ -16,10 +16,10 @@ public final class PropertyUtil {
     private static Boolean hasMatchingSetter(Method method) {
         String propertyName = com.flextrade.jfixture.utility.PropertyUtil.getMemberNameFromMethod(method);
         Method[] allMethods = method.getDeclaringClass().getMethods();
-        Boolean hasSetter = false;
-        for(Method m : allMethods) {
-            if(m.getName().equals("set" + propertyName)) {
-                hasSetter =true;
+        boolean hasSetter = false;
+        for (Method m : allMethods) {
+            if (m.getName().equals("set" + propertyName)) {
+                hasSetter = true;
                 break;
             }
         }
