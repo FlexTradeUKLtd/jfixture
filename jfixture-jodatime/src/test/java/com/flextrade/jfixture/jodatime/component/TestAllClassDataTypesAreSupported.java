@@ -114,7 +114,7 @@ public class TestAllClassDataTypesAreSupported {
     // Partials
 
     @Test
-    public void creates_instance_of_LocalDate() throws ParseException {
+    public void creates_instance_of_LocalDate() {
         LocalDate localDate = fixture.create(LocalDate.class);
         assertThat(localDate, notNullValue());
         assertThat(localDate.getYear(), is(2001)); // LocalDate::toDate is not recommended

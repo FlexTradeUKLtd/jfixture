@@ -47,42 +47,42 @@ public class TestAllInterfaceDataTypesAreSupported {
     }
 
     @Test
-    public void creates_instance_of_ReadableDateTime() throws ParseException {
+    public void creates_instance_of_ReadableDateTime() {
         ReadableDateTime dateTime = fixture.create(ReadableDateTime.class);
         assertThat(dateTime, notNullValue());
         assertThat(new Date(dateTime.getMillis()), is(date));
     }
 
     @Test
-    public void creates_instance_of_ReadWritableDateTime() throws ParseException {
+    public void creates_instance_of_ReadWritableDateTime() {
         ReadWritableDateTime dateTime = fixture.create(ReadWritableDateTime.class);
         assertThat(dateTime, notNullValue());
         assertThat(new Date(dateTime.getMillis()), is(date));
     }
 
     @Test
-    public void creates_instance_of_ReadableDuration() throws ParseException {
+    public void creates_instance_of_ReadableDuration() {
         ReadableDuration duration = fixture.create(ReadableDuration.class);
         assertThat(duration, notNullValue());
         assertThat(duration, Matchers.<ReadableDuration>is(Duration.standardDays(365)));
     }
 
     @Test
-    public void creates_instance_of_ReadableInstant() throws ParseException {
+    public void creates_instance_of_ReadableInstant() {
         ReadableInstant instant = fixture.create(ReadableInstant.class);
         assertThat(instant, notNullValue());
         assertThat(new Date(instant.getMillis()), is(date));
     }
 
     @Test
-    public void creates_instance_of_ReadWritableInstant() throws ParseException {
+    public void creates_instance_of_ReadWritableInstant() {
         ReadWritableInstant instant = fixture.create(ReadWritableInstant.class);
         assertThat(instant, notNullValue());
         assertThat(new Date(instant.getMillis()), is(date));
     }
 
     @Test
-    public void creates_instance_of_ReadablePartial() throws ParseException {
+    public void creates_instance_of_ReadablePartial() {
         ReadablePartial partial = fixture.create(ReadablePartial.class);
         assertThat(partial, notNullValue());
         assertThat(partial.get(DateTimeFieldType.year()), is(2001));
@@ -94,7 +94,7 @@ public class TestAllInterfaceDataTypesAreSupported {
     }
 
     @Test
-    public void creates_instance_of_ReadableInterval() throws ParseException {
+    public void creates_instance_of_ReadableInterval() {
         ReadableInterval interval = fixture.create(ReadableInterval.class);
         assertThat(interval, notNullValue());
         assertThat(interval.getStart().toDate(), is(date));
@@ -102,7 +102,7 @@ public class TestAllInterfaceDataTypesAreSupported {
     }
 
     @Test
-    public void creates_instance_of_ReadWritableInterval() throws ParseException {
+    public void creates_instance_of_ReadWritableInterval() {
         ReadWritableInterval interval = fixture.create(ReadWritableInterval.class);
         assertThat(interval, notNullValue());
         assertThat(interval.getStart().toDate(), is(date));
@@ -110,14 +110,14 @@ public class TestAllInterfaceDataTypesAreSupported {
     }
 
     @Test
-    public void creates_instance_of_ReadablePeriod() throws ParseException {
+    public void creates_instance_of_ReadablePeriod() {
         ReadablePeriod period = fixture.create(ReadablePeriod.class);
         assertThat(period, notNullValue());
         assertThat(period, Matchers.<ReadablePeriod>is(new MutablePeriod(1,0,0,0,0,0,0,0))); // 1Yr
     }
 
     @Test
-    public void creates_instance_of_ReadWritablePeriod() throws ParseException {
+    public void creates_instance_of_ReadWritablePeriod() {
         ReadWritablePeriod period = fixture.create(ReadWritablePeriod.class);
         assertThat(period, notNullValue());
         assertThat(period, Matchers.<ReadablePeriod>is(new MutablePeriod(1,0,0,0,0,0,0,0))); // 1Yr
