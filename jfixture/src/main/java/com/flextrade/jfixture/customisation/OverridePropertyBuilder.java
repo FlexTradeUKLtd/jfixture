@@ -29,6 +29,7 @@ public class OverridePropertyBuilder implements SpecimenBuilder {
         }
 
         MethodRequest methodRequest = (MethodRequest)request;
+        //noinspection EqualsBetweenInconvertibleTypes SpecimenType knows how to do equals(Class<?>)
         if(!methodRequest.getContainingType().equals(this.clazz)) {
             return new NoSpecimen();
         }

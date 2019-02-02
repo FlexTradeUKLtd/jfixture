@@ -18,6 +18,7 @@ public class TestComplexGenerics {
     JFixture fixture = new JFixture();
 
     @Test
+    @SuppressWarnings("ConstantConditions")
     public void can_construct_types_with_multiple_levels_of_generic_types_with_a_list() {
         SpecimenType<FooWithBarWithList<String>> type = new SpecimenType<FooWithBarWithList<String>>(){};
         FooWithBarWithList<String> instance = fixture.create(type);
@@ -29,6 +30,7 @@ public class TestComplexGenerics {
     }
 
     @Test
+    @SuppressWarnings("ConstantConditions")
     public void can_construct_types_with_multiple_levels_of_generic_types_with_a_single_value() {
         SpecimenType<FooWithBarWithValue<String>> type = new SpecimenType<FooWithBarWithValue<String>>(){};
         FooWithBarWithValue<String> instance = fixture.create(type);
