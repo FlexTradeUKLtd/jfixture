@@ -270,17 +270,6 @@ public class TestAllClassDataTypesAreSupported {
     private void customiseToReturnFixedDates() throws ParseException {
         date = formatter.parse("2001/01/01 12:34:56");
         secondDate = formatter.parse("2002/01/01 12:34:56");
-        fixture.customise().lazyInstance(Date.class, new SpecimenSupplier<Date>() {
-            boolean isFirstCall = true;
-            @Override
-            public Date create() {
-                if (isFirstCall) {
-                    isFirstCall = false;
-                    return date;
-                }
-
-                return secondDate;
-            }
-        });
+        fixture.customise().lazyInstance(Date.class, new FirstAndRestDateSpecimenSupplier(date, secondDate));
     }
 }
