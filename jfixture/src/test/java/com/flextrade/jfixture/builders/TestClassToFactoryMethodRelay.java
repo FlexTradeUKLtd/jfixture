@@ -19,7 +19,6 @@ import java.util.Arrays;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertSame;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.anyObject;
 import static org.mockito.Mockito.when;
 
 public class TestClassToFactoryMethodRelay {
@@ -61,7 +60,7 @@ public class TestClassToFactoryMethodRelay {
     @Test
     public void returns_result_of_context_resolve() {
         Object contextResult = new Object();
-        when(mockSpecimenContext.resolve(anyObject())).thenReturn(contextResult);
+        when(mockSpecimenContext.resolve(any())).thenReturn(contextResult);
         Object result = this.relay.create(SpecimenType.of(TypeWithFactoryMethod.class), mockSpecimenContext);
         assertSame(contextResult, result);
     }
