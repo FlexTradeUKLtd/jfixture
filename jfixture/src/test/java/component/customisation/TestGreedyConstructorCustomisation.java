@@ -5,7 +5,7 @@ import com.flextrade.jfixture.customisation.GreedyConstructorCustomisation;
 import org.junit.Test;
 import testtypes.constructors.ThreeConstructorType;
 import testtypes.constructors.TwoConstructorType;
-import testtypes.constructors.TypeWithAmbiguousConstructors;
+import testtypes.constructors.TypeWithMultipleConstructorsHavingSameParameterCount;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
@@ -37,9 +37,10 @@ public class TestGreedyConstructorCustomisation {
     @Test
     public void creates_type_using_constructor_with_most_parameters_using_the_same_one_every_time() {
         JFixture fixture = new JFixture();
-        fixture.customise(new GreedyConstructorCustomisation(TypeWithAmbiguousConstructors.class));
+        fixture.customise(new GreedyConstructorCustomisation(TypeWithMultipleConstructorsHavingSameParameterCount.class));
 
-        TypeWithAmbiguousConstructors type = fixture.create(TypeWithAmbiguousConstructors.class);
+        TypeWithMultipleConstructorsHavingSameParameterCount type =
+                fixture.create(TypeWithMultipleConstructorsHavingSameParameterCount.class);
 
         // same parameter-count ctors will be sorted by signature,
         // and (java.util.List, java.util.List) will win

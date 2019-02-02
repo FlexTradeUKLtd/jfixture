@@ -4,7 +4,7 @@ import com.flextrade.jfixture.utility.comparators.ConstructorParameterCountCompa
 import org.junit.Before;
 import org.junit.Test;
 import testtypes.constructors.TwoConstructorType;
-import testtypes.constructors.TypeWithAmbiguousConstructors;
+import testtypes.constructors.TypeWithMultipleConstructorsHavingSameParameterCount;
 
 import java.lang.reflect.Constructor;
 import java.util.List;
@@ -45,8 +45,10 @@ public class TestConstructorParameterCountComparator {
 
     @Test
     public void returns_non_0_if_constructors_have_same_number_of_parameters_but_overloaded() throws NoSuchMethodException {
-        Constructor<?> stringString = TypeWithAmbiguousConstructors.class.getConstructor(String.class, String.class);
-        Constructor<?> stringList = TypeWithAmbiguousConstructors.class.getConstructor(String.class, List.class);
+        Constructor<?> stringString = TypeWithMultipleConstructorsHavingSameParameterCount.class
+                .getConstructor(String.class, String.class);
+        Constructor<?> stringList = TypeWithMultipleConstructorsHavingSameParameterCount.class
+                .getConstructor(String.class, List.class);
 
         int result = this.comparator.compare(stringString, stringList);
 
@@ -56,8 +58,10 @@ public class TestConstructorParameterCountComparator {
 
     @Test
     public void returns_less_than_0_if_constructors_have_same_number_of_parameters_but_lexicographically_different() throws NoSuchMethodException {
-        Constructor<?> stringList = TypeWithAmbiguousConstructors.class.getConstructor(String.class, List.class);
-        Constructor<?> listString = TypeWithAmbiguousConstructors.class.getConstructor(List.class, String.class);
+        Constructor<?> stringList = TypeWithMultipleConstructorsHavingSameParameterCount.class
+                .getConstructor(String.class, List.class);
+        Constructor<?> listString = TypeWithMultipleConstructorsHavingSameParameterCount.class
+                .getConstructor(List.class, String.class);
 
         int result = this.comparator.compare(stringList, listString);
 
@@ -67,8 +71,10 @@ public class TestConstructorParameterCountComparator {
 
     @Test
     public void returns_greater_than_0_if_constructors_have_same_number_of_parameters_but_lexicographically_different() throws NoSuchMethodException {
-        Constructor<?> stringList = TypeWithAmbiguousConstructors.class.getConstructor(String.class, List.class);
-        Constructor<?> listString = TypeWithAmbiguousConstructors.class.getConstructor(List.class, String.class);
+        Constructor<?> stringList = TypeWithMultipleConstructorsHavingSameParameterCount.class
+                .getConstructor(String.class, List.class);
+        Constructor<?> listString = TypeWithMultipleConstructorsHavingSameParameterCount.class
+                .getConstructor(List.class, String.class);
 
         // java.util.List<String>,... > java.lang.String,...
         int result = this.comparator.compare(listString, stringList);
