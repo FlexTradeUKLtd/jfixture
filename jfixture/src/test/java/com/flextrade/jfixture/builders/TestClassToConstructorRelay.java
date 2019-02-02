@@ -36,14 +36,14 @@ public class TestClassToConstructorRelay {
     @Before
     public void initialise() {
         MockitoAnnotations.initMocks(this);
-        when(this.mockSpecification.isSatisfiedBy(any())).thenReturn(true);
+        when(this.mockSpecification.isSatisfiedBy(any(Object.class))).thenReturn(true);
         when(this.mockConstructorQuery.getConstructorsForClass(TwoConstructorType.class)).thenReturn(Arrays.asList(TwoConstructorType.class.getConstructors()));
         this.relay = new ClassToConstructorRelay(this.mockConstructorQuery, this.mockSpecification);
     }
 
     @Test
     public void if_request_does_not_satisfy_specification_returns_no_specimen() {
-        when(this.mockSpecification.isSatisfiedBy(any())).thenReturn(false);
+        when(this.mockSpecification.isSatisfiedBy(any(Object.class))).thenReturn(false);
         Object result = this.relay.create(TwoConstructorType.class, mockSpecimenContext);
         assertEquals(new NoSpecimen(), result);
     }
@@ -58,7 +58,7 @@ public class TestClassToConstructorRelay {
     @Test
     public void returns_result_of_context_resolve() {
         Object contextResult = new Object();
-        when(mockSpecimenContext.resolve(any())).thenReturn(contextResult);
+        when(mockSpecimenContext.resolve(any(Object.class))).thenReturn(contextResult);
         Object result = this.relay.create(SpecimenType.of(TwoConstructorType.class), mockSpecimenContext);
         assertSame(contextResult, result);
     }
