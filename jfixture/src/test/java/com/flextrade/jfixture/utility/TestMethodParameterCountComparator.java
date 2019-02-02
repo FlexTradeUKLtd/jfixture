@@ -20,11 +20,8 @@ public class TestMethodParameterCountComparator {
     public void initialise() throws NoSuchMethodException {
         this.comparator = new MethodParameterCountComparator();
 
-        // ....create(java.lang.String)
         this.few = TypeWithFactoryMethod.class.getMethod("create", String.class);
-        // ....create(java.lang.String,int)
         this.many = TypeWithFactoryMethod.class.getMethod("create", String.class, int.class);
-        // ....create(int,java.lang.String)
         this.manyReverse = TypeWithFactoryMethod.class.getMethod("create", int.class, String.class);
     }
 

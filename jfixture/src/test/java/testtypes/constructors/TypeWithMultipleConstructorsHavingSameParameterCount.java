@@ -3,9 +3,6 @@ package testtypes.constructors;
 import java.util.Collections;
 import java.util.List;
 
-/**
- * This type has multiple constructors, all of them would be picked first by JFixture due to their parameter count.
- */
 public class TypeWithMultipleConstructorsHavingSameParameterCount {
     private final List<String> list1;
     private final List<String> list2;

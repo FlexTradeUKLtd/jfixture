@@ -52,7 +52,6 @@ public class TestConstructorParameterCountComparator {
 
         int result = this.comparator.compare(stringString, stringList);
 
-        // String,String <> String,List
         assertTrue(result != 0);
     }
 
@@ -65,7 +64,6 @@ public class TestConstructorParameterCountComparator {
 
         int result = this.comparator.compare(stringList, listString);
 
-        // java.lang.String,... < java.util.List<String>,...
         assertTrue(result < 0);
     }
 
@@ -76,7 +74,6 @@ public class TestConstructorParameterCountComparator {
         Constructor<?> listString = TypeWithMultipleConstructorsHavingSameParameterCount.class
                 .getConstructor(List.class, String.class);
 
-        // java.util.List<String>,... > java.lang.String,...
         int result = this.comparator.compare(listString, stringList);
 
         assertTrue(result > 0);

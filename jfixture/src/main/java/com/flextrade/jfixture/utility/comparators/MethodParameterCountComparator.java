@@ -5,11 +5,9 @@ import com.flextrade.jfixture.utility.IntegerPolyfill;
 import java.lang.reflect.Method;
 import java.util.Comparator;
 
-/**
- * Compare by method parameter count, but if they're equal compare by the actual parameter types.
- * This is necessary as {@link Class#getMethods()} has no guarantees on order,
- * and for reproducible tests the objects must be constructed in the same way every time a test is run.
- */
+// Duplicate code: ideally this would be compare(Executable, Executable),
+// but that base class was introduced in Java 8, and the current build is Java 6.
+@SuppressWarnings("Duplicates")
 public class MethodParameterCountComparator implements Comparator<Method> {
 
     @Override
@@ -19,6 +17,9 @@ public class MethodParameterCountComparator implements Comparator<Method> {
 
         int result = IntegerPolyfill.compare(method1ParameterCount, method2ParameterCount);
         if (result == 0) {
+            // It is necessary to compare the signature as a disambiguation after the param count comparison,
+            // because Class.getMethods() has no guarantees on order
+            // and using this comparator in a stable sort could yield different results in different runs.
             return method1.toString().compareTo(method2.toString());
         }
         return result;
