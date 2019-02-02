@@ -50,5 +50,4 @@ public class TestRequestFilter {
         boolean allow = filter.allow(SpecimenType.of(String.class));
         assertTrue(allow);
     }
-
 }

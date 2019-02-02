@@ -16,5 +16,4 @@ public class TestSelfReferentialTypes {
   public class SelfReferentialType<T extends SelfReferentialType<T>> {}
 
   public class MyType extends SelfReferentialType<MyType> {}
-
 }

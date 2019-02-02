@@ -24,7 +24,7 @@ public class TestJFixtureJUnitRunner {
         assertNotNull(value);
     }
 
-    @Test 
+    @Test
     public void runner_calls_setup_method_before_running_tests() {
         assertNotNull(testSubject);
     }

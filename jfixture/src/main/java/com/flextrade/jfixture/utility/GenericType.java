@@ -62,5 +62,4 @@ public class GenericType {
             return new GenericType(SpecimenType.withGenericContext(type, contextType), name);
         }
     }
-
 }

@@ -18,12 +18,12 @@ class MockitoRelay implements SpecimenBuilder {
 
     @Override
     public Object create(Object request, SpecimenContext specimenContext) {
-        
+
         if (!(request instanceof SpecimenType)) {
             return new NoSpecimen();
         }
-        
-        SpecimenType<?> specimenType = (SpecimenType<?>)request;
+
+        SpecimenType<?> specimenType = (SpecimenType<?>) request;
         Class<?> requestClass = specimenType.getRawType();
 
         if (!requestClass.isInterface() && !Modifier.isAbstract(requestClass.getModifiers())) {

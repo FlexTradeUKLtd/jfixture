@@ -46,5 +46,4 @@ public class TestSpecimenTypeInjector {
         assertTrue(request instanceof SpecimenType);
         assertEquals(((SpecimenType) request).getRawType(), type);
     }
-
 }

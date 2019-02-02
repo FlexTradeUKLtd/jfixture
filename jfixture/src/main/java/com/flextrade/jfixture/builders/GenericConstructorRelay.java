@@ -38,6 +38,4 @@ class GenericConstructorRelay implements SpecimenBuilder {
             throw new ObjectCreationException(String.format("Unable to invoke constructor %s", constructor), e);
         }
     }
-
-
 }
