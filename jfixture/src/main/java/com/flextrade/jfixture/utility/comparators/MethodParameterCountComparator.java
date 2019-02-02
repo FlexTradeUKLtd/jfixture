@@ -1,5 +1,7 @@
 package com.flextrade.jfixture.utility.comparators;
 
+import com.flextrade.jfixture.utility.IntegerPolyfill;
+
 import java.lang.reflect.Method;
 import java.util.Comparator;
 
@@ -15,17 +17,10 @@ public class MethodParameterCountComparator implements Comparator<Method> {
         int method1ParameterCount = method1.getGenericParameterTypes().length;
         int method2ParameterCount = method2.getGenericParameterTypes().length;
 
-        int result = compare(method1ParameterCount, method2ParameterCount);
+        int result = IntegerPolyfill.compare(method1ParameterCount, method2ParameterCount);
         if (result == 0) {
             return method1.toString().compareTo(method2.toString());
         }
         return result;
-    }
-
-    /**
-     * @see Integer#compare(int, int) Integer.compare since Java 7
-     */
-    public static int compare(int x, int y) {
-        return (x < y) ? -1 : ((x == y) ? 0 : 1);
     }
 }
