@@ -1,7 +1,6 @@
 package com.flextrade.jfixture.jodatime.component;
 
 import com.flextrade.jfixture.JFixture;
-import com.flextrade.jfixture.SpecimenSupplier;
 import com.flextrade.jfixture.jodatime.customisation.JodaTimeCustomisation;
 import org.hamcrest.Matchers;
 import org.joda.time.Chronology;

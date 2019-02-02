@@ -1,9 +1,10 @@
 package com.flextrade.jfixture;
 
-import com.flextrade.jfixture.ConstructorQuery;
-
 import java.lang.reflect.Constructor;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.List;
 
 public class PackageProtectedConstructorsQuery implements ConstructorQuery {
 
