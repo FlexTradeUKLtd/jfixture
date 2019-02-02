@@ -4,12 +4,12 @@ import com.flextrade.jfixture.JFixture;
 import com.flextrade.jfixture.behaviours.intercept.TransformingBehaviour;
 import com.flextrade.jfixture.utility.Transformer;
 
-public class TranformingCustomisation<T> implements Customisation {
+public class TransformingCustomisation<T> implements Customisation {
 
     private final Class<T> classToIntercept;
     private final Transformer<T> transformer;
 
-    public TranformingCustomisation(Class<T> classToIntercept, Transformer<T> transformer) {
+    public TransformingCustomisation(Class<T> classToIntercept, Transformer<T> transformer) {
         this.classToIntercept = classToIntercept;
         this.transformer = transformer;
     }

@@ -74,7 +74,7 @@ class DefaultFluentCustomisation implements FluentCustomisation {
 
     @Override
     public <T> FluentCustomisation transform(Class<T> classToIntercept, Transformer<T> transformer) {
-        this.customisationContainer.customise(new TranformingCustomisation<T>(classToIntercept, transformer));
+        this.customisationContainer.customise(new TransformingCustomisation<T>(classToIntercept, transformer));
         return this;
     }
 
