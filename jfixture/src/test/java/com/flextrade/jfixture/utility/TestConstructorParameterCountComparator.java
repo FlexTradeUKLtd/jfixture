@@ -9,7 +9,12 @@ import testtypes.constructors.TypeWithMultipleConstructorsHavingSameParameterCou
 import java.lang.reflect.Constructor;
 import java.util.List;
 
-import static org.junit.Assert.assertTrue;
+import static org.hamcrest.Matchers.greaterThan;
+import static org.hamcrest.Matchers.is;
+import static org.hamcrest.Matchers.lessThan;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotEquals;
+import static org.hamcrest.MatcherAssert.assertThat;
 
 public class TestConstructorParameterCountComparator {
 
@@ -28,19 +33,19 @@ public class TestConstructorParameterCountComparator {
     @Test
     public void returns_less_than_0_if_first_constructor_has_fewer_parameters_than_second() {
         int result = this.comparator.compare(few, many);
-        assertTrue(result < 0);
+        assertThat(result, is(lessThan(0)));
     }
 
     @Test
     public void returns_greater_than_0_if_first_constructor_has_more_parameters_than_second() {
         int result = this.comparator.compare(many, few);
-        assertTrue(result > 0);
+        assertThat(result, is(greaterThan(0)));
     }
 
     @Test
     public void returns_0_if_constructors_have_same_number_of_parameters() {
         int result = this.comparator.compare(few, few);
-        assertTrue(result == 0);
+        assertEquals(0, result);
     }
 
     @Test
@@ -52,7 +57,7 @@ public class TestConstructorParameterCountComparator {
 
         int result = this.comparator.compare(stringString, stringList);
 
-        assertTrue(result != 0);
+        assertNotEquals(0, result);
     }
 
     @Test
@@ -64,7 +69,7 @@ public class TestConstructorParameterCountComparator {
 
         int result = this.comparator.compare(stringList, listString);
 
-        assertTrue(result < 0);
+        assertThat(result, is(lessThan(0)));
     }
 
     @Test
@@ -76,6 +81,6 @@ public class TestConstructorParameterCountComparator {
 
         int result = this.comparator.compare(listString, stringList);
 
-        assertTrue(result > 0);
+        assertThat(result, is(greaterThan(0)));
     }
 }
