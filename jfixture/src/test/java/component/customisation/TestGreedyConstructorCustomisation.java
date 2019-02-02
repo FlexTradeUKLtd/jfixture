@@ -37,6 +37,7 @@ public class TestGreedyConstructorCustomisation {
     @Test
     public void creates_type_using_constructor_with_most_parameters_using_the_same_one_every_time() {
         JFixture fixture = new JFixture();
+        fixture.customise().repeatCount(3);
         fixture.customise(new GreedyConstructorCustomisation(TypeWithMultipleConstructorsHavingSameParameterCount.class));
 
         TypeWithMultipleConstructorsHavingSameParameterCount type =
@@ -44,7 +45,7 @@ public class TestGreedyConstructorCustomisation {
 
         // same parameter-count ctors will be sorted by signature,
         // and (java.util.List, java.util.List) will win
-        // over (java.lang.String, java.lang.String) due to reversed comparison
+        // over (java.lang.String, java.lang.String) due to greedy comparison implemented as inverse comparator
         assertEquals(3, type.getList1().size());
         assertEquals(3, type.getList2().size());
     }
