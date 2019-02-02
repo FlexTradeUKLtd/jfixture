@@ -7,6 +7,7 @@ import org.junit.Test;
 import java.util.List;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
 public class TestMultiArrays {
@@ -17,7 +18,7 @@ public class TestMultiArrays {
 
         int[][] multiArray = fixture.create(int[][].class);
 
-        assertTrue(multiArray != null);
+        assertNotNull(multiArray);
     }
 
     @Test
@@ -26,7 +27,7 @@ public class TestMultiArrays {
 
         List<Integer>[][] multiArray = fixture.create(new SpecimenType<List<Integer>[][]>(){});
 
-        assertTrue(multiArray != null);
+        assertNotNull(multiArray);
     }
 
     @Test
@@ -35,7 +36,7 @@ public class TestMultiArrays {
 
         int[][][][][] multiArray = fixture.create(int[][][][][].class);
 
-        assertTrue(multiArray != null);
+        assertNotNull(multiArray);
     }
 
     @Test
@@ -68,10 +69,9 @@ public class TestMultiArrays {
         fixture.customise().repeatCount(repeatCount);
 
         int[][] multiArray = fixture.create(int[][].class);
-        assertTrue(multiArray.length == repeatCount);
+        assertEquals(repeatCount, multiArray.length);
         for (int[] innerArray : multiArray) {
-            assertTrue(innerArray.length == repeatCount);
+            assertEquals(repeatCount, innerArray.length);
         }
-
     }
 }

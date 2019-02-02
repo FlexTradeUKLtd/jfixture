@@ -26,8 +26,8 @@ public class TestNumberInRangeGenerator {
 
     @Test
     public void non_number_request_returns_no_specimen() {
-        assertTrue(this.generator.create(String.class, null).equals(new NoSpecimen()));
-        assertTrue(this.generator.create("string", null).equals(new NoSpecimen()));
+        assertEquals(new NoSpecimen(), this.generator.create(String.class, null));
+        assertEquals(new NoSpecimen(), this.generator.create("string", null));
     }
 
     @Test

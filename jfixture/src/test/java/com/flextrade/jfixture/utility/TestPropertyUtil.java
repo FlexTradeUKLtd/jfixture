@@ -12,7 +12,7 @@ public class TestPropertyUtil {
     public void getting_member_name_returns_name_of_property_from_getter() throws NoSuchMethodException {
         Method property = TestClass.class.getMethod("getSymbol");
         String memberName = PropertyUtil.getMemberNameFromMethod(property);
-        assertEquals(memberName, "Symbol");
+        assertEquals("Symbol", memberName);
     }
 
     @Test

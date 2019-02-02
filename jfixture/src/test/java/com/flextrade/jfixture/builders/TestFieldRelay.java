@@ -47,6 +47,7 @@ public class TestFieldRelay {
 
         SeededRequest request = argument.getValue();
         assertEquals("intField", request.getSeed());
+        //noinspection MisorderedAssertEqualsArguments uses SpecimenType's ability to do equals(Class<?>)
         assertEquals(request.getRequest(), Integer.class);
     }
 

@@ -6,6 +6,7 @@ import org.junit.Test;
 
 import java.util.List;
 
+import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
 // These tests mostly come from use cases that have
@@ -22,9 +23,9 @@ public class TestComplexGenerics {
     public void can_construct_types_with_multiple_levels_of_generic_types_with_a_list() {
         SpecimenType<FooWithBarWithList<String>> type = new SpecimenType<FooWithBarWithList<String>>(){};
         FooWithBarWithList<String> instance = fixture.create(type);
-        assertTrue(instance != null);
-        assertTrue(instance.bar != null);
-        assertTrue(instance.bar.list != null);
+        assertNotNull(instance);
+        assertNotNull(instance.bar);
+        assertNotNull(instance.bar.list);
         assertTrue(instance.bar.list.size() > 0);
         assertTrue(instance.bar.list.get(0) instanceof String);
     }
@@ -34,9 +35,9 @@ public class TestComplexGenerics {
     public void can_construct_types_with_multiple_levels_of_generic_types_with_a_single_value() {
         SpecimenType<FooWithBarWithValue<String>> type = new SpecimenType<FooWithBarWithValue<String>>(){};
         FooWithBarWithValue<String> instance = fixture.create(type);
-        assertTrue(instance != null);
-        assertTrue(instance.bar != null);
-        assertTrue(instance.bar.value != null);
+        assertNotNull(instance);
+        assertNotNull(instance.bar);
+        assertNotNull(instance.bar.value);
         assertTrue(instance.bar.value instanceof String);
     }
 
