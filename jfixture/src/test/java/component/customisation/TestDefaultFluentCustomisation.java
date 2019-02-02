@@ -38,21 +38,6 @@ public class TestDefaultFluentCustomisation {
             @Override
             public Integer create() {
                 return count--;
-            }});
-
-        int first = fixture.create(int.class);
-        assertEquals(5, first);
-        int second = fixture.create(int.class);
-        assertEquals(4, second);
-    }
-
-    @Test
-    public void lazy_instance_with_functional_interface_adds_instance_with_factory_method_customisation() {
-        JFixture fixture = new JFixture();
-        fixture.customise().lazyInstance(Integer.class, new SpecimenSupplier<Integer>() {
-            int count = 5;
-            public Integer create() {
-                return count--;
             }
         });
 
