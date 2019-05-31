@@ -17,8 +17,8 @@
         <dependency>
             <groupId>com.flextrade.jfixture</groupId>
             <artifactId>jfixture</artifactId>
-            <version>${project.parent.version}</version>
         </dependency>
+
 		<dependency>
 			<groupId>joda-time</groupId>
 			<artifactId>joda-time</artifactId>
