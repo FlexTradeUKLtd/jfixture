@@ -14,6 +14,7 @@ public class JFixtureJUnitRunner extends Runner {
 
     public JFixtureJUnitRunner(Class<?> clazz) throws InitializationError {
         this.runner = new BlockJUnit4ClassRunner(clazz) {
+            @Override
             protected Statement withBefores(FrameworkMethod method, Object target, Statement statement) {
                 Statement base = super.withBefores(method, target, statement);
                 return new JUnitJFixtureStatement(base, target, new JFixture());

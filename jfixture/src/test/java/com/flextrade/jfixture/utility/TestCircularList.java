@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.assertEquals;
 
 public class TestCircularList {
 
@@ -27,9 +27,9 @@ public class TestCircularList {
         source.add(item);
         CircularList<String> list = new CircularList<String>(source);
 
-        assertTrue(list.next().equals(item));
-        assertTrue(list.next().equals(item));
-        assertTrue(list.next().equals(item));
+        assertEquals(item, list.next());
+        assertEquals(item, list.next());
+        assertEquals(item, list.next());
     }
 
     @Test
@@ -41,8 +41,8 @@ public class TestCircularList {
         source.add(item2);
         CircularList<String> list = new CircularList<String>(source);
 
-        assertTrue(list.next().equals(item1));
-        assertTrue(list.next().equals(item2));
+        assertEquals(item1, list.next());
+        assertEquals(item2, list.next());
     }
 
     @Test
@@ -54,8 +54,8 @@ public class TestCircularList {
         source.add(item2);
         CircularList<String> list = new CircularList<String>(source);
 
-        assertTrue(list.next().equals(item1));
-        assertTrue(list.next().equals(item2));
-        assertTrue(list.next().equals(item1));
+        assertEquals(item1, list.next());
+        assertEquals(item2, list.next());
+        assertEquals(item1, list.next());
     }
 }

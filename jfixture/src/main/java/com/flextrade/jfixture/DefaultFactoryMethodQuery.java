@@ -59,6 +59,4 @@ public class DefaultFactoryMethodQuery implements FactoryMethodQuery {
     private boolean isStatic(Method method) {
         return Modifier.isStatic(method.getModifiers());
     }
-
-
 }

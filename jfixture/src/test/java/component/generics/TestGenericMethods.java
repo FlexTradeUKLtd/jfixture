@@ -87,7 +87,7 @@ public class TestGenericMethods {
         assertNotNull(type.getGenericListOfMap());
         assertTrue(type.getGenericListOfMap().size() > 0);
         assertTrue(type.getGenericListOfMap().get(0).size() > 0);
-        Map.Entry outerMapFirstEntry = type.getGenericListOfMap().get(0).entrySet().iterator().next();
+        Map.Entry<String, BigDecimal> outerMapFirstEntry = type.getGenericListOfMap().get(0).entrySet().iterator().next();
         assertTrue(outerMapFirstEntry.getKey() instanceof String);
         assertTrue(outerMapFirstEntry.getValue() instanceof BigDecimal);
     }
@@ -98,8 +98,8 @@ public class TestGenericMethods {
         TypeWithGenericMethod<String, BigDecimal> type = fixture.create(new SpecimenType<TypeWithGenericMethod<String, BigDecimal>>() {});
         assertNotNull(type.getGenericPartiallyBound());
         assertTrue(type.getGenericPartiallyBound().size() > 0);
-        Map.Entry outerMapFirstEntry = type.getGenericPartiallyBound().entrySet().iterator().next();
-        Map.Entry innerMapFirstEntry = ((Map<?,?>) outerMapFirstEntry.getValue()).entrySet().iterator().next();
+        Map.Entry<String, Map<Integer, BigDecimal>> outerMapFirstEntry = type.getGenericPartiallyBound().entrySet().iterator().next();
+        Map.Entry<Integer, BigDecimal> innerMapFirstEntry = outerMapFirstEntry.getValue().entrySet().iterator().next();
 
         assertTrue(innerMapFirstEntry.getKey() instanceof Integer);
         assertTrue(innerMapFirstEntry.getValue() instanceof BigDecimal);

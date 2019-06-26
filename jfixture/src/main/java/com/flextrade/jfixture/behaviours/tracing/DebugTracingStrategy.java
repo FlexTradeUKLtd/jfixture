@@ -35,7 +35,7 @@ public class DebugTracingStrategy implements TracingStrategy {
         appendable.append("\n");
     }
 
-    private static String expandedExceptionMessage(Throwable throwable, StringBuilder sb) throws IOException {
+    private static String expandedExceptionMessage(Throwable throwable, StringBuilder sb) {
         sb.append(throwable.toString());
         if(throwable.getCause() == null)
             return sb.toString();

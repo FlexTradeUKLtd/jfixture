@@ -21,5 +21,4 @@ public class PrimitiveTypeMap {
         mutableMap.put(void.class, Void.class);
         map = Collections.unmodifiableMap(mutableMap);
     }
-
 }

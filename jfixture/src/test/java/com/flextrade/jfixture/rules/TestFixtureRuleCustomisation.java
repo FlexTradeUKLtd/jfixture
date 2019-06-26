@@ -43,5 +43,4 @@ public class TestFixtureRuleCustomisation {
     public void rule_is_run_before_any_at_before_methods() {
         assertTrue(this.fixtureFieldCreated);
     }
-
 }

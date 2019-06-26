@@ -36,7 +36,6 @@ public class TestCompositeBuilder {
 
     @Test
     public void first_builder_returns_result_is_the_return_value() {
-        Object request = new Object();
         Object builderAResult = new Object();
         when(mockBuilderA.create(request, mockContext)).thenReturn(builderAResult);
 

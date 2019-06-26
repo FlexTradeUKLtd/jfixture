@@ -55,5 +55,4 @@ public class TestAnySpecificationCompositePropertySpecification {
         boolean isSatisfied = this.compositeSpecification.isSatisfiedBy(this.request);
         assertFalse(isSatisfied);
     }
-
 }

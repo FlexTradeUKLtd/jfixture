@@ -7,5 +7,5 @@ import java.util.List;
 
 public interface FactoryMethodQuery {
 
-    public List<Method> getFactoryMethodsForType(SpecimenType type);
+    List<Method> getFactoryMethodsForType(SpecimenType type);
 }

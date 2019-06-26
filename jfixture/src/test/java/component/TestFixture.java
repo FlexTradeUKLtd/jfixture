@@ -57,7 +57,7 @@ public class TestFixture {
         JFixture fixture = new JFixture();
         fixture.create(TypeWithCircularReference.class);
     }
-    
+
     @Test
     public void array_of_type_containing_object_with_throwing_constructor_sets_fields_with_working_constructor() {
         JFixture fixture = new JFixture();
