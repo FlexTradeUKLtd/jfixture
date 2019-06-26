@@ -4,12 +4,12 @@ public class GenericTypeWithCopyFactoryMethod<T> implements GenericInterfaceType
 
     private final T t;
     private final int size;
-  
+
     private GenericTypeWithCopyFactoryMethod(T t, int size) {
         this.t = t;
         this.size = size;
     }
-  
+
     public static <T> GenericTypeWithCopyFactoryMethod copy(GenericInterfaceType<T> source) {
         return new GenericTypeWithCopyFactoryMethod<T>(source.getT(), source.getSize());
     }
@@ -18,14 +18,13 @@ public class GenericTypeWithCopyFactoryMethod<T> implements GenericInterfaceType
         return new GenericTypeWithCopyFactoryMethod<T>(t, size);
     }
 
-    @Override 
+    @Override
     public T getT() {
         return t;
     }
 
-    @Override 
+    @Override
     public int getSize() {
         return size;
     }
-  
 }

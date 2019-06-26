@@ -12,5 +12,4 @@ public class TestFixtureAnnotationWithHierarchy extends BaseTestClassWithFixture
         FixtureAnnotations.initFixtures(this);
         assertNotNull(super.typeWithProperties);
     }
-
 }

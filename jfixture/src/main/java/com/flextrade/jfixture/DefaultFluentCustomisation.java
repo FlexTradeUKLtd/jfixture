@@ -1,6 +1,12 @@
 package com.flextrade.jfixture;
 
-import com.flextrade.jfixture.customisation.*;
+import com.flextrade.jfixture.customisation.Customisation;
+import com.flextrade.jfixture.customisation.InterceptingCustomisation;
+import com.flextrade.jfixture.customisation.InstanceCustomisation;
+import com.flextrade.jfixture.customisation.InstanceFactoryCustomisation;
+import com.flextrade.jfixture.customisation.OverridePropertyCustomisation;
+import com.flextrade.jfixture.customisation.SubTypeCustomisation;
+import com.flextrade.jfixture.customisation.TransformingCustomisation;
 import com.flextrade.jfixture.customisation.fluent.AutoPropertyBehaviour;
 import com.flextrade.jfixture.customisation.fluent.NoResolutionBehaviour;
 import com.flextrade.jfixture.customisation.fluent.RecursionBehaviour;
@@ -68,7 +74,7 @@ class DefaultFluentCustomisation implements FluentCustomisation {
 
     @Override
     public <T> FluentCustomisation transform(Class<T> classToIntercept, Transformer<T> transformer) {
-        this.customisationContainer.customise(new TranformingCustomisation<T>(classToIntercept, transformer));
+        this.customisationContainer.customise(new TransformingCustomisation<T>(classToIntercept, transformer));
         return this;
     }
 

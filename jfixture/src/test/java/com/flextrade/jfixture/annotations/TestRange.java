@@ -8,7 +8,6 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
 
 public class TestRange {
 
@@ -17,13 +16,13 @@ public class TestRange {
         Target target = Range.class.getAnnotation(Target.class);
         assertEquals(1, target.value().length);
         ElementType type = target.value()[0];
-        assertTrue(type.equals(ElementType.FIELD));
+        assertEquals(ElementType.FIELD, type);
     }
 
     @Test
     public void Annotation_is_retained_at_runtime() {
         Retention retention = Range.class.getAnnotation(Retention.class);
         RetentionPolicy retentionPolicy = retention.value();
-        assertTrue(retentionPolicy.equals(RetentionPolicy.RUNTIME));
+        assertEquals(RetentionPolicy.RUNTIME, retentionPolicy);
     }
 }

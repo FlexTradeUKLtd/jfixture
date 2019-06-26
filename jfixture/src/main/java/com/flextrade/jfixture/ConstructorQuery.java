@@ -5,5 +5,5 @@ import java.util.List;
 
 public interface ConstructorQuery {
 
-    public List<Constructor<?>> getConstructorsForClass(Class<?> clazz);
+    List<Constructor<?>> getConstructorsForClass(Class<?> clazz);
 }

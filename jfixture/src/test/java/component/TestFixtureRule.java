@@ -10,6 +10,7 @@ import testtypes.TypeWithProperties;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertSame;
 import static org.junit.Assert.assertTrue;
 
 public class TestFixtureRule {
@@ -51,6 +52,6 @@ public class TestFixtureRule {
 
     @Test
     public void rule_exposes_instance_of_jfixture() {
-        assertTrue(fixture == fixtureRule.getFixture());
+        assertSame(fixture, fixtureRule.getFixture());
     }
 }

@@ -13,7 +13,7 @@ import org.mockito.MockitoAnnotations;
 import java.lang.reflect.Field;
 
 import static org.junit.Assert.assertEquals;
-import static org.mockito.Matchers.any;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -47,6 +47,7 @@ public class TestFieldRelay {
 
         SeededRequest request = argument.getValue();
         assertEquals("intField", request.getSeed());
+        //noinspection MisorderedAssertEqualsArguments uses SpecimenType's ability to do equals(Class<?>)
         assertEquals(request.getRequest(), Integer.class);
     }
 

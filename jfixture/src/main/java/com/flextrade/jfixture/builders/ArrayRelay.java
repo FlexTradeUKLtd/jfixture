@@ -43,5 +43,4 @@ class ArrayRelay implements SpecimenBuilder {
 
         return array;
     }
-
 }

@@ -1,9 +1,8 @@
 package testtypes.factorymethods;
 
 public interface InterfaceType {
-  
-  String getSymbol();
-  
-  int getSize();
-  
+
+    String getSymbol();
+
+    int getSize();
 }

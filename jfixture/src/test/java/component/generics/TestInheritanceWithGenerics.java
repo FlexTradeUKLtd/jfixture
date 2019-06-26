@@ -69,5 +69,4 @@ public class TestInheritanceWithGenerics {
     public S getOtherField() { return otherField; }
     public void setOtherField(S otherField) { this.otherField = otherField; }
   }
-
 }

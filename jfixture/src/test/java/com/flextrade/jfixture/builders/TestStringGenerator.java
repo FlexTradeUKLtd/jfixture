@@ -7,7 +7,7 @@ import org.junit.Test;
 import java.util.UUID;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.assertNotNull;
 
 public class TestStringGenerator {
 
@@ -27,6 +27,6 @@ public class TestStringGenerator {
     @Test
     public void string_type_request_returns_string_as_uuid() {
         Object result = this.stringGenerator.create(String.class, null);
-        assertTrue(UUID.fromString((String) result) != null);
+        assertNotNull(UUID.fromString((String) result));
     }
 }

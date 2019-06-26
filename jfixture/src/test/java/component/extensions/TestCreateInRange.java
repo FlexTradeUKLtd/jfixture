@@ -79,5 +79,4 @@ public class TestCreateInRange {
         JFixture fixture = new JFixture();
         fixture.create().inRange(Long.class, 10L, 1L); // min > max
     }
-
 }

@@ -1,9 +1,10 @@
 package com.flextrade.jfixture;
 
-import com.flextrade.jfixture.ConstructorQuery;
-
 import java.lang.reflect.Constructor;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.List;
 
 public class PackageProtectedConstructorsQuery implements ConstructorQuery {
 
@@ -19,7 +20,7 @@ public class PackageProtectedConstructorsQuery implements ConstructorQuery {
 
     @Override
     public List<Constructor<?>> getConstructorsForClass(Class<?> clazz) {
-        List<Constructor<?>> constructors = Arrays.asList(clazz.getDeclaredConstructors());
+        Constructor<?>[] constructors = clazz.getDeclaredConstructors();
         List<Constructor<?>> packageProtectedConstructors = new ArrayList<Constructor<?>>();
         for(Constructor<?> ctor : constructors) {
             if(ctor.getModifiers() == 0) {

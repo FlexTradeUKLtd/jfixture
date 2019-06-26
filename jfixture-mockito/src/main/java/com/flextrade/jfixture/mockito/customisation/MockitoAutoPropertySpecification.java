@@ -22,7 +22,7 @@ class MockitoAutoPropertySpecification implements Specification {
         }
 
         String requestName = requestClass.getRawType().getName();
-        Boolean isAMock = requestName.contains("Mockito");
+        boolean isAMock = requestName.contains("Mockito");
         return !isAMock;
     }
 }

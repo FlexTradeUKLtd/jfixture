@@ -1,7 +1,6 @@
 package com.flextrade.jfixture.jodatime.component;
 
 import com.flextrade.jfixture.JFixture;
-import com.flextrade.jfixture.SpecimenSupplier;
 import com.flextrade.jfixture.jodatime.customisation.JodaTimeCustomisation;
 import org.hamcrest.Matchers;
 import org.joda.time.DateTimeFieldType;
@@ -48,42 +47,42 @@ public class TestAllInterfaceDataTypesAreSupported {
     }
 
     @Test
-    public void creates_instance_of_ReadableDateTime() throws ParseException {
+    public void creates_instance_of_ReadableDateTime() {
         ReadableDateTime dateTime = fixture.create(ReadableDateTime.class);
         assertThat(dateTime, notNullValue());
         assertThat(new Date(dateTime.getMillis()), is(date));
     }
 
     @Test
-    public void creates_instance_of_ReadWritableDateTime() throws ParseException {
+    public void creates_instance_of_ReadWritableDateTime() {
         ReadWritableDateTime dateTime = fixture.create(ReadWritableDateTime.class);
         assertThat(dateTime, notNullValue());
         assertThat(new Date(dateTime.getMillis()), is(date));
     }
 
     @Test
-    public void creates_instance_of_ReadableDuration() throws ParseException {
+    public void creates_instance_of_ReadableDuration() {
         ReadableDuration duration = fixture.create(ReadableDuration.class);
         assertThat(duration, notNullValue());
         assertThat(duration, Matchers.<ReadableDuration>is(Duration.standardDays(365)));
     }
 
     @Test
-    public void creates_instance_of_ReadableInstant() throws ParseException {
+    public void creates_instance_of_ReadableInstant() {
         ReadableInstant instant = fixture.create(ReadableInstant.class);
         assertThat(instant, notNullValue());
         assertThat(new Date(instant.getMillis()), is(date));
     }
 
     @Test
-    public void creates_instance_of_ReadWritableInstant() throws ParseException {
+    public void creates_instance_of_ReadWritableInstant() {
         ReadWritableInstant instant = fixture.create(ReadWritableInstant.class);
         assertThat(instant, notNullValue());
         assertThat(new Date(instant.getMillis()), is(date));
     }
 
     @Test
-    public void creates_instance_of_ReadablePartial() throws ParseException {
+    public void creates_instance_of_ReadablePartial() {
         ReadablePartial partial = fixture.create(ReadablePartial.class);
         assertThat(partial, notNullValue());
         assertThat(partial.get(DateTimeFieldType.year()), is(2001));
@@ -95,7 +94,7 @@ public class TestAllInterfaceDataTypesAreSupported {
     }
 
     @Test
-    public void creates_instance_of_ReadableInterval() throws ParseException {
+    public void creates_instance_of_ReadableInterval() {
         ReadableInterval interval = fixture.create(ReadableInterval.class);
         assertThat(interval, notNullValue());
         assertThat(interval.getStart().toDate(), is(date));
@@ -103,7 +102,7 @@ public class TestAllInterfaceDataTypesAreSupported {
     }
 
     @Test
-    public void creates_instance_of_ReadWritableInterval() throws ParseException {
+    public void creates_instance_of_ReadWritableInterval() {
         ReadWritableInterval interval = fixture.create(ReadWritableInterval.class);
         assertThat(interval, notNullValue());
         assertThat(interval.getStart().toDate(), is(date));
@@ -111,14 +110,14 @@ public class TestAllInterfaceDataTypesAreSupported {
     }
 
     @Test
-    public void creates_instance_of_ReadablePeriod() throws ParseException {
+    public void creates_instance_of_ReadablePeriod() {
         ReadablePeriod period = fixture.create(ReadablePeriod.class);
         assertThat(period, notNullValue());
         assertThat(period, Matchers.<ReadablePeriod>is(new MutablePeriod(1,0,0,0,0,0,0,0))); // 1Yr
     }
 
     @Test
-    public void creates_instance_of_ReadWritablePeriod() throws ParseException {
+    public void creates_instance_of_ReadWritablePeriod() {
         ReadWritablePeriod period = fixture.create(ReadWritablePeriod.class);
         assertThat(period, notNullValue());
         assertThat(period, Matchers.<ReadablePeriod>is(new MutablePeriod(1,0,0,0,0,0,0,0))); // 1Yr
@@ -127,19 +126,6 @@ public class TestAllInterfaceDataTypesAreSupported {
     private void customiseToReturnFixedDates() throws ParseException {
         date = formatter.parse("2001/01/01 12:34:56");
         secondDate = formatter.parse("2002/01/01 12:34:56");
-
-        fixture.customise().lazyInstance(Date.class, new SpecimenSupplier<Date>() {
-            boolean isFirstCall = true;
-
-            @Override
-            public Date create() {
-                if (isFirstCall) {
-                    isFirstCall = false;
-                    return date;
-                }
-
-                return secondDate;
-            }
-        });
+        fixture.customise().lazyInstance(Date.class, new FirstAndRestDateSpecimenSupplier(date, secondDate));
     }
 }

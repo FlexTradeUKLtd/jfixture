@@ -17,6 +17,7 @@ import org.joda.time.base.BaseSingleFieldPeriod;
 public class BaseSingleFieldPeriodRelay implements SpecimenBuilder {
 
     @Override
+    @SuppressWarnings("EqualsBetweenInconvertibleTypes") // SpecimenType knows how to do equals(Class<?>)
     public Object create(Object request, SpecimenContext context) {
 
         if (!(request instanceof SpecimenType)) {

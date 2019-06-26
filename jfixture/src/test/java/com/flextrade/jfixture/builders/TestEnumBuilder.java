@@ -6,7 +6,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertTrue;
 
 public class TestEnumBuilder {
@@ -42,9 +42,9 @@ public class TestEnumBuilder {
         Object second = createEnum();
         Object third = createEnum();
 
-        assertFalse(first.equals(second));
-        assertFalse(first.equals(third));
-        assertFalse(second.equals(third));
+        assertNotEquals(first, second);
+        assertNotEquals(first, third);
+        assertNotEquals(second, third);
     }
 
     @Test
@@ -53,9 +53,9 @@ public class TestEnumBuilder {
         Object second = createEnum();
         Object third = createEnum();
 
-        assertTrue(first.equals(createEnum()));
-        assertTrue(second.equals(createEnum()));
-        assertTrue(third.equals(createEnum()));
+        assertEquals(first, createEnum());
+        assertEquals(second, createEnum());
+        assertEquals(third, createEnum());
     }
 
     private Object createEnum() {

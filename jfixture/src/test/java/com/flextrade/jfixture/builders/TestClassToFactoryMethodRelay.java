@@ -19,8 +19,7 @@ import java.util.List;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertSame;
-import static org.mockito.Matchers.any;
-import static org.mockito.Matchers.anyObject;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
 public class TestClassToFactoryMethodRelay {
@@ -39,7 +38,7 @@ public class TestClassToFactoryMethodRelay {
     @Before
     public void initialise() {
         MockitoAnnotations.initMocks(this);
-        when(this.mockSpecification.isSatisfiedBy(any())).thenReturn(true);
+        when(this.mockSpecification.isSatisfiedBy(any(Object.class))).thenReturn(true);
         List<Method> methods = Arrays.asList(TypeWithFactoryMethod.class.getMethods());
         when(this.mockFactoryMethodQuery.getFactoryMethodsForType(SpecimenType.of(TypeWithFactoryMethod.class))).thenReturn(methods);
         this.relay = new ClassToFactoryMethodRelay(this.mockFactoryMethodQuery, this.mockSpecification);
@@ -47,7 +46,7 @@ public class TestClassToFactoryMethodRelay {
 
     @Test
     public void if_request_does_not_satisfy_specification_returns_no_specimen() {
-        when(this.mockSpecification.isSatisfiedBy(any())).thenReturn(false);
+        when(this.mockSpecification.isSatisfiedBy(any(Object.class))).thenReturn(false);
         Object result = this.relay.create(TypeWithFactoryMethod.class, mockSpecimenContext);
         assertEquals(new NoSpecimen(), result);
     }
@@ -62,7 +61,7 @@ public class TestClassToFactoryMethodRelay {
     @Test
     public void returns_result_of_context_resolve() {
         Object contextResult = new Object();
-        when(mockSpecimenContext.resolve(anyObject())).thenReturn(contextResult);
+        when(mockSpecimenContext.resolve(any(Object.class))).thenReturn(contextResult);
         Object result = this.relay.create(SpecimenType.of(TypeWithFactoryMethod.class), mockSpecimenContext);
         assertSame(contextResult, result);
     }

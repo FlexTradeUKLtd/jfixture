@@ -4,12 +4,12 @@ public class TypeWithCopyFactoryMethod implements InterfaceType {
 
     private final String symbol;
     private final int size;
-  
+
     private TypeWithCopyFactoryMethod(String symbol, int size) {
         this.symbol = symbol;
         this.size = size;
     }
-  
+
     public static TypeWithCopyFactoryMethod copy(InterfaceType source) {
         return new TypeWithCopyFactoryMethod(source.getSymbol(), source.getSize());
     }
@@ -27,5 +27,4 @@ public class TypeWithCopyFactoryMethod implements InterfaceType {
     public int getSize() {
         return size;
     }
-  
 }

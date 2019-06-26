@@ -10,7 +10,7 @@ public final class PropertyUtil {
         Class[] parameterTypes = method.getParameterTypes();
         if (parameterTypes.length != 1) return false;
 
-        String propertyName = method.getName().substring(3, method.getName().length());
+        String propertyName = method.getName().substring(3);
         Method[] methodsInType = clazz.getMethods();
         for (Method m : methodsInType) {
             if (methodIsStandardSetter(propertyName, m) ||
@@ -25,11 +25,11 @@ public final class PropertyUtil {
     public static String getMemberNameFromMethod(Method method) {
         String name = method.getName();
         if(name.startsWith("get") || name.startsWith("set")) {
-            return name.substring(3, name.length());
+            return name.substring(3);
         }
 
         if(name.startsWith("is") && Character.isUpperCase(name.charAt(2))) {
-            return name.substring(2, name.length());
+            return name.substring(2);
         }
 
         return name;

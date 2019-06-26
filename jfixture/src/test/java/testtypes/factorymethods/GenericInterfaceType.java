@@ -1,9 +1,8 @@
 package testtypes.factorymethods;
 
 public interface GenericInterfaceType<T> {
-  
-  T getT();
-  
-  int getSize();
-  
+
+    T getT();
+
+    int getSize();
 }

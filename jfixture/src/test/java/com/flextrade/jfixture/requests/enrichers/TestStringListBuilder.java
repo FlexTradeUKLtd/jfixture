@@ -26,5 +26,4 @@ public class TestStringListBuilder {
         assertEquals("b", objects.get(1));
         assertEquals("c", objects.get(2));
     }
-
 }
