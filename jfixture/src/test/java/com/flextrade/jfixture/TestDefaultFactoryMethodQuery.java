@@ -21,23 +21,26 @@ public class TestDefaultFactoryMethodQuery {
     private DefaultFactoryMethodQuery query;
     private Method expectedMethodOneParameter;
     private Method expectedMethodTwoParameters;
+    private Method expectedMethodTwoParametersReverse;
 
     @Before
-    public void initialise() throws Exception {
+    public void initialise() throws NoSuchMethodException {
         expectedMethodOneParameter = TypeWithFactoryMethod.class.getMethod("create", String.class);
         expectedMethodTwoParameters = TypeWithFactoryMethod.class.getMethod("create", String.class, int.class);
+        expectedMethodTwoParametersReverse = TypeWithFactoryMethod.class.getMethod("create", int.class, String.class);
     }
 
     @Test
-    public void returns_all_factory_methods_for_a_given_class() throws NoSuchMethodException {
+    public void returns_all_factory_methods_for_a_given_class() {
         // Factory methods are public, static methods with return type assignable to declared type
         this.query = new DefaultFactoryMethodQuery();
 
         List<Method> factoryMethods = this.query.getFactoryMethodsForType(SpecimenType.of(TypeWithFactoryMethod.class));
 
-        assertEquals(2, factoryMethods.size());
+        assertEquals(3, factoryMethods.size());
         assertTrue(factoryMethods.contains(expectedMethodOneParameter));
         assertTrue(factoryMethods.contains(expectedMethodTwoParameters));
+        assertTrue(factoryMethods.contains(expectedMethodTwoParametersReverse));
     }
 
     @Test
@@ -47,7 +50,8 @@ public class TestDefaultFactoryMethodQuery {
         List<Method> factoryMethods = this.query.getFactoryMethodsForType(SpecimenType.of(TypeWithFactoryMethod.class));
 
         assertEquals(expectedMethodOneParameter, factoryMethods.get(0));
-        assertEquals(expectedMethodTwoParameters, factoryMethods.get(1));
+        assertEquals(expectedMethodTwoParametersReverse, factoryMethods.get(1));
+        assertEquals(expectedMethodTwoParameters, factoryMethods.get(2));
     }
 
     @Test
@@ -57,7 +61,8 @@ public class TestDefaultFactoryMethodQuery {
         List<Method> factoryMethods = this.query.getFactoryMethodsForType(SpecimenType.of(TypeWithFactoryMethod.class));
 
         assertEquals(expectedMethodTwoParameters, factoryMethods.get(0));
-        assertEquals(expectedMethodOneParameter, factoryMethods.get(1));
+        assertEquals(expectedMethodTwoParametersReverse, factoryMethods.get(1));
+        assertEquals(expectedMethodOneParameter, factoryMethods.get(2));
     }
 
     @Test

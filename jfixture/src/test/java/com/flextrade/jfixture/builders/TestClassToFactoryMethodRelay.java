@@ -13,8 +13,9 @@ import testtypes.constructors.TwoConstructorType;
 import testtypes.factorymethods.TypeWithFactoryMethod;
 
 import java.lang.reflect.Method;
-import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertSame;
@@ -38,7 +39,7 @@ public class TestClassToFactoryMethodRelay {
     public void initialise() {
         MockitoAnnotations.initMocks(this);
         when(this.mockSpecification.isSatisfiedBy(any(Object.class))).thenReturn(true);
-        ArrayList<Method> methods = new ArrayList<Method>(Arrays.asList(TypeWithFactoryMethod.class.getMethods()));
+        List<Method> methods = Arrays.asList(TypeWithFactoryMethod.class.getMethods());
         when(this.mockFactoryMethodQuery.getFactoryMethodsForType(SpecimenType.of(TypeWithFactoryMethod.class))).thenReturn(methods);
         this.relay = new ClassToFactoryMethodRelay(this.mockFactoryMethodQuery, this.mockSpecification);
     }
@@ -52,7 +53,7 @@ public class TestClassToFactoryMethodRelay {
 
     @Test
     public void if_factory_method_query_returns_empty_create_returns_no_specimen() {
-        when(this.mockFactoryMethodQuery.getFactoryMethodsForType(SpecimenType.of(TypeWithFactoryMethod.class))).thenReturn(new ArrayList<Method>());
+        when(this.mockFactoryMethodQuery.getFactoryMethodsForType(SpecimenType.of(TypeWithFactoryMethod.class))).thenReturn(Collections.<Method>emptyList());
         Object result = this.relay.create(TwoConstructorType.class, mockSpecimenContext);
         assertEquals(new NoSpecimen(), result);
     }
