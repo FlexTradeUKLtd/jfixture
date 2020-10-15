@@ -7,16 +7,18 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
+import static org.hamcrest.Matchers.arrayContaining;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertThat;
 
 public class TestFixture {
 
     @Test
     public void Annotation_can_only_be_applied_to_fields() {
         Target target = Fixture.class.getAnnotation(Target.class);
-        assertEquals(1, target.value().length);
-        ElementType type = target.value()[0];
-        assertEquals(ElementType.FIELD, type);
+        assertEquals(2, target.value().length);
+        ElementType[] types = target.value();
+        assertThat(types, arrayContaining(ElementType.FIELD, ElementType.PARAMETER));
     }
 
     @Test
